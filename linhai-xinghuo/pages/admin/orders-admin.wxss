@@ -1,0 +1,94 @@
+/* 订单管理页样式 */
+.orders-admin {
+  padding: 0 32rpx 60rpx;
+}
+
+/* 类型切换 */
+.admin-tabs {
+  display: flex;
+  margin-top: 24rpx;
+}
+.admin-tab {
+  flex: 1;
+  text-align: center;
+  font-size: 28rpx;
+  color: #8A847A;
+  padding: 20rpx 0;
+  border-bottom: 4rpx solid #E8E2D5;
+}
+.admin-tab-active {
+  color: #3A6B4E;
+  font-weight: bold;
+  border-bottom-color: #3A6B4E;
+}
+
+/* 订单卡片 */
+.order-card {
+  padding: 28rpx 32rpx;
+  margin-top: 24rpx;
+}
+.order-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+.order-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #24432F;
+}
+.order-status {
+  font-size: 22rpx;
+  color: #3A6B4E;
+  background-color: #F0F5EC;
+  border-radius: 8rpx;
+  padding: 4rpx 14rpx;
+}
+.order-participants {
+  font-size: 24rpx;
+  color: #5A544B;
+  background-color: #FBFCF9;
+  border-radius: 10rpx;
+  padding: 10rpx 16rpx;
+  margin-top: 10rpx;
+}
+.order-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16rpx;
+}
+.order-actions {
+  display: flex;
+}
+.action-btn {
+  font-size: 22rpx;
+  color: #3A6B4E;
+  border: 1rpx solid #3A6B4E;
+  border-radius: 20rpx;
+  padding: 6rpx 20rpx;
+  margin-left: 12rpx;
+}
+.action-btn-danger {
+  color: #C0392B;
+  border-color: #C0392B;
+}
+
+/* 导出 */
+.export-btn {
+  margin-top: 40rpx;
+  background-color: #C9A96A;
+  color: #FFFFFF;
+  font-size: 28rpx;
+  border-radius: 14rpx;
+}
+.export-btn::after {
+  border: none;
+}
+.empty-tip {
+  text-align: center;
+  font-size: 24rpx;
+  color: #B7AE9E;
+  padding: 60rpx 0;
+}

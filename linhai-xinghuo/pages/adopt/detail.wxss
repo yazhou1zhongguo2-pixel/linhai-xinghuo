@@ -1,0 +1,160 @@
+/* 认养详情页样式 */
+.detail {
+  padding: 0 32rpx 160rpx;
+}
+
+/* 头部 */
+.detail-head {
+  background: linear-gradient(135deg, #24432F, #3A6B4E);
+  border-radius: 24rpx;
+  padding: 40rpx 36rpx;
+  margin-top: 24rpx;
+  color: #FFFFFF;
+}
+.detail-name {
+  font-size: 40rpx;
+  font-weight: bold;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
+  margin-bottom: 8rpx;
+}
+.detail-tagline {
+  font-size: 26rpx;
+  color: #C9D8C8;
+  margin-bottom: 20rpx;
+}
+.detail-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.detail-price {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #C9A96A;
+}
+.detail-price-unit {
+  font-size: 24rpx;
+  font-weight: normal;
+  color: #C9D8C8;
+}
+.detail-limit {
+  font-size: 22rpx;
+  color: #FFB3A7;
+  border: 1rpx solid #FFB3A7;
+  border-radius: 10rpx;
+  padding: 4rpx 14rpx;
+}
+.detail-years {
+  font-size: 22rpx;
+  color: #A8BFA4;
+  margin-top: 16rpx;
+}
+
+/* 介绍 */
+.detail-summary {
+  font-size: 26rpx;
+  color: #5A544B;
+  line-height: 1.8;
+  padding: 24rpx 8rpx;
+}
+
+/* 权益 */
+.benefit-row {
+  display: flex;
+  align-items: baseline;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #F0EBDF;
+}
+.benefit-row:last-child {
+  border-bottom: none;
+}
+.benefit-check {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  background-color: #3A6B4E;
+  color: #FFFFFF;
+  font-size: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 20rpx;
+}
+.benefit-text {
+  font-size: 26rpx;
+  color: #2F2B26;
+}
+
+/* 季度报告 */
+.report-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+.report-season {
+  font-size: 24rpx;
+  color: #3A6B4E;
+  font-weight: bold;
+}
+.report-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #24432F;
+  margin-bottom: 8rpx;
+}
+.report-content {
+  font-size: 24rpx;
+  color: #5A544B;
+  line-height: 1.7;
+}
+
+/* 碳汇趣味报告 */
+.carbon-card {
+  background-color: #FBF7EE;
+  border-color: #C9A96A;
+}
+.carbon-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #8B6A4F;
+  margin-bottom: 12rpx;
+  line-height: 1.6;
+}
+.carbon-detail {
+  font-size: 24rpx;
+  color: #5A544B;
+  line-height: 1.7;
+}
+
+/* 底部认养栏 */
+.adopt-bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background-color: #FFFFFF;
+  border-top: 1rpx solid #E8E2D5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 32rpx calc(20rpx + env(safe-area-inset-bottom));
+}
+.adopt-bar-price-num {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #C9A96A;
+}
+.adopt-bar-price-unit {
+  font-size: 22rpx;
+  color: #8A847A;
+}
+.adopt-bar-btn {
+  background-color: #3A6B4E;
+  color: #FFFFFF;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+  padding: 0 40rpx;
+}
+.adopt-bar-btn::after {
+  border: none;
+}

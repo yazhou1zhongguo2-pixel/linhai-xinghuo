@@ -1,0 +1,23 @@
+<!-- 溯源码管理页"家具摆放图" -->
+<view class="qrcodes">
+
+  <view class="qrcode-note">
+    批次绑定：为每个产品批次生成专属溯源码，印在包装上。用户扫码 → 直达该批次五维档案。
+  </view>
+
+  <!-- 批次列表 -->
+  <view class="card batch-card" wx:for="{{batches}}" wx:key="batchNo">
+    <view class="batch-name">{{item.product}}</view>
+    <view class="batch-meta">
+      <text class="text-secondary">批次号 {{item.batchNo}}</text>
+      <text class="text-secondary">档案 {{item.archiveId}}</text>
+    </view>
+    <view class="qrcode-btn" bindtap="generate"
+          data-batch="{{item.batchNo}}" data-product="{{item.product}}">
+      生成溯源码
+    </view>
+  </view>
+
+  <view class="empty-tip" wx:if="{{!batches.length}}">暂无批次数据</view>
+  <view class="qrcode-footer">正式版：云函数调用 wxacode.getUnlimited 生成小程序码（需小程序已发布）</view>
+</view>

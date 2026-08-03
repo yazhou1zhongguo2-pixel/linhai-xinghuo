@@ -1,0 +1,38 @@
+<!-- 云认养页"家具摆放图" -->
+<view class="adopt">
+
+  <!-- 顶部理念区 -->
+  <view class="adopt-hero">
+    <view class="adopt-hero-title">成为这片林子的一部分</view>
+    <view class="adopt-hero-desc">从"消费者"到"守护者"的跃迁\n你认养的不仅是一年的产出，更是整年的陪伴与参与</view>
+  </view>
+
+  <!-- 认养计划卡片 -->
+  <view class="card plan-card" wx:for="{{plans}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+    <view class="plan-top">
+      <image class="plan-icon" src="{{item.icon}}" mode="aspectFit"></image>
+      <view class="plan-info">
+        <view class="plan-name">{{item.name}}</view>
+        <view class="plan-tagline">{{item.tagline}}</view>
+      </view>
+    </view>
+
+    <view class="plan-price-row">
+      <text class="plan-price">¥{{item.price}}<text class="plan-price-unit">/{{item.unit === '元/年' ? '年' : '株'}}</text></text>
+      <!-- 限量角标（林下参专属） -->
+      <view class="plan-limit" wx:if="{{item.limitText}}">{{item.limitText}}</view>
+    </view>
+
+    <!-- 权益预览（前两条） -->
+    <view class="plan-benefits">
+      <view class="benefit-item" wx:for="{{item.benefits}}" wx:for-item="b" wx:key="index">
+        <text class="benefit-dot">·</text>
+        <text class="benefit-text">{{b}}</text>
+      </view>
+    </view>
+
+    <view class="plan-btn">了解与认养 →</view>
+  </view>
+
+  <view class="adopt-footer">到期前 30 天自动提醒续约，一键续约</view>
+</view>

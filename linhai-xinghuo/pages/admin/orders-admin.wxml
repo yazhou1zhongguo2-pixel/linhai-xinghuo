@@ -1,0 +1,58 @@
+<!-- 订单管理页"家具摆放图" -->
+<view class="orders-admin">
+
+  <!-- 类型切换 -->
+  <view class="admin-tabs">
+    <view class="admin-tab {{tab === 'study' ? 'admin-tab-active' : ''}}"
+          bindtap="switchTab" data-tab="study">研学订单 ({{study.length}})</view>
+    <view class="admin-tab {{tab === 'adopt' ? 'admin-tab-active' : ''}}"
+          bindtap="switchTab" data-tab="adopt">认养记录 ({{adopt.length}})</view>
+  </view>
+
+  <!-- 研学订单列表 -->
+  <block wx:if="{{tab === 'study'}}">
+    <view class="card order-card" wx:for="{{study}}" wx:key="orderId">
+      <view class="order-head">
+        <text class="order-name">{{item.productName}}</text>
+        <text class="order-status">{{item.status}}</text>
+      </view>
+      <view class="order-info">
+        <text class="text-secondary">{{item.date}} · {{item.count}}人 · ¥{{item.amount}}</text>
+      </view>
+      <view class="order-participants" wx:if="{{item.participants}}">
+        {{item.participants.name}}（{{item.participants.age}}岁）· {{item.participants.phone}}
+      </view>
+      <view class="order-foot">
+        <text class="text-secondary">{{item.createdAt ? formatTime(item.createdAt) : ''}}</text>
+        <view class="order-actions">
+          <view class="action-btn" catchtap="changeStatus" data-id="{{item.orderId}}" data-status="已完成">标记完成</view>
+          <view class="action-btn action-btn-danger" catchtap="changeStatus" data-id="{{item.orderId}}" data-status="已取消">取消</view>
+        </view>
+      </view>
+    </view>
+    <view class="empty-tip" wx:if="{{!study.length}}">暂无研学订单</view>
+  </block>
+
+  <!-- 认养记录列表 -->
+  <block wx:if="{{tab === 'adopt'}}">
+    <view class="card order-card" wx:for="{{adopt}}" wx:key="adoptionId">
+      <view class="order-head">
+        <text class="order-name">{{item.planName}}</text>
+        <text class="order-status">{{item.status}}</text>
+      </view>
+      <view class="order-info">
+        <text class="text-secondary">¥{{item.price}} · 认养期至 {{item.expireAt ? formatTime(item.expireAt) : ''}}</text>
+      </view>
+      <view class="order-foot">
+        <text class="text-secondary">{{item.createdAt ? formatTime(item.createdAt) : ''}}</text>
+        <view class="order-actions">
+          <view class="action-btn" catchtap="changeStatus" data-id="{{item.adoptionId}}" data-status="已到期">标记到期</view>
+        </view>
+      </view>
+    </view>
+    <view class="empty-tip" wx:if="{{!adopt.length}}">暂无认养记录</view>
+  </block>
+
+  <!-- 数据导出 -->
+  <button class="export-btn" bindtap="exportData">数据导出（指引）</button>
+</view>

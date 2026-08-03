@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "van-dialog": "/libs/vant-weapp/dialog/index"
+  },
+  "navigationBarTitleText": "电子认养协议"
+}

@@ -1,0 +1,90 @@
+<!-- 后台管理枢纽页"家具摆放图" -->
+<view class="admin">
+
+  <view class="admin-head">
+    <view class="admin-title">林海星火 · 后台管理</view>
+    <view class="admin-desc">学生团队专用 · 正式上线前将接入身份校验</view>
+  </view>
+
+  <!-- 后台入口（每个板块配专属图标，贴合语义） -->
+  <view class="card admin-entry" bindtap="go" data-page="/pages/admin/publish">
+    <image class="admin-entry-icon" src="/images/icon-pen.png" mode="aspectFit"></image>
+    <view class="admin-entry-info">
+      <view class="admin-entry-name">内容管理 · 发布故事</view>
+      <view class="admin-entry-desc">发布/删除故事，首页故事流立现</view>
+    </view>
+    <text class="admin-entry-arrow">›</text>
+  </view>
+
+  <view class="card admin-entry" bindtap="go" data-page="/pages/admin/patrol">
+    <image class="admin-entry-icon" src="/images/icon-footprint.png" mode="aspectFit"></image>
+    <view class="admin-entry-info">
+      <view class="admin-entry-name">巡护记录（管护员端）</view>
+      <view class="admin-entry-desc">地块+照片+备注，样地日记时间轴</view>
+    </view>
+    <text class="admin-entry-arrow">›</text>
+  </view>
+
+  <view class="card admin-entry" bindtap="go" data-page="/pages/admin/phenology">
+    <image class="admin-entry-icon" src="/images/icon-sprout.png" mode="aspectFit"></image>
+    <view class="admin-entry-info">
+      <view class="admin-entry-name">物候观测录入（管护员端）</view>
+      <view class="admin-entry-desc">发芽期/膨大期/出耳期等规范记录</view>
+    </view>
+    <text class="admin-entry-arrow">›</text>
+  </view>
+
+  <view class="card admin-entry" bindtap="go" data-page="/pages/admin/harvest">
+    <image class="admin-entry-icon" src="/images/icon-basket.png" mode="aspectFit"></image>
+    <view class="admin-entry-info">
+      <view class="admin-entry-name">采收现场建档（管护员端）</view>
+      <view class="admin-entry-desc">地块+采收人+照片+批次绑定</view>
+    </view>
+    <text class="admin-entry-arrow">›</text>
+  </view>
+
+  <view class="card admin-entry" bindtap="go" data-page="/pages/admin/imagery">
+    <image class="admin-entry-icon" src="/images/icon-camera.png" mode="aspectFit"></image>
+    <view class="admin-entry-info">
+      <view class="admin-entry-name">林地影像更新</view>
+      <view class="admin-entry-desc">上传无人机影像+日期+地块说明</view>
+    </view>
+    <text class="admin-entry-arrow">›</text>
+  </view>
+
+  <view class="card admin-entry" bindtap="go" data-page="/pages/admin/plots">
+    <image class="admin-entry-icon" src="/images/icon-chart.png" mode="aspectFit"></image>
+    <view class="admin-entry-info">
+      <view class="admin-entry-name">生态数据看板更新</view>
+      <view class="admin-entry-desc">导入实测数据，首页图表联动</view>
+    </view>
+    <text class="admin-entry-arrow">›</text>
+  </view>
+
+  <view class="card admin-entry" bindtap="go" data-page="/pages/admin/batches">
+    <image class="admin-entry-icon" src="/images/icon-label.png" mode="aspectFit"></image>
+    <view class="admin-entry-info">
+      <view class="admin-entry-name">产品批次管理</view>
+      <view class="admin-entry-desc">批次新增/删除/导入模板/PDF 绑定</view>
+    </view>
+    <text class="admin-entry-arrow">›</text>
+  </view>
+
+  <view class="card admin-entry" bindtap="go" data-page="/pages/admin/qrcodes">
+    <image class="admin-entry-icon" src="/images/icon-qr.png" mode="aspectFit"></image>
+    <view class="admin-entry-info">
+      <view class="admin-entry-name">溯源码管理</view>
+      <view class="admin-entry-desc">批次绑定与溯源二维码生成</view>
+    </view>
+    <text class="admin-entry-arrow">›</text>
+  </view>
+
+  <view class="card admin-entry" bindtap="go" data-page="/pages/admin/orders-admin">
+    <image class="admin-entry-icon" src="/images/icon-order.png" mode="aspectFit"></image>
+    <view class="admin-entry-info">
+      <view class="admin-entry-name">订单与用户管理（管理员端）</view>
+      <view class="admin-entry-desc">研学报名审核、认养订单、数据导出</view>
+    </view>
+    <text class="admin-entry-arrow">›</text>
+  </view>
+</view>

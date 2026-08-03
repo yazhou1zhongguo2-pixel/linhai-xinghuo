@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "van-tag": "/libs/vant-weapp/tag/index"
+  },
+  "navigationBarTitleText": "溯源"
+}

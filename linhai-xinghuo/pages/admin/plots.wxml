@@ -1,0 +1,42 @@
+<!-- 生态数据看板更新页"家具摆放图" -->
+<view class="form-page">
+
+  <view class="plots-note">按季度导入实测数据。保存后首页看板数字、条形图和折线图联动更新（真实写云）。</view>
+
+  <!-- 每个样地一张编辑卡 -->
+  <view class="card plot-edit-card" wx:for="{{plots}}" wx:key="id">
+    <view class="plot-edit-name">{{item.name}}</view>
+
+    <view class="field-row">
+      <text class="field-label">三个季度有机质(%)</text>
+      <view class="field-triple">
+        <input class="field-input" type="digit" value="{{item.q1}}" placeholder="Q1"
+               bindinput="onInput" data-id="{{item.id}}" data-field="q1" />
+        <input class="field-input" type="digit" value="{{item.q2}}" placeholder="Q2"
+               bindinput="onInput" data-id="{{item.id}}" data-field="q2" />
+        <input class="field-input" type="digit" value="{{item.q3}}" placeholder="Q3"
+               bindinput="onInput" data-id="{{item.id}}" data-field="q3" />
+      </view>
+    </view>
+
+    <view class="field-row">
+      <text class="field-label">生物多样性指数</text>
+      <input class="field-input-wide" type="digit" value="{{item.bioIndex}}"
+             bindinput="onInput" data-id="{{item.id}}" data-field="bioIndex" />
+    </view>
+
+    <view class="field-row">
+      <text class="field-label">碳汇增量(kg/年)</text>
+      <input class="field-input-wide" type="digit" value="{{item.carbonSeq}}"
+             bindinput="onInput" data-id="{{item.id}}" data-field="carbonSeq" />
+    </view>
+
+    <view class="field-row">
+      <text class="field-label">更新标注</text>
+      <input class="field-input-wide" value="{{item.update}}" placeholder="如：2026年第二季度"
+             bindinput="onInput" data-id="{{item.id}}" data-field="update" />
+    </view>
+
+    <button class="save-btn" bindtap="save" data-id="{{item.id}}">保存 {{item.name}}</button>
+  </view>
+</view>

@@ -1,0 +1,86 @@
+<!-- 首页"家具摆放图"：三个区块（影像 → 数据 → 故事），不设任何购买入口 -->
+<view class="home">
+
+  <!-- 区块一：林地实时影像 -->
+  <view class="hero">
+    <image class="hero-img" src="{{imagery.url}}" mode="widthFix" lazy-load="true"></image>
+    <view class="hero-mask"></view>
+    <view class="hero-text">
+      <view class="hero-slogan">先感受这片林子的真实</view>
+      <view class="hero-plot">{{imagery.plot}}</view>
+      <view class="hero-date">{{imagery.date}} 拍摄 · {{imagery.note}}</view>
+    </view>
+  </view>
+
+  <!-- 区块二：生态数据看板 -->
+  <view class="section-title">生态数据看板</view>
+
+  <!-- 新增：有机质含量变化趋势折线图（ECharts 绘制，第二阶段升级） -->
+  <view class="card chart-card">
+    <view class="chart-title">土壤有机质含量 · 三样地变化趋势</view>
+    <ec-canvas canvas-id="organic-chart" ec="{{ec}}"></ec-canvas>
+  </view>
+
+  <view class="card" wx:for="{{plots}}" wx:key="id" wx:for-item="plot">
+    <view class="plot-header">
+      <text class="plot-name">{{plot.name}}</text>
+      <text class="text-secondary">数据更新：{{plot.update}}</text>
+    </view>
+
+    <!-- 指标1：土壤有机质含量变化趋势（条形图 = 最新值对比） -->
+    <view class="metric-row">
+      <text class="metric-label">土壤有机质</text>
+      <view class="metric-value">{{plot.organicLatest}}%</view>
+    </view>
+    <view class="bar-track">
+      <view class="bar-fill" style="width: {{plot.barPercent}}%;"></view>
+    </view>
+    <view class="metric-delta {{plot.organicDelta >= 0 ? 'delta-up' : 'delta-down'}}">
+      <!-- ▲▼ 符号已在真机实测正常（2026-08-03），若换设备后变空白再退回文字 -->
+      {{plot.organicDelta >= 0 ? '▲' : '▼'}} 较上季度 {{plot.organicDelta}}%
+    </view>
+
+    <!-- 指标2+3：生物多样性指数 与 碳汇增量预估 -->
+    <view class="metric-two-col">
+      <view class="metric-col">
+        <view class="metric-label">生物多样性指数</view>
+        <view class="metric-value">{{plot.bioIndex}}</view>
+      </view>
+      <view class="metric-col">
+        <view class="metric-label">碳汇增量预估</view>
+        <view class="metric-value">{{plot.carbonSeq}}<text class="metric-unit">kg CO₂/年</text></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 区块三："正在发生"故事流 -->
+  <view class="section-title">正在发生</view>
+  <view class="card story-card" wx:for="{{stories}}" wx:key="id">
+    <view class="story-top">
+      <!-- 图标用 PNG 图片（emoji 在安卓真机可能显示空白，不能用） -->
+      <image class="story-emoji" src="{{item.icon}}" mode="aspectFit"></image>
+      <view class="story-body">
+        <view class="story-head">
+          <text class="story-type">{{item.type}}</text>
+          <text class="story-title">{{item.title}}</text>
+        </view>
+        <view class="story-content">{{item.content}}</view>
+        <view class="story-footer">
+          <text class="text-secondary">{{item.author}} · {{item.role}} · {{item.time}}</text>
+          <view class="story-actions">
+            <!-- 点赞按钮：liked 为 true 时点亮（类名换成 liked 样式） -->
+            <!-- 点赞按钮：点亮用红色系（心形语义，与收藏区分） -->
+            <view class="action-btn {{item.liked ? 'action-like-active' : ''}}"
+                  bindtap="toggleLike" data-id="{{item.id}}">点赞 {{item.likes}}</view>
+            <!-- 收藏按钮：点亮用金色系（星形语义） -->
+            <view class="action-btn {{item.collected ? 'action-collect-active' : ''}}"
+                  bindtap="toggleCollect" data-id="{{item.id}}">收藏</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部留白 + 一句呼应设计理念的话 -->
+  <view class="home-footer">这片林子的故事，才刚刚开始</view>
+</view>

@@ -1,0 +1,3 @@
+{"id": "A", "name": "轮作区A", "soilOrganic": [21, 22.1, 22.8], "bioIndex": 3.2, "carbonSeq": 128, "update": "2026年第二季度"}
+{"id": "B", "name": "对照区B", "soilOrganic": [18.2, 18.1, 18.3], "bioIndex": 2.4, "carbonSeq": 96, "update": "2026年第二季度"}
+{"id": "C", "name": "轮作区C", "soilOrganic": [19.4, 20.2, 21.3], "bioIndex": 2.9, "carbonSeq": 110, "update": "2026年第二季度"}

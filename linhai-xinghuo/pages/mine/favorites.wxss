@@ -1,0 +1,97 @@
+/* 我的收藏页样式 */
+.favorites {
+  padding: 0 32rpx 60rpx;
+}
+
+.fav-card {
+  padding: 28rpx 32rpx;
+}
+.fav-top {
+  display: flex;
+}
+.fav-icon {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 14rpx;
+  background-color: #F0EBDF;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+.fav-body {
+  flex: 1;
+  min-width: 0;
+}
+.fav-head {
+  margin-bottom: 6rpx;
+}
+.fav-type {
+  font-size: 20rpx;
+  color: #C9A96A;
+  border: 1rpx solid #C9A96A;
+  border-radius: 8rpx;
+  padding: 2rpx 10rpx;
+  margin-right: 10rpx;
+}
+.fav-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #24432F;
+}
+.fav-content {
+  font-size: 24rpx;
+  color: #5A544B;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  margin-bottom: 12rpx;
+}
+.fav-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.fav-remove {
+  font-size: 22rpx;
+  color: #C0392B;
+  border: 1rpx solid #C0392B;
+  border-radius: 20rpx;
+  padding: 4rpx 18rpx;
+}
+
+/* 空状态 */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 120rpx;
+}
+.empty-icon {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 24rpx;
+}
+.empty-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #24432F;
+  margin-bottom: 12rpx;
+}
+.empty-desc {
+  font-size: 24rpx;
+  color: #8A847A;
+  text-align: center;
+  line-height: 1.7;
+  margin-bottom: 32rpx;
+}
+.empty-btn {
+  background-color: #3A6B4E;
+  color: #FFFFFF;
+  font-size: 26rpx;
+  border-radius: 14rpx;
+  padding: 0 60rpx;
+}
+.empty-btn::after {
+  border: none;
+}

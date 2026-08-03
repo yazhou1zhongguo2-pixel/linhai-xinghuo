@@ -1,0 +1,102 @@
+/* 研学页样式 */
+.study {
+  padding: 0 32rpx 60rpx;
+}
+
+/* 顶部理念区（深绿渐变，与溯源页一致的设计语言） */
+.study-hero {
+  background: linear-gradient(135deg, #24432F, #3A6B4E);
+  border-radius: 24rpx;
+  padding: 48rpx 40rpx;
+  margin-top: 24rpx;
+  color: #FFFFFF;
+}
+.study-hero-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
+  margin-bottom: 12rpx;
+}
+.study-hero-desc {
+  font-size: 24rpx;
+  color: #C9D8C8;
+  line-height: 1.7;
+}
+
+/* 产品卡片 */
+.product-card {
+  padding: 32rpx;
+}
+.product-top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+.product-icon {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 16rpx;
+  background-color: #F0EBDF;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+.product-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #24432F;
+  margin-bottom: 8rpx;
+}
+.product-tagline {
+  font-size: 24rpx;
+  color: #8A847A;
+}
+
+.product-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16rpx;
+}
+.product-price {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #C9A96A;
+}
+.product-price-unit {
+  font-size: 22rpx;
+  font-weight: normal;
+  color: #8A847A;
+}
+.product-tags {
+  display: flex;
+}
+.product-tag {
+  font-size: 22rpx;
+  color: #3A6B4E;
+  border: 1rpx solid #7E9C7F;
+  border-radius: 8rpx;
+  padding: 4rpx 14rpx;
+  margin-left: 12rpx;
+}
+
+/* 名额提示条 */
+.quota-hint {
+  font-size: 24rpx;
+  border-radius: 12rpx;
+  padding: 12rpx 20rpx;
+}
+.quota-ok {
+  color: #3A6B4E;
+  background-color: #F0F5EC;
+}
+.quota-full {
+  color: #C0392B;
+  background-color: #FBF0EC;
+}
+
+.study-footer {
+  text-align: center;
+  font-size: 24rpx;
+  color: #B7AE9E;
+  margin-top: 40rpx;
+}

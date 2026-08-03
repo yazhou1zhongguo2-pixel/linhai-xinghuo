@@ -1,0 +1,15 @@
+# ===== 敏感与本地文件（绝不进仓库） =====
+*.key
+*.log
+project.private.config.json
+linhai-xinghuo-release.zip
+
+# ===== 本地环境目录 =====
+archive/
+微信web开发者工具/
+tmp/
+.claude/
+
+# ===== 开发工具缓存 =====
+.DS_Store
+node_modules/

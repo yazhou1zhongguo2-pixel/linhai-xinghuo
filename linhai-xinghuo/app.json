@@ -1,0 +1,78 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/trace/trace",
+    "pages/trace/archive",
+    "pages/study/study",
+    "pages/study/detail",
+    "pages/study/book",
+    "pages/adopt/adopt",
+    "pages/adopt/detail",
+    "pages/adopt/contract",
+    "pages/adopt/home",
+    "pages/mine/mine",
+    "pages/mine/orders",
+    "pages/mine/studies",
+    "pages/mine/favorites",
+    "pages/mine/trace-history",
+    "pages/mine/contact",
+    "pages/mine/messages",
+    "pages/mine/admin",
+    "pages/admin/publish",
+    "pages/admin/patrol",
+    "pages/admin/orders-admin",
+    "pages/admin/qrcodes",
+    "pages/admin/phenology",
+    "pages/admin/harvest",
+    "pages/admin/imagery",
+    "pages/admin/plots",
+    "pages/admin/batches"
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "林海星火",
+    "navigationBarBackgroundColor": "#F7F4EC"
+  },
+  "tabBar": {
+    "color": "#8A847A",
+    "selectedColor": "#3A6B4E",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "images/tab-home.png",
+        "selectedIconPath": "images/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/trace/trace",
+        "text": "溯源",
+        "iconPath": "images/tab-trace.png",
+        "selectedIconPath": "images/tab-trace-active.png"
+      },
+      {
+        "pagePath": "pages/study/study",
+        "text": "研学",
+        "iconPath": "images/tab-study.png",
+        "selectedIconPath": "images/tab-study-active.png"
+      },
+      {
+        "pagePath": "pages/adopt/adopt",
+        "text": "认养",
+        "iconPath": "images/tab-adopt.png",
+        "selectedIconPath": "images/tab-adopt-active.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/tab-mine.png",
+        "selectedIconPath": "images/tab-mine-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

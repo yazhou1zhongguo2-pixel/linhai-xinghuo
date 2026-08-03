@@ -1,0 +1,41 @@
+<!-- 物候观测录入页"家具摆放图" -->
+<view class="form-page">
+
+  <view class="section-title">物候事件</view>
+  <view class="chips">
+    <view wx:for="{{events}}" wx:key="index"
+          class="chip {{form.event === item ? 'chip-active' : ''}}"
+          bindtap="pick" data-field="event" data-value="{{item}}">{{item}}</view>
+  </view>
+
+  <view class="section-title">观测地块</view>
+  <view class="chips">
+    <view wx:for="{{plots}}" wx:key="index"
+          class="chip {{form.plot === item ? 'chip-active' : ''}}"
+          bindtap="pick" data-field="plot" data-value="{{item}}">{{item}}</view>
+  </view>
+
+  <view class="section-title">照片</view>
+  <view class="photo-picker" bindtap="choosePhoto">
+    <image wx:if="{{photoPath}}" class="photo-preview" src="{{photoPath}}" mode="aspectFill"></image>
+    <view wx:else class="photo-placeholder"><view class="photo-plus">+</view><view class="photo-tip">拍照或相册</view></view>
+  </view>
+
+  <view class="section-title">观察记录</view>
+  <textarea class="note-input" placeholder="如：刺五加发芽率约 60%，较去年提前 5 天"
+            value="{{form.note}}" bindinput="onNote" maxlength="300"></textarea>
+
+  <button class="submit-btn" bindtap="submit" disabled="{{submitting}}">提交物候观测</button>
+
+  <view class="section-title">物候记录</view>
+  <view class="card record-card" wx:for="{{records}}" wx:key="_id">
+    <view class="record-head">
+      <text class="record-event">{{item.event}}</text>
+      <text class="text-secondary">{{item.createdAt ? formatTime(item.createdAt) : ''}}</text>
+    </view>
+    <view class="record-plot">{{item.plot}}</view>
+    <image wx:if="{{item.photoFileID}}" class="record-photo" src="{{item.photoFileID}}" mode="aspectFill"></image>
+    <view class="record-note" wx:if="{{item.note}}">{{item.note}}</view>
+  </view>
+  <view class="empty-tip" wx:if="{{!records.length}}">还没有物候记录</view>
+</view>

@@ -1,0 +1,56 @@
+<!-- 批次管理页"家具摆放图" -->
+<view class="form-page">
+
+  <view class="section-title">新增批次</view>
+  <view class="card">
+    <input class="text-input" placeholder="批次号（如：LH20260801-003）"
+           value="{{form.batchNo}}" bindinput="onInput" data-field="batchNo" />
+    <input class="text-input gap" placeholder="产品名（如：椴木黑木耳 秋茬）"
+           value="{{form.product}}" bindinput="onInput" data-field="product" />
+    <input class="text-input gap" placeholder="档案编号（选填，自动生成）"
+           value="{{form.archiveId}}" bindinput="onInput" data-field="archiveId" />
+
+    <!-- 产地信息（选填） -->
+    <view class="form-subtitle">产地信息（选填）</view>
+    <input class="text-input" placeholder="采收地块编号（如：轮作区A-05号地块）"
+           value="{{form.plotId}}" bindinput="onInput" data-field="plotId" />
+    <input class="text-input gap" placeholder="GPS（脱敏至林班层级，如：E128°12′ · N43°45′）"
+           value="{{form.gps}}" bindinput="onInput" data-field="gps" />
+    <input class="text-input gap" placeholder="轮休年限（如：3年轮休）"
+           value="{{form.fallowYears}}" bindinput="onInput" data-field="fallowYears" />
+    <input class="text-input gap" placeholder="生态功能区（如：针阔混交林生态功能区）"
+           value="{{form.ecoZone}}" bindinput="onInput" data-field="ecoZone" />
+
+    <!-- 采收信息（选填） -->
+    <view class="form-subtitle">采收信息（选填）</view>
+    <input class="text-input" placeholder="采收日期（如：2026-08-01）"
+           value="{{form.harvestDate}}" bindinput="onInput" data-field="harvestDate" />
+    <input class="text-input gap" placeholder="采收人（如：赵师傅）"
+           value="{{form.worker}}" bindinput="onInput" data-field="worker" />
+
+    <button class="submit-btn" bindtap="submit" disabled="{{submitting}}">新增批次</button>
+    <view class="form-note">生长/环境数据由管护员端记录汇聚；检测报告可在新增后上传 PDF</view>
+  </view>
+
+  <!-- 从模板重建演示批次（一次性迁移：把无主种子数据变成归属你的数据） -->
+  <view class="seed-import" bindtap="importSeeds">从模板导入演示批次（黑木耳/赤灵芝）</view>
+
+  <view class="section-title">批次列表（{{batches.length}}）</view>
+  <view class="card batch-card" wx:for="{{batches}}" wx:key="_id">
+    <view class="batch-head">
+      <text class="batch-name">{{item.product}}</text>
+      <view class="batch-del" catchtap="remove" data-id="{{item._id}}" data-batch="{{item.batchNo}}">删除</view>
+    </view>
+    <view class="batch-meta">
+      <text class="text-secondary">批次 {{item.batchNo}}</text>
+      <text class="text-secondary">{{item.archiveId}}</text>
+    </view>
+    <view class="batch-actions">
+      <view class="batch-pdf {{item.report && item.report.pdfUrl ? 'batch-pdf-done' : ''}}"
+            catchtap="uploadPdf" data-id="{{item._id}}" data-batch="{{item.batchNo}}">
+        {{item.report && item.report.pdfUrl ? '已绑定 PDF · 重新上传' : '上传检测报告 PDF'}}
+      </view>
+    </view>
+  </view>
+  <view class="empty-tip" wx:if="{{!batches.length}}">暂无批次</view>
+</view>

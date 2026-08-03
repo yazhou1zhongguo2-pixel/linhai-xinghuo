@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "van-stepper": "/libs/vant-weapp/stepper/index",
+    "van-field": "/libs/vant-weapp/field/index",
+    "van-dialog": "/libs/vant-weapp/dialog/index"
+  },
+  "navigationBarTitleText": "研学报名"
+}

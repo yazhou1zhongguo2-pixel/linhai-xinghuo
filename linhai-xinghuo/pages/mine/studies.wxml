@@ -1,0 +1,31 @@
+<!-- 我的研学页"家具摆放图" -->
+<view class="studies">
+
+  <!-- 已报名课程 -->
+  <view class="card study-card" wx:for="{{studies}}" wx:key="orderId">
+    <view class="study-top">
+      <view class="study-name">{{item.productName}}</view>
+      <view class="study-status">{{item.status}}</view>
+    </view>
+    <view class="study-meta">
+      <text class="text-secondary">开营日期 {{item.date}}</text>
+      <text class="text-secondary">{{item.count}} 人 · ¥{{item.amount}}</text>
+    </view>
+    <view class="study-participants" wx:if="{{item.participants.name}}">
+      参与者：{{item.participants.name}}（{{item.participants.age}}岁）· {{item.participants.phone}}
+    </view>
+    <!-- 行程提醒（设计书：行程安排） -->
+    <view class="study-remind">行前提醒：开营当天 08:30 林场接待中心集合，携带运动鞋、长裤、水杯</view>
+    <view class="study-actions">
+      <view class="study-btn" catchtap="review" data-id="{{item.orderId}}">课后评价</view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:if="{{!studies.length}}">
+    <image class="empty-icon" src="/images/icon-tent.png" mode="aspectFit"></image>
+    <view class="empty-title">还没有报名课程</view>
+    <view class="empty-desc">来林子里亲自看一看，研学课程在这里</view>
+    <button class="empty-btn" bindtap="goHome">回首页看看</button>
+  </view>
+</view>

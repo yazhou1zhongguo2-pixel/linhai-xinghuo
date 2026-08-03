@@ -1,0 +1,32 @@
+<!-- 林地影像更新页"家具摆放图" -->
+<view class="form-page">
+
+  <view class="section-title">当前影像</view>
+  <view class="card">
+    <image wx:if="{{current.url}}" class="current-img" src="{{current.url}}" mode="widthFix"></image>
+    <view class="current-meta" wx:if="{{current}}">
+      <text class="text-secondary">{{current.date}} · {{current.plot}}</text>
+    </view>
+  </view>
+
+  <view class="section-title">选择新影像</view>
+  <view class="photo-picker" bindtap="choosePhoto">
+    <image wx:if="{{photoPath}}" class="photo-preview" src="{{photoPath}}" mode="aspectFill"></image>
+    <view wx:else class="photo-placeholder"><view class="photo-plus">+</view><view class="photo-tip">选择无人机影像（相册）</view></view>
+  </view>
+
+  <view class="section-title">拍摄日期</view>
+  <input class="text-input" placeholder="如：2026年8月"
+         value="{{date}}" bindinput="onInput" data-field="date" />
+
+  <view class="section-title">地块说明</view>
+  <input class="text-input" placeholder="如：轮作区A · 无人机全景"
+         value="{{plot}}" bindinput="onInput" data-field="plot" />
+
+  <view class="section-title">备注</view>
+  <input class="text-input" placeholder="如：每季度更新一次（选填）"
+         value="{{note}}" bindinput="onInput" data-field="note" />
+
+  <button class="submit-btn" bindtap="submit" disabled="{{submitting}}">更新影像</button>
+  <view class="form-note">更新后首页顶部影像区立即生效（真实写云 + 云存储）</view>
+</view>

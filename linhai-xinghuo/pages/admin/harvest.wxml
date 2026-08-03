@@ -1,0 +1,45 @@
+<!-- 采收现场建档页"家具摆放图" -->
+<view class="form-page">
+
+  <view class="section-title">采收地块</view>
+  <view class="chips">
+    <view wx:for="{{plots}}" wx:key="index"
+          class="chip {{form.plot === item ? 'chip-active' : ''}}"
+          bindtap="pick" data-field="plot" data-value="{{item}}">{{item}}</view>
+  </view>
+
+  <view class="section-title">采收人</view>
+  <input class="text-input" placeholder="采收人姓名（如：赵师傅）"
+         value="{{form.worker}}" bindinput="onInput" data-field="worker" />
+
+  <view class="section-title">绑定批次（溯源码原始数据）</view>
+  <view class="chips">
+    <view wx:for="{{batches}}" wx:key="batchNo"
+          class="chip {{form.batchNo === item.batchNo ? 'chip-active' : ''}}"
+          bindtap="pick" data-field="batchNo" data-value="{{item.batchNo}}">{{item.batchNo}}</view>
+  </view>
+
+  <view class="section-title">现场照片</view>
+  <view class="photo-picker" bindtap="choosePhoto">
+    <image wx:if="{{photoPath}}" class="photo-preview" src="{{photoPath}}" mode="aspectFill"></image>
+    <view wx:else class="photo-placeholder"><view class="photo-plus">+</view><view class="photo-tip">拍照或相册</view></view>
+  </view>
+
+  <view class="section-title">备注</view>
+  <textarea class="note-input" placeholder="如：凌晨4点采收，全程留痕"
+            value="{{form.note}}" bindinput="onInput" data-field="note" maxlength="300"></textarea>
+
+  <button class="submit-btn" bindtap="submit" disabled="{{submitting}}">提交采收建档</button>
+
+  <view class="section-title">建档记录</view>
+  <view class="card record-card" wx:for="{{records}}" wx:key="_id">
+    <view class="record-head">
+      <text class="record-event">{{item.plot}} · {{item.worker}}</text>
+      <text class="text-secondary">{{item.createdAt ? formatTime(item.createdAt) : ''}}</text>
+    </view>
+    <view class="record-plot">批次 {{item.batchNo}}</view>
+    <image wx:if="{{item.photoFileID}}" class="record-photo" src="{{item.photoFileID}}" mode="aspectFill"></image>
+    <view class="record-note" wx:if="{{item.note}}">{{item.note}}</view>
+  </view>
+  <view class="empty-tip" wx:if="{{!records.length}}">还没有采收建档记录</view>
+</view>

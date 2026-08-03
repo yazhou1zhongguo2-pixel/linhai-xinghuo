@@ -1,0 +1,91 @@
+<!-- 研学详情页"家具摆放图" -->
+<view class="detail" wx:if="{{product}}">
+
+  <!-- 头部信息卡 -->
+  <view class="detail-head">
+    <view class="detail-name">{{product.name}}</view>
+    <view class="detail-tagline">{{product.tagline}}</view>
+    <view class="detail-price">¥{{product.price}}<text class="detail-price-unit">/人</text></view>
+    <view class="detail-tags">
+      <text class="detail-tag">{{product.duration}}</text>
+      <text class="detail-tag">{{product.ageRange}}</text>
+      <text class="detail-tag">每团 ≤ {{product.capacity}} 人</text>
+    </view>
+  </view>
+
+  <!-- 一句话介绍 -->
+  <view class="detail-summary">{{product.summary}}</view>
+
+  <!-- 行程安排 -->
+  <view class="section-title">行程安排</view>
+  <view class="card">
+    <view class="schedule-item" wx:for="{{product.schedule}}" wx:key="index">
+      <view class="schedule-day">{{item.day || '当日'}}</view>
+      <view class="schedule-time">{{item.time}}</view>
+      <view class="schedule-item-name">{{item.item}}</view>
+    </view>
+  </view>
+
+  <!-- 课程大纲 -->
+  <view class="section-title">课程大纲</view>
+  <view class="card">
+    <view class="curriculum-item" wx:for="{{product.curriculum}}" wx:key="index">
+      <view class="curriculum-num">{{index + 1}}</view>
+      <view class="curriculum-name">{{item}}</view>
+    </view>
+  </view>
+
+  <!-- 师资介绍 -->
+  <view class="section-title">师资介绍</view>
+  <view class="card" wx:for="{{product.teachers}}" wx:key="name">
+    <view class="teacher-top">
+      <image class="teacher-photo" src="{{item.photo}}" mode="aspectFill"></image>
+      <view class="teacher-info">
+        <view class="teacher-name">{{item.name}}</view>
+        <view class="teacher-title">{{item.title}}</view>
+      </view>
+    </view>
+    <view class="teacher-intro">{{item.intro}}</view>
+  </view>
+
+  <!-- 往期评价 -->
+  <view class="section-title">往期评价</view>
+  <view class="card" wx:for="{{product.reviews}}" wx:key="index">
+    <view class="review-head">
+      <text class="review-author">{{item.author}}</text>
+      <text class="text-secondary">{{item.date}}</text>
+    </view>
+    <view class="review-content">{{item.content}}</view>
+  </view>
+
+  <!-- 适龄建议 -->
+  <view class="section-title">适龄建议</view>
+  <view class="card suitability-card">{{product.suitability}}</view>
+
+  <!-- 集合地点（wx.openLocation 内置地图定位） -->
+  <view class="section-title">集合地点</view>
+  <view class="card meet-card" wx:if="{{product.meet}}">
+    <view class="meet-name">{{product.meet.name}}</view>
+    <view class="meet-btn" bindtap="openMeet">在地图查看 →</view>
+  </view>
+
+  <!-- 档期与名额 -->
+  <view class="section-title">档期与名额</view>
+  <view class="card">
+    <view class="date-row" wx:for="{{product.dates}}" wx:key="date">
+      <text class="date-label">{{item.date}}</text>
+      <text class="date-remaining {{item.full ? 'date-full' : ''}}">
+        {{item.full ? '已满员' : '余 ' + item.remaining + ' 位'}}
+      </text>
+    </view>
+  </view>
+
+  <!-- 底部预约栏（吸底） -->
+  <view class="book-bar">
+    <view class="book-bar-price">
+      <text class="book-bar-price-num">¥{{product.price}}</text>
+      <text class="book-bar-price-unit">/人</text>
+    </view>
+    <button class="book-bar-btn" bindtap="goBook">立即预约</button>
+  </view>
+</view>

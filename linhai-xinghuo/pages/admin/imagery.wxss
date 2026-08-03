@@ -1,0 +1,26 @@
+/* 影像更新页样式 */
+.form-page { padding: 0 32rpx 60rpx; }
+
+.current-img { width: 100%; border-radius: 14rpx; }
+.current-meta { margin-top: 12rpx; }
+
+.photo-picker { width: 100%; height: 300rpx; border-radius: 16rpx; overflow: hidden; }
+.photo-preview { width: 100%; height: 100%; display: block; }
+.photo-placeholder {
+  width: 100%; height: 100%; background-color: #F0EBDF;
+  border: 2rpx dashed #C9A96A;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.photo-plus { font-size: 64rpx; color: #B7AE9E; line-height: 1; }
+.photo-tip { font-size: 22rpx; color: #8A847A; margin-top: 12rpx; }
+
+.text-input {
+  background-color: #FFFFFF; border: 1rpx solid #E8E2D5; border-radius: 14rpx;
+  padding: 20rpx 24rpx; font-size: 28rpx;
+}
+.submit-btn {
+  margin-top: 32rpx; background-color: #3A6B4E; color: #FFFFFF;
+  font-size: 30rpx; font-weight: bold; border-radius: 16rpx;
+}
+.submit-btn::after { border: none; }
+.form-note { text-align: center; font-size: 22rpx; color: #B7AE9E; margin-top: 16rpx; }

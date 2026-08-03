@@ -1,0 +1,117 @@
+/* "我的"页样式 */
+.mine {
+  padding: 0 32rpx 60rpx;
+}
+
+/* 个人信息卡 */
+.profile-card {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #24432F, #3A6B4E);
+  border-radius: 24rpx;
+  padding: 40rpx 32rpx;
+  margin-top: 24rpx;
+  color: #FFFFFF;
+}
+.profile-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  border: 4rpx solid rgba(255, 255, 255, 0.4);
+  background-color: #F0EBDF;
+  margin-right: 24rpx;
+}
+.profile-info {
+  flex: 1;
+  min-width: 0;
+}
+.profile-name {
+  font-size: 34rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+.profile-phone {
+  font-size: 24rpx;
+  color: #C9D8C8;
+}
+.profile-edit-btn {
+  font-size: 24rpx;
+  color: #C9A96A;
+  border: 1rpx solid #C9A96A;
+  border-radius: 24rpx;
+  padding: 8rpx 24rpx;
+}
+
+/* 编辑卡 */
+.edit-card {
+  margin-top: 24rpx;
+}
+.edit-row {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #F0EBDF;
+}
+.edit-label {
+  width: 140rpx;
+  font-size: 26rpx;
+  color: #8A847A;
+}
+.edit-input {
+  flex: 1;
+  font-size: 26rpx;
+  color: #2F2B26;
+}
+.edit-save {
+  margin-top: 24rpx;
+  background-color: #3A6B4E;
+  color: #FFFFFF;
+  font-size: 28rpx;
+  border-radius: 14rpx;
+}
+.edit-save::after {
+  border: none;
+}
+
+/* 功能菜单 */
+.menu-card {
+  background-color: #FFFFFF;
+  border-radius: 20rpx;
+  border: 1rpx solid #E8E2D5;
+  margin-top: 24rpx;
+  overflow: hidden;
+}
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 32rpx;
+  border-bottom: 1rpx solid #F0EBDF;
+}
+.menu-item:last-child {
+  border-bottom: none;
+}
+.menu-icon {
+  width: 56rpx;
+  height: 56rpx;
+  margin-right: 24rpx;
+}
+.menu-label {
+  flex: 1;
+  font-size: 28rpx;
+  color: #2F2B26;
+}
+.menu-arrow {
+  font-size: 36rpx;
+  color: #B7AE9E;
+}
+
+/* 后台入口 */
+.admin-entry {
+  margin-top: 24rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: #8A847A;
+  padding: 20rpx 0;
+  border: 1rpx dashed #C9A96A;
+  border-radius: 16rpx;
+}

@@ -1,0 +1,95 @@
+/* 我的研学页样式 */
+.studies {
+  padding: 0 32rpx 60rpx;
+}
+
+.study-card {
+  padding: 28rpx 32rpx;
+}
+.study-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+.study-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #24432F;
+}
+.study-status {
+  font-size: 22rpx;
+  color: #3A6B4E;
+  background-color: #F0F5EC;
+  border-radius: 8rpx;
+  padding: 4rpx 14rpx;
+}
+.study-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+.study-participants {
+  font-size: 24rpx;
+  color: #5A544B;
+  background-color: #FBFCF9;
+  border-radius: 10rpx;
+  padding: 12rpx 16rpx;
+  margin-bottom: 12rpx;
+}
+.study-remind {
+  font-size: 22rpx;
+  color: #8B6A4F;
+  background-color: #FBF7EE;
+  border-radius: 10rpx;
+  padding: 12rpx 16rpx;
+  margin-bottom: 16rpx;
+  line-height: 1.6;
+}
+.study-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+.study-btn {
+  font-size: 24rpx;
+  color: #3A6B4E;
+  border: 1rpx solid #3A6B4E;
+  border-radius: 24rpx;
+  padding: 8rpx 28rpx;
+}
+
+/* 空状态 */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 120rpx;
+}
+.empty-icon {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 24rpx;
+}
+.empty-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #24432F;
+  margin-bottom: 12rpx;
+}
+.empty-desc {
+  font-size: 24rpx;
+  color: #8A847A;
+  text-align: center;
+  line-height: 1.7;
+  margin-bottom: 32rpx;
+}
+.empty-btn {
+  background-color: #3A6B4E;
+  color: #FFFFFF;
+  font-size: 26rpx;
+  border-radius: 14rpx;
+  padding: 0 60rpx;
+}
+.empty-btn::after {
+  border: none;
+}

@@ -1,0 +1,49 @@
+<!-- 故事发布页"家具摆放图" -->
+<view class="publish">
+
+  <!-- 类型选择 -->
+  <view class="section-title">故事类型</view>
+  <view class="type-chips">
+    <view wx:for="{{types}}" wx:key="index"
+          class="type-chip {{form.type === item ? 'type-chip-active' : ''}}"
+          bindtap="pickType" data-value="{{item}}">{{item}}</view>
+  </view>
+
+  <!-- 配图选择 -->
+  <view class="section-title">配图</view>
+  <view class="icon-chips">
+    <view wx:for="{{icons}}" wx:key="label"
+          class="icon-chip {{form.icon === item.src ? 'icon-chip-active' : ''}}"
+          bindtap="pickIcon" data-src="{{item.src}}">
+      <image class="icon-chip-img" src="{{item.src}}" mode="aspectFit"></image>
+    </view>
+  </view>
+
+  <!-- 标题 -->
+  <view class="section-title">标题</view>
+  <input class="title-input" placeholder="一句话标题，如：早春第一轮巡护"
+         value="{{form.title}}" bindinput="onInput" data-field="title" />
+
+  <!-- 内容 -->
+  <view class="section-title">内容</view>
+  <textarea class="content-input" placeholder="记录这里正在发生的事……"
+            value="{{form.content}}" bindinput="onInput" data-field="content"
+            maxlength="300"></textarea>
+  <view class="content-count">{{form.content.length}}/300</view>
+
+  <button class="publish-btn" bindtap="submit">发布故事</button>
+  <view class="publish-note">发布后立即出现在首页"正在发生"故事流（真实写云数据库）</view>
+
+  <!-- 已发布故事管理列表 -->
+  <view class="section-title">已发布故事（{{stories.length}}）</view>
+  <view class="card story-row" wx:for="{{stories}}" wx:key="_id">
+    <view class="story-row-info">
+      <view class="story-row-title">{{item.title}}</view>
+      <view class="story-row-meta">
+        <text class="text-secondary">{{item.type}} · {{item.time || '时间待补充'}}</text>
+      </view>
+    </view>
+    <view class="story-row-del" catchtap="removeStory" data-id="{{item._id}}" data-title="{{item.title}}">删除</view>
+  </view>
+  <view class="empty-tip" wx:if="{{!stories.length}}">还没有发布过故事</view>
+</view>

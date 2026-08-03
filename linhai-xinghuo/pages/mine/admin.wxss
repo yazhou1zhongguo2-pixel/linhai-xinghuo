@@ -1,0 +1,59 @@
+/* 后台管理枢纽页样式 */
+.admin {
+  padding: 0 32rpx 60rpx;
+}
+.admin-head {
+  background: linear-gradient(135deg, #24432F, #3A6B4E);
+  border-radius: 24rpx;
+  padding: 40rpx 36rpx;
+  margin-top: 24rpx;
+  color: #FFFFFF;
+}
+.admin-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
+  margin-bottom: 10rpx;
+}
+.admin-desc {
+  font-size: 22rpx;
+  color: #C9D8C8;
+}
+
+.admin-entry {
+  display: flex;
+  align-items: center;
+  padding: 32rpx;
+  margin-top: 24rpx;
+}
+.admin-entry-icon {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 16rpx;
+  background-color: #F0EBDF;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+.admin-entry-info {
+  flex: 1;
+}
+.admin-entry-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #24432F;
+  margin-bottom: 8rpx;
+}
+.admin-entry-desc {
+  font-size: 22rpx;
+  color: #8A847A;
+}
+.admin-entry-arrow {
+  font-size: 36rpx;
+  color: #B7AE9E;
+}
+.admin-note {
+  margin-top: 40rpx;
+  font-size: 22rpx;
+  color: #B7AE9E;
+  text-align: center;
+}

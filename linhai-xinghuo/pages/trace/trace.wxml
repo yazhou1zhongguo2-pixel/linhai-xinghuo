@@ -1,0 +1,43 @@
+<!-- 溯源页"家具摆放图" -->
+<view class="trace">
+
+  <!-- 顶部理念区 -->
+  <view class="trace-hero">
+    <view class="trace-hero-title">每一件产品都有它的来处</view>
+    <view class="trace-hero-desc">从接种到采收，从土壤到餐桌\n每一步都被记录、可被验证</view>
+  </view>
+
+  <!-- 扫码溯源按钮（Vant 组件库的按钮） -->
+  <button class="scan-btn" bindtap="scanCode">
+    <text class="scan-btn-text">扫一扫 · 溯源</text>
+    <text class="scan-btn-sub">扫描产品包装上的溯源码</text>
+  </button>
+
+  <!-- 防篡改说明卡 -->
+  <view class="card">
+    <view class="trace-proof-head">
+      <view class="trace-proof-badge">数字档案防篡改</view>
+      <view class="text-secondary">每份档案含唯一编号+时间戳</view>
+    </view>
+    <view class="trace-proof-desc">
+      每份溯源档案在生成时记录唯一档案编号与时间戳，存入云端数据库。
+      对外呈现"数字档案防篡改"——以严格的操作规程和透明的数据呈现建立可信度。
+    </view>
+  </view>
+
+  <!-- 体验档案（演示入口；正式版为扫码直达） -->
+  <view class="section-title">体验档案</view>
+  <view class="card batch-card" wx:for="{{batches}}" wx:key="batchNo"
+        bindtap="goArchive" data-batch="{{item.batchNo}}">
+    <view class="batch-top">
+      <text class="batch-product">{{item.product}}</text>
+      <van-tag type="success" plain>扫码可查</van-tag>
+    </view>
+    <view class="batch-meta">
+      <text class="text-secondary">批次号 {{item.batchNo}}</text>
+      <text class="batch-arrow">查看档案 →</text>
+    </view>
+  </view>
+
+  <view class="trace-footer">透明，是最有力的承诺</view>
+</view>

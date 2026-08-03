@@ -1,0 +1,22 @@
+<!-- 消息通知页"家具摆放图" -->
+<view class="messages">
+
+  <!-- 消息列表 -->
+  <view class="card msg-card" wx:for="{{messages}}" wx:key="id"
+        bindtap="goDetail" data-kind="{{item.kind}}">
+    <view class="msg-top">
+      <view class="msg-kind {{item.kind === '订单' ? 'kind-order' : (item.kind === '认养' ? 'kind-adopt' : 'kind-system')}}">
+        {{item.kind}}
+      </view>
+      <view class="msg-title">{{item.title}}</view>
+    </view>
+    <view class="msg-content">{{item.content}}</view>
+    <view class="msg-foot">
+      <text class="text-secondary">{{item.time}}</text>
+      <text class="msg-demo" wx:if="{{item.demo}}">演示消息</text>
+    </view>
+  </view>
+
+  <view class="empty-tip" wx:if="{{!messages.length}}">暂无消息</view>
+  <view class="msg-note">正式版将接入微信订阅消息推送（报名状态、生长报告、续约提醒）</view>
+</view>

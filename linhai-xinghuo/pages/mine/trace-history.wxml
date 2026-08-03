@@ -1,0 +1,26 @@
+<!-- 溯源记录页"家具摆放图" -->
+<view class="history">
+
+  <view class="history-head">
+    <text class="text-secondary">共 {{history.length}} 条扫码记录</text>
+    <text class="history-clear" wx:if="{{history.length}}" bindtap="clearHistory">清空</text>
+  </view>
+
+  <!-- 记录列表 -->
+  <view class="card history-item" wx:for="{{history}}" wx:key="index"
+        bindtap="openArchive" data-batch="{{item.batchNo}}">
+    <view class="history-product">{{item.productName}}</view>
+    <view class="history-meta">
+      <text class="text-secondary">{{item.batchNo}}</text>
+      <text class="text-secondary">{{item.time}}</text>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:if="{{!history.length}}">
+    <image class="empty-icon" src="/images/icon-tree.png" mode="aspectFit"></image>
+    <view class="empty-title">还没有溯源记录</view>
+    <view class="empty-desc">扫描产品包装上的溯源码，记录会出现在这里</view>
+    <button class="empty-btn" bindtap="goScan">去扫码</button>
+  </view>
+</view>

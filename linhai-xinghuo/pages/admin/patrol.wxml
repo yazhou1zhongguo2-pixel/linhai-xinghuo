@@ -1,0 +1,43 @@
+<!-- 巡护记录上传页"家具摆放图" -->
+<view class="patrol">
+
+  <!-- 选择地块 -->
+  <view class="section-title">巡护地块</view>
+  <view class="plot-chips">
+    <view wx:for="{{plots}}" wx:key="index"
+          class="plot-chip {{selectedPlot === item ? 'plot-chip-active' : ''}}"
+          bindtap="pickPlot" data-value="{{item}}">{{item}}</view>
+  </view>
+
+  <!-- 照片 -->
+  <view class="section-title">现场照片</view>
+  <view class="photo-picker" bindtap="choosePhoto">
+    <image wx:if="{{photoPath}}" class="photo-preview" src="{{photoPath}}" mode="aspectFill"></image>
+    <view wx:else class="photo-placeholder">
+      <view class="photo-plus">+</view>
+      <view class="photo-tip">拍照或从相册选择</view>
+    </view>
+  </view>
+
+  <!-- 备注 -->
+  <view class="section-title">巡护备注</view>
+  <textarea class="note-input" placeholder="记录巡护发现，如：刺五加进入发芽期、红外相机拍到野猪……"
+            value="{{note}}" bindinput="onNoteInput" maxlength="300"></textarea>
+
+  <!-- 提交 -->
+  <button class="submit-btn" bindtap="submit" disabled="{{submitting}}">上传巡护记录</button>
+  <view class="patrol-note">系统自动关联时间戳；GPS 定位正式版接入（设计书要求脱敏至林班层级）</view>
+
+  <!-- 历史记录（样地日记时间轴） -->
+  <view class="section-title">样地日记</view>
+  <view class="card record-card" wx:for="{{records}}" wx:key="_id">
+    <view class="record-head">
+      <text class="record-plot">{{item.plot}}</text>
+      <text class="text-secondary">{{item.createdAt ? formatTime(item.createdAt) : ''}}</text>
+    </view>
+    <image wx:if="{{item.photoFileID}}" class="record-photo" src="{{item.photoFileID}}" mode="aspectFill"></image>
+    <view class="record-note" wx:if="{{item.note}}">{{item.note}}</view>
+    <view class="record-location">{{item.location}}</view>
+  </view>
+  <view class="empty-tip" wx:if="{{!records.length}}">还没有巡护记录</view>
+</view>

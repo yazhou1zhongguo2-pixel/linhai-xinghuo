@@ -1,0 +1,31 @@
+/* 数据看板更新页样式 */
+.form-page { padding: 0 32rpx 60rpx; }
+
+.plots-note {
+  font-size: 24rpx; color: #5A544B;
+  background-color: #FBF7EE; border: 1rpx solid #E8E2D5;
+  border-radius: 14rpx; padding: 20rpx 24rpx; margin-top: 24rpx; line-height: 1.7;
+}
+
+.plot-edit-card { margin-top: 24rpx; }
+.plot-edit-name { font-size: 28rpx; font-weight: bold; color: #24432F; margin-bottom: 16rpx; }
+
+.field-row {
+  display: flex; align-items: center;
+  padding: 14rpx 0; border-bottom: 1rpx solid #F0EBDF;
+}
+.field-label { width: 240rpx; font-size: 24rpx; color: #8A847A; flex-shrink: 0; }
+.field-triple { display: flex; flex: 1; }
+.field-input {
+  flex: 1; background-color: #FBFCF9; border: 1rpx solid #E8E2D5; border-radius: 10rpx;
+  padding: 12rpx 16rpx; font-size: 26rpx; margin-right: 12rpx;
+}
+.field-input-wide {
+  flex: 1; background-color: #FBFCF9; border: 1rpx solid #E8E2D5; border-radius: 10rpx;
+  padding: 12rpx 16rpx; font-size: 26rpx;
+}
+.save-btn {
+  margin-top: 20rpx; background-color: #3A6B4E; color: #FFFFFF;
+  font-size: 26rpx; border-radius: 12rpx;
+}
+.save-btn::after { border: none; }

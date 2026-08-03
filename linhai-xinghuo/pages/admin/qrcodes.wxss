@@ -1,0 +1,50 @@
+/* 溯源码管理页样式 */
+.qrcodes {
+  padding: 0 32rpx 60rpx;
+}
+.qrcode-note {
+  font-size: 24rpx;
+  color: #5A544B;
+  background-color: #FBF7EE;
+  border: 1rpx solid #E8E2D5;
+  border-radius: 14rpx;
+  padding: 20rpx 24rpx;
+  margin-top: 24rpx;
+  line-height: 1.7;
+}
+
+.batch-card {
+  margin-top: 24rpx;
+}
+.batch-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #24432F;
+  margin-bottom: 10rpx;
+}
+.batch-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+.qrcode-btn {
+  text-align: center;
+  font-size: 26rpx;
+  color: #3A6B4E;
+  background-color: #F0F5EC;
+  border-radius: 14rpx;
+  padding: 16rpx 0;
+}
+
+.empty-tip {
+  text-align: center;
+  font-size: 24rpx;
+  color: #B7AE9E;
+  padding: 60rpx 0;
+}
+.qrcode-footer {
+  text-align: center;
+  font-size: 22rpx;
+  color: #B7AE9E;
+  margin-top: 32rpx;
+}

@@ -1,0 +1,127 @@
+/* 故事发布页样式 */
+.publish {
+  padding: 0 32rpx 60rpx;
+}
+
+/* 类型选择 */
+.type-chips {
+  display: flex;
+}
+.type-chip {
+  font-size: 26rpx;
+  color: #5A544B;
+  border: 2rpx solid #E8E2D5;
+  border-radius: 30rpx;
+  padding: 12rpx 32rpx;
+  margin-right: 16rpx;
+  background-color: #FFFFFF;
+}
+.type-chip-active {
+  color: #FFFFFF;
+  background-color: #3A6B4E;
+  border-color: #3A6B4E;
+}
+
+/* 配图选择（flex-wrap 自动换行：10 个图标全部可见可选，不被屏幕裁掉） */
+.icon-chips {
+  display: flex;
+  flex-wrap: wrap;
+}
+.icon-chip {
+  width: 108rpx;
+  height: 108rpx;
+  border-radius: 16rpx;
+  border: 2rpx solid #E8E2D5;
+  background-color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16rpx;
+}
+.icon-chip-img {
+  width: 80rpx;
+  height: 80rpx;
+}
+.icon-chip-active {
+  border-color: #3A6B4E;
+  background-color: #F0F5EC;
+}
+
+/* 标题输入 */
+.title-input {
+  background-color: #FFFFFF;
+  border: 1rpx solid #E8E2D5;
+  border-radius: 14rpx;
+  padding: 20rpx 24rpx;
+  font-size: 28rpx;
+}
+
+/* 内容输入 */
+.content-input {
+  width: 100%;
+  height: 260rpx;
+  background-color: #FFFFFF;
+  border: 1rpx solid #E8E2D5;
+  border-radius: 14rpx;
+  padding: 20rpx 24rpx;
+  font-size: 26rpx;
+  box-sizing: border-box;
+}
+.content-count {
+  text-align: right;
+  font-size: 22rpx;
+  color: #B7AE9E;
+  padding: 8rpx 0 24rpx;
+}
+
+/* 发布按钮 */
+.publish-btn {
+  background-color: #3A6B4E;
+  color: #FFFFFF;
+  font-size: 30rpx;
+  font-weight: bold;
+  border-radius: 16rpx;
+}
+.publish-btn::after {
+  border: none;
+}
+.publish-note {
+  text-align: center;
+  font-size: 22rpx;
+  color: #B7AE9E;
+  margin-top: 16rpx;
+}
+
+/* 已发布故事管理列表 */
+.story-row {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 32rpx;
+}
+.story-row-info {
+  flex: 1;
+  min-width: 0;
+}
+.story-row-title {
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #24432F;
+  margin-bottom: 6rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.story-row-del {
+  font-size: 22rpx;
+  color: #C0392B;
+  border: 1rpx solid #C0392B;
+  border-radius: 20rpx;
+  padding: 6rpx 20rpx;
+  margin-left: 20rpx;
+}
+.empty-tip {
+  text-align: center;
+  font-size: 24rpx;
+  color: #B7AE9E;
+  padding: 40rpx 0;
+}

@@ -1,0 +1,41 @@
+<!-- "我的"页"家具摆放图" -->
+<view class="mine">
+
+  <!-- 个人信息卡 -->
+  <view class="profile-card">
+    <image class="profile-avatar" src="{{profile.avatar}}" mode="aspectFill"></image>
+    <view class="profile-info">
+      <view class="profile-name">{{profile.nickname}}</view>
+      <view class="profile-phone">{{profile.phone || '未填写联系方式'}}</view>
+    </view>
+    <view class="profile-edit-btn" bindtap="toggleEdit">{{showEdit ? '取消' : '编辑'}}</view>
+  </view>
+
+  <!-- 编辑模式：昵称 + 联系方式 -->
+  <view class="card edit-card" wx:if="{{showEdit}}">
+    <view class="edit-row">
+      <text class="edit-label">昵称</text>
+      <input class="edit-input" value="{{editName}}" placeholder="输入昵称"
+             bindinput="onInput" data-field="editName" />
+    </view>
+    <view class="edit-row">
+      <text class="edit-label">手机号</text>
+      <input class="edit-input" type="number" maxlength="11" value="{{editPhone}}"
+             placeholder="选填" bindinput="onInput" data-field="editPhone" />
+    </view>
+    <button class="edit-save" bindtap="saveProfile">保存</button>
+  </view>
+
+  <!-- 功能入口 -->
+  <view class="menu-card">
+    <view class="menu-item" wx:for="{{menus}}" wx:key="label"
+          bindtap="onMenuTap" data-page="{{item.page}}">
+      <image class="menu-icon" src="{{item.icon}}" mode="aspectFit"></image>
+      <text class="menu-label">{{item.label}}</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 后台管理入口（学生团队） -->
+  <view class="admin-entry" bindtap="goAdmin">后台管理（学生团队）</view>
+</view>

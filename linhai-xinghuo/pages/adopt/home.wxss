@@ -1,0 +1,169 @@
+/* 专属认养主页样式 */
+.adopt-home {
+  padding: 0 32rpx 60rpx;
+}
+
+/* 顶部 */
+.home-head {
+  background: linear-gradient(135deg, #24432F, #3A6B4E);
+  border-radius: 24rpx;
+  padding: 40rpx 36rpx;
+  margin-top: 24rpx;
+  color: #FFFFFF;
+}
+.home-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
+  margin-bottom: 10rpx;
+}
+.home-desc {
+  font-size: 24rpx;
+  color: #C9D8C8;
+}
+
+/* 续约提醒横幅 */
+.renew-banner {
+  background-color: #FBF0EC;
+  border: 1rpx solid #C0392B;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  margin-top: 24rpx;
+}
+.renew-banner-text {
+  font-size: 24rpx;
+  color: #C0392B;
+}
+
+/* 认养卡片 */
+.adoption-card {
+  background-color: #FFFFFF;
+  border-radius: 20rpx;
+  border: 2rpx solid #E8E2D5;
+  padding: 28rpx 32rpx;
+  margin-top: 24rpx;
+}
+.adoption-selected {
+  border-color: #3A6B4E;
+  background-color: #FBFCF9;
+}
+.adoption-top {
+  display: flex;
+  align-items: center;
+}
+.adoption-icon {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 14rpx;
+  background-color: #F0EBDF;
+  margin-right: 20rpx;
+  flex-shrink: 0;
+}
+.adoption-info {
+  flex: 1;
+  min-width: 0;
+}
+.adoption-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #24432F;
+}
+.adoption-plot {
+  font-size: 22rpx;
+  color: #8A847A;
+  margin-top: 4rpx;
+}
+.adoption-status {
+  font-size: 22rpx;
+  color: #3A6B4E;
+  border: 1rpx solid #7E9C7F;
+  border-radius: 8rpx;
+  padding: 4rpx 12rpx;
+}
+.adoption-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20rpx;
+}
+.adoption-days {
+  font-size: 24rpx;
+  color: #3A6B4E;
+}
+.days-expiring {
+  color: #C0392B;
+  font-weight: bold;
+}
+
+/* 续约按钮 */
+.renew-btn {
+  margin-top: 20rpx;
+  background-color: #C9A96A;
+  color: #FFFFFF;
+  font-size: 26rpx;
+  font-weight: bold;
+  border-radius: 12rpx;
+}
+.renew-btn::after {
+  border: none;
+}
+
+/* 生长报告 */
+.report-head {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8rpx;
+}
+.report-season {
+  font-size: 24rpx;
+  color: #3A6B4E;
+  font-weight: bold;
+}
+.report-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #24432F;
+  margin-bottom: 8rpx;
+}
+.report-content {
+  font-size: 24rpx;
+  color: #5A544B;
+  line-height: 1.7;
+  margin-bottom: 16rpx;
+}
+.report-photo {
+  width: 100%;
+  height: 280rpx;
+  border-radius: 14rpx;
+  background-color: #F0EBDF;
+}
+
+/* 碳汇趣味报告 */
+.carbon-card {
+  background-color: #FBF7EE;
+  border-color: #C9A96A;
+}
+.carbon-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #8B6A4F;
+  margin-bottom: 12rpx;
+  line-height: 1.6;
+}
+.carbon-detail {
+  font-size: 24rpx;
+  color: #5A544B;
+  line-height: 1.7;
+}
+
+.empty-tip {
+  text-align: center;
+  font-size: 24rpx;
+  color: #B7AE9E;
+  padding: 40rpx 0;
+}
+.more-link {
+  text-align: center;
+  font-size: 26rpx;
+  color: #3A6B4E;
+  padding: 32rpx 0;
+}

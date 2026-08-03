@@ -1,0 +1,57 @@
+<!-- 专属认养主页"家具摆放图" -->
+<view class="adopt-home">
+
+  <!-- 顶部 -->
+  <view class="home-head">
+    <view class="home-title">我的认养</view>
+    <view class="home-desc">你的每一份认养，都有一片林子在替你生长</view>
+  </view>
+
+  <!-- 续约提醒横幅（临期时出现） -->
+  <view class="renew-banner" wx:if="{{hasExpiring}}">
+    <view class="renew-banner-text">有认养即将到期：到期前 30 天自动提醒，一键续约</view>
+  </view>
+
+  <!-- 我的认养列表 -->
+  <view class="adoption-card {{selectedId === item.id ? 'adoption-selected' : ''}}"
+        wx:for="{{adoptions}}" wx:key="id" bindtap="selectAdoption" data-id="{{item.id}}">
+    <view class="adoption-top">
+      <image class="adoption-icon" src="{{item.icon}}" mode="aspectFit"></image>
+      <view class="adoption-info">
+        <view class="adoption-name">{{item.planName}}</view>
+        <view class="adoption-plot">{{item.plot}}</view>
+      </view>
+      <view class="adoption-status">{{item.status}}</view>
+    </view>
+    <view class="adoption-meta">
+      <text class="text-secondary">{{item.startDate}} 至 {{item.expireDate}}</text>
+      <text class="adoption-days {{item.expiring ? 'days-expiring' : ''}}">
+        {{item.expiring ? '距到期 ' + item.daysLeft + ' 天' : '剩余 ' + item.daysLeft + ' 天'}}
+      </text>
+    </view>
+    <!-- 临期 → 续约按钮（设计书：一键续约） -->
+    <button class="renew-btn" wx:if="{{item.expiring}}" catchtap="renew" data-id="{{item.id}}">一键续约</button>
+  </view>
+
+  <!-- 生长报告（选中认养的季度报告） -->
+  <view class="section-title">生长报告</view>
+  <view class="card" wx:for="{{reports}}" wx:key="season">
+    <view class="report-head">
+      <text class="report-season">{{item.season}}</text>
+      <text class="text-secondary">{{item.date}}</text>
+    </view>
+    <view class="report-title">{{item.title}}</view>
+    <view class="report-content">{{item.content}}</view>
+    <image class="report-photo" src="{{item.photo}}" mode="aspectFill"></image>
+  </view>
+  <view class="empty-tip" wx:if="{{!reports.length}}">暂无生长报告</view>
+
+  <!-- 碳汇趣味报告（红松计划专属） -->
+  <view class="section-title">碳汇趣味报告</view>
+  <view class="card carbon-card" wx:if="{{carbonReport}}">
+    <view class="carbon-title">{{carbonReport.title}}</view>
+    <view class="carbon-detail">{{carbonReport.detail}}</view>
+  </view>
+
+  <view class="more-link" bindtap="goAdoptTab">认养更多计划 →</view>
+</view>

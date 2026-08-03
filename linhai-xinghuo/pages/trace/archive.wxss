@@ -1,0 +1,213 @@
+/* 溯源档案页样式 */
+.archive {
+  padding: 0 32rpx 60rpx;
+}
+
+/* 档案头（深绿渐变卡，呼应"可信"气质） */
+.archive-head {
+  background: linear-gradient(135deg, #24432F, #3A6B4E);
+  border-radius: 24rpx;
+  padding: 36rpx 32rpx;
+  color: #FFFFFF;
+  margin-top: 24rpx;
+}
+.archive-product {
+  font-size: 34rpx;
+  font-weight: bold;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
+  margin-bottom: 16rpx;
+}
+.archive-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.archive-batch {
+  font-size: 24rpx;
+  color: #C9D8C8;
+}
+.archive-proof {
+  font-size: 22rpx;
+  color: #C9A96A;
+  border: 1rpx solid #C9A96A;
+  border-radius: 10rpx;
+  padding: 4rpx 14rpx;
+}
+.archive-proof-detail {
+  font-size: 22rpx;
+  color: #A8BFA4;
+  margin-top: 16rpx;
+}
+
+/* tab 内容区 */
+.tab-body {
+  padding: 8rpx 8rpx 24rpx;
+}
+
+/* 信息行（产地/采收共用） */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 24rpx 8rpx;
+  border-bottom: 1rpx solid #F0EBDF;
+}
+.info-label {
+  font-size: 26rpx;
+  color: #8A847A;
+  flex-shrink: 0;
+  margin-right: 24rpx;
+}
+.info-value {
+  font-size: 26rpx;
+  color: #2F2B26;
+  text-align: right;
+}
+
+/* 生长记录条目 */
+.growth-item {
+  display: flex;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #F0EBDF;
+}
+.growth-photo {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 16rpx;
+  background-color: #F0EBDF;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+.growth-info {
+  flex: 1;
+}
+.growth-stage {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #24432F;
+  margin-bottom: 8rpx;
+}
+.growth-note {
+  font-size: 24rpx;
+  color: #5A544B;
+  line-height: 1.6;
+}
+
+/* 环境数据图表
+   注意：position: relative + overflow: hidden 是防 canvas 偏移的防御样式
+   （ec-canvas 在某些环境（模拟器/灰度基础库）下会渲染错位，撑开容器可缓解） */
+.env-chart-wrap {
+  position: relative;
+  overflow: hidden;
+  background-color: #FFFFFF;
+  border-radius: 20rpx;
+  border: 1rpx solid #E8E2D5;
+  padding: 16rpx;
+  margin-top: 16rpx;
+}
+.env-chart-wrap ec-canvas {
+  width: 100%;
+  height: 420rpx;
+  display: block;
+}
+
+/* 采收现场照片 */
+.harvest-photo-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32rpx 0 8rpx;
+}
+.harvest-photo {
+  width: 320rpx;
+  height: 240rpx;
+  border-radius: 16rpx;
+  background-color: #F0EBDF;
+  margin-bottom: 12rpx;
+}
+.harvest-note {
+  font-size: 24rpx;
+  color: #5A544B;
+  line-height: 1.7;
+  padding: 16rpx 8rpx;
+  background-color: #FBF7EE;
+  border-radius: 12rpx;
+  margin-top: 8rpx;
+}
+
+/* 检测报告 */
+.report-item {
+  display: flex;
+  align-items: baseline;
+  padding: 24rpx 8rpx;
+  border-bottom: 1rpx solid #F0EBDF;
+}
+.report-name {
+  flex: 1.4;
+  font-size: 26rpx;
+  color: #2F2B26;
+}
+.report-result {
+  flex: 1;
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #3A6B4E;
+}
+.report-standard {
+  flex: 1.2;
+  font-size: 22rpx;
+  color: #8A847A;
+  text-align: right;
+}
+.report-lab {
+  font-size: 24rpx;
+  color: #8A847A;
+  padding: 24rpx 8rpx 8rpx;
+}
+.report-pdf-btn {
+  margin-top: 16rpx;
+  background-color: #3A6B4E;
+  color: #FFFFFF;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+}
+.report-pdf-btn::after {
+  border: none;
+}
+
+/* 查看位置按钮 */
+.location-btn {
+  margin-top: 24rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #3A6B4E;
+  background-color: #F0F5EC;
+  border-radius: 14rpx;
+  padding: 18rpx 0;
+}
+
+/* 通用说明小字 */
+.tab-note {
+  font-size: 22rpx;
+  color: #B7AE9E;
+  padding: 16rpx 8rpx;
+  line-height: 1.6;
+}
+
+/* 分享按钮 */
+.share-btn {
+  margin-top: 32rpx;
+  background-color: #C9A96A;
+  color: #FFFFFF;
+  border-radius: 16rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+.share-btn::after {
+  border: none;
+}
+.archive-footer {
+  text-align: center;
+  font-size: 24rpx;
+  color: #B7AE9E;
+  margin-top: 24rpx;
+}

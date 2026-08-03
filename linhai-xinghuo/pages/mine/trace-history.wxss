@@ -1,0 +1,63 @@
+/* 溯源记录页样式 */
+.history {
+  padding: 0 32rpx 60rpx;
+}
+.history-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 8rpx 16rpx;
+}
+.history-clear {
+  font-size: 24rpx;
+  color: #C0392B;
+}
+.history-item {
+  padding: 28rpx 32rpx;
+}
+.history-product {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #24432F;
+  margin-bottom: 12rpx;
+}
+.history-meta {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 空状态（与收藏页一致） */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 120rpx;
+}
+.empty-icon {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: 24rpx;
+}
+.empty-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #24432F;
+  margin-bottom: 12rpx;
+}
+.empty-desc {
+  font-size: 24rpx;
+  color: #8A847A;
+  text-align: center;
+  line-height: 1.7;
+  margin-bottom: 32rpx;
+}
+.empty-btn {
+  background-color: #3A6B4E;
+  color: #FFFFFF;
+  font-size: 26rpx;
+  border-radius: 14rpx;
+  padding: 0 60rpx;
+}
+.empty-btn::after {
+  border: none;
+}

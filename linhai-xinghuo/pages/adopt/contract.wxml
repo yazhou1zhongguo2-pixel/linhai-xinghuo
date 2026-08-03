@@ -1,0 +1,73 @@
+<!-- 电子认养协议页"家具摆放图" -->
+<view class="contract" wx:if="{{plan}}">
+
+  <block wx:if="{{!success}}">
+    <!-- 计划摘要 -->
+    <view class="contract-plan">
+      <text class="contract-plan-name">{{plan.name}}</text>
+      <text class="contract-plan-price">¥{{plan.price}}/{{plan.unit === '元/年' ? '年' : '株'}}</text>
+    </view>
+
+    <!-- 协议正文（滚动阅读） -->
+    <view class="section-title">电子认养协议</view>
+    <view class="card agreement">
+      <view class="agree-clause">
+        <view class="agree-title">一、认养权益</view>
+        <view class="agree-text">认养人按所选计划享有对应权益（见计划详情页），权益内容以认养年度为准。</view>
+      </view>
+      <view class="agree-clause">
+        <view class="agree-title">二、支付与凭证</view>
+        <view class="agree-text">认养费用一次性支付，支付完成后生成电子认养证书与认养编号，作为权益凭证。</view>
+      </view>
+      <view class="agree-clause">
+        <view class="agree-title">三、报告与推送</view>
+        <view class="agree-text">项目方按季度向认养人推送图文生长报告；红松计划另附碳汇趣味报告。认养到期前 30 天推送续约提醒。</view>
+      </view>
+      <view class="agree-clause">
+        <view class="agree-title">四、探访与采挖</view>
+        <view class="agree-text">林下参计划含 5 年实地探访权益，探访需提前预约并服从林场安全安排；采挖归属权按计划约定执行。</view>
+      </view>
+      <view class="agree-clause">
+        <view class="agree-title">五、说明</view>
+        <view class="agree-text">本协议为演示用协议文本（影子版），正式上线前由项目团队与法律顾问完善。</view>
+      </view>
+    </view>
+
+    <!-- 已阅读并同意 -->
+    <view class="agree-check" bindtap="toggleAgree">
+      <view class="agree-box {{agreed ? 'agree-box-on' : ''}}">
+        <text wx:if="{{agreed}}">✓</text>
+      </view>
+      <text class="agree-check-text">我已阅读并同意《电子认养协议》</text>
+    </view>
+
+    <button class="pay-btn" bindtap="submit">同意并支付 ¥{{plan.price}}</button>
+    <view class="pay-note">支付为演示流程（"影子版"）· 正式上线后接入微信支付</view>
+  </block>
+
+  <!-- 认养成功 -->
+  <view class="contract-success" wx:if="{{success}}">
+    <view class="success-icon-wrap"><view class="success-icon">✓</view></view>
+    <view class="success-title">认养成功！</view>
+    <view class="success-meta">
+      <view class="success-row"><text class="text-secondary">认养编号</text><text>{{adoptionId}}</text></view>
+      <view class="success-row"><text class="text-secondary">认养计划</text><text>{{plan.name}}</text></view>
+      <view class="success-row"><text class="text-secondary">实付金额</text><text class="success-amount">¥{{paidAmount}}</text></view>
+    </view>
+    <view class="success-tip">你的专属认养主页已开通，季度生长报告将在这里推送</view>
+    <button class="pay-btn" bindtap="goAdoptHome">查看我的专属认养主页</button>
+    <view class="back-link" bindtap="goBackList">返回认养列表</view>
+  </view>
+
+  <!-- 影子支付确认（自绘等宽底部按钮，见 book 页同样式） -->
+  <van-dialog use-slot show="{{showPay}}" show-cancel-button
+              use-cancel-button-slot use-confirm-button-slot>
+    <view class="pay-dialog">
+      <view class="pay-dialog-title">确认支付认养费</view>
+      <view class="pay-dialog-amount">¥{{plan.price}}</view>
+      <view class="pay-dialog-desc">演示版：点击"确认支付"即模拟支付成功，不产生真实扣款</view>
+    </view>
+    <view slot="cancel-button" class="pay-dialog-btn pay-dialog-cancel" bindtap="onPayCancel">再想想</view>
+    <view slot="confirm-button" class="pay-dialog-btn pay-dialog-confirm" bindtap="confirmPay">确认支付</view>
+  </van-dialog>
+</view>

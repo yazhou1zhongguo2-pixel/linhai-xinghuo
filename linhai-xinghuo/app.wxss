@@ -1,0 +1,59 @@
+/**
+ * app.wxss —— 全楼的"统一装修规范"
+ * 这里定义的颜色、字号、卡片样式，全楼所有页面都能用（公共样式）
+ * 设计依据：设计书"界面风格"章节 —— 林地绿 + 大地棕 + 米白背景，自然质朴可信
+ */
+
+/* ========== 设计系统：色板 ========== */
+page {
+  /* 米白背景：全站页面底色，营造"纸张"感 */
+  background-color: #F7F4EC;
+  /* 正文主色：深褐黑（不是纯黑，显得温和） */
+  color: #2F2B26;
+  /* 正文用系统默认字体（黑体系），清晰易读 */
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  /* 全局字号：正文 28rpx（rpx = 屏幕宽度的 1/750，自动适配所有手机） */
+  font-size: 28rpx;
+}
+
+/* ========== 公共卡片样式（自然质朴 → 细边框代替重阴影） ========== */
+.card {
+  background-color: #FFFFFF;
+  border-radius: 20rpx;
+  border: 1rpx solid #E8E2D5;   /* 细边框，替代阴影 */
+  padding: 32rpx;
+  margin-bottom: 24rpx;
+}
+
+/* ========== 区块标题（带深林绿小竖条，形成视觉语言） ========== */
+.section-title {
+  display: flex;
+  align-items: center;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #24432F;               /* 深林绿 */
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;  /* 标题用宋体：书本、可信感 */
+  margin: 40rpx 0 24rpx 0;
+}
+.section-title::before {
+  content: '';
+  width: 4rpx;
+  height: 32rpx;
+  background-color: #3A6B4E;   /* 林地绿竖条 */
+  margin-right: 16rpx;
+  border-radius: 2rpx;
+}
+
+/* ========== 文字工具类 ========== */
+.text-secondary {
+  color: #8A847A;               /* 次要文字：说明、时间戳 */
+  font-size: 24rpx;
+}
+.text-brown {
+  color: #8B6A4F;               /* 大地棕：日期、副标题 */
+}
+
+/* ========== 图片加载占位（渐进式体验：先出文字后出图） ========== */
+.image-placeholder {
+  background-color: #E8E2D5;
+}

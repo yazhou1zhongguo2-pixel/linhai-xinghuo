@@ -1,0 +1,102 @@
+/* 溯源页样式 */
+.trace {
+  padding: 0 32rpx 60rpx;
+}
+
+/* 顶部理念区 */
+.trace-hero {
+  background: linear-gradient(135deg, #24432F, #3A6B4E);
+  border-radius: 24rpx;
+  padding: 48rpx 40rpx;
+  margin-top: 24rpx;
+  color: #FFFFFF;
+}
+.trace-hero-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
+  margin-bottom: 12rpx;
+}
+.trace-hero-desc {
+  font-size: 24rpx;
+  color: #C9D8C8;
+  line-height: 1.7;
+}
+
+/* 扫码按钮 */
+.scan-btn {
+  margin: 32rpx 0;
+  border-radius: 20rpx;
+  background-color: #FFFFFF;
+  border: 2rpx solid #3A6B4E;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28rpx 0;
+  line-height: 1.6;
+}
+.scan-btn::after {
+  border: none;
+}
+.scan-btn-text {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #3A6B4E;
+}
+.scan-btn-sub {
+  font-size: 22rpx;
+  color: #8A847A;
+}
+
+/* 防篡改卡 */
+.trace-proof-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+.trace-proof-badge {
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #FFFFFF;
+  background-color: #3A6B4E;
+  border-radius: 10rpx;
+  padding: 6rpx 16rpx;
+}
+.trace-proof-desc {
+  font-size: 24rpx;
+  color: #5A544B;
+  line-height: 1.7;
+}
+
+/* 体验档案列表 */
+.batch-card {
+  padding: 28rpx 32rpx;
+}
+.batch-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+.batch-product {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #24432F;
+}
+.batch-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.batch-arrow {
+  font-size: 24rpx;
+  color: #3A6B4E;
+}
+
+.trace-footer {
+  text-align: center;
+  font-size: 24rpx;
+  color: #B7AE9E;
+  margin-top: 40rpx;
+}

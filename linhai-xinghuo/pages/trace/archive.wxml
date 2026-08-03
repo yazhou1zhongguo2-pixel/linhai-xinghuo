@@ -1,0 +1,108 @@
+<!-- 溯源档案页"家具摆放图"：档案头 + 五维 tab -->
+<view class="archive">
+
+  <!-- 档案头（防篡改标识：编号+时间戳） -->
+  <view class="archive-head">
+    <view class="archive-product">{{archive.product}}</view>
+    <view class="archive-meta">
+      <text class="archive-batch">批次号 {{archive.batchNo}}</text>
+      <view class="archive-proof">数字档案防篡改</view>
+    </view>
+    <view class="archive-proof-detail">
+      档案编号 {{archive.archiveId}} · 生成于 {{archive.timestamp}}
+    </view>
+  </view>
+
+  <!-- 五维 tab（Vant 组件库的标签页） -->
+  <van-tabs active="{{activeTab}}" bind:change="onTabChange" color="#3A6B4E"
+            title-active-color="#3A6B4E" title-inactive-color="#8A847A">
+    <!-- 维度一：产地信息 -->
+    <van-tab title="产地信息">
+      <view class="tab-body">
+        <view class="info-row">
+          <text class="info-label">采收地块</text>
+          <text class="info-value">{{archive.origin.plotId}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">GPS 坐标</text>
+          <text class="info-value">{{archive.origin.gps}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">轮休年限</text>
+          <text class="info-value">{{archive.origin.fallowYears}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">生态功能区</text>
+          <text class="info-value">{{archive.origin.ecoZone}}</text>
+        </view>
+        <!-- 查看样地位置（wx.openLocation 内置地图，坐标已脱敏） -->
+        <view class="location-btn" bindtap="openLocation">查看样地位置 →</view>
+        <view class="tab-note">坐标按设计书要求脱敏至林班层级，保护样地具体位置</view>
+      </view>
+    </van-tab>
+
+    <!-- 维度二：生长记录（关键节点照片） -->
+    <van-tab title="生长记录">
+      <view class="tab-body">
+        <view class="growth-item" wx:for="{{archive.growth}}" wx:key="stage">
+          <image class="growth-photo" src="{{item.photo}}" mode="aspectFill"></image>
+          <view class="growth-info">
+            <view class="growth-stage">{{item.stage}}
+              <text class="text-secondary"> · {{item.date}}</text>
+            </view>
+            <view class="growth-note">{{item.note}}</view>
+          </view>
+        </view>
+        <view class="tab-note">关键节点照片 3-5 张，记录从接种到采收的全周期</view>
+      </view>
+    </van-tab>
+
+    <!-- 维度三：环境数据（双轴折线图）
+         wx:if 控制"首次切到本 tab 才挂载图表"——隐藏状态挂载会导致画布 0 尺寸画不出来 -->
+    <van-tab title="环境数据" lazy-render>
+      <view class="tab-body">
+        <view class="env-chart-wrap">
+          <ec-canvas wx:if="{{showEnvChart}}" canvas-id="env-chart" ec="{{ec}}"></ec-canvas>
+        </view>
+        <view class="tab-note">{{archive.env.note}}</view>
+      </view>
+    </van-tab>
+
+    <!-- 维度四：采收信息 -->
+    <van-tab title="采收信息">
+      <view class="tab-body">
+        <view class="info-row">
+          <text class="info-label">采收日期</text>
+          <text class="info-value">{{archive.harvest.date}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">采收人</text>
+          <text class="info-value">{{archive.harvest.worker}}</text>
+        </view>
+        <view class="harvest-photo-wrap">
+          <image class="harvest-photo" src="{{archive.harvest.photo}}" mode="aspectFill"></image>
+          <view class="text-secondary">采收现场留档</view>
+        </view>
+        <view class="harvest-note">{{archive.harvest.note}}</view>
+      </view>
+    </van-tab>
+
+    <!-- 维度五：检测报告 -->
+    <van-tab title="检测报告">
+      <view class="tab-body">
+        <view class="report-item" wx:for="{{archive.report.summary}}" wx:key="name">
+          <view class="report-name">{{item.name}}</view>
+          <view class="report-result">{{item.result}}</view>
+          <view class="report-standard">{{item.standard}}</view>
+        </view>
+        <view class="report-lab">{{archive.report.lab}}</view>
+        <button class="report-pdf-btn" bindtap="downloadPdf">下载检测报告 PDF</button>
+        <view class="tab-note">演示版暂未提供 PDF 文件（正式版从云存储下载）</view>
+      </view>
+    </van-tab>
+  </van-tabs>
+
+  <!-- 分享按钮（open-type="share" 触发分享给好友） -->
+  <button class="share-btn" open-type="share">分享这份档案</button>
+  <view class="archive-footer">每一条数据都可被验证，每一个环节都经得起追问</view>
+</view>

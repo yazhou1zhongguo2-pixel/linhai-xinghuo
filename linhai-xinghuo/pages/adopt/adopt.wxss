@@ -1,0 +1,116 @@
+/* 云认养页样式 */
+.adopt {
+  padding: 0 32rpx 60rpx;
+}
+
+/* 顶部理念区 */
+.adopt-hero {
+  background: linear-gradient(135deg, #24432F, #3A6B4E);
+  border-radius: 24rpx;
+  padding: 48rpx 40rpx;
+  margin-top: 24rpx;
+  color: #FFFFFF;
+}
+.adopt-hero-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
+  margin-bottom: 12rpx;
+}
+.adopt-hero-desc {
+  font-size: 24rpx;
+  color: #C9D8C8;
+  line-height: 1.7;
+}
+
+/* 计划卡片 */
+.plan-card {
+  padding: 32rpx;
+}
+.plan-top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24rpx;
+}
+.plan-icon {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 16rpx;
+  background-color: #F0EBDF;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+}
+.plan-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #24432F;
+  margin-bottom: 8rpx;
+}
+.plan-tagline {
+  font-size: 24rpx;
+  color: #8A847A;
+}
+
+/* 价格行 + 限量角标 */
+.plan-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+.plan-price {
+  font-size: 44rpx;
+  font-weight: bold;
+  color: #C9A96A;
+}
+.plan-price-unit {
+  font-size: 22rpx;
+  font-weight: normal;
+  color: #8A847A;
+}
+.plan-limit {
+  font-size: 22rpx;
+  color: #C0392B;
+  border: 1rpx solid #C0392B;
+  border-radius: 10rpx;
+  padding: 4rpx 14rpx;
+  background-color: #FBF0EC;
+}
+
+/* 权益列表 */
+.plan-benefits {
+  border-top: 1rpx solid #F0EBDF;
+  padding-top: 20rpx;
+}
+.benefit-item {
+  display: flex;
+  padding: 6rpx 0;
+}
+.benefit-dot {
+  color: #3A6B4E;
+  font-weight: bold;
+  margin-right: 12rpx;
+}
+.benefit-text {
+  font-size: 24rpx;
+  color: #5A544B;
+}
+
+/* 认养按钮 */
+.plan-btn {
+  margin-top: 24rpx;
+  text-align: center;
+  background-color: #3A6B4E;
+  color: #FFFFFF;
+  font-size: 28rpx;
+  font-weight: bold;
+  border-radius: 16rpx;
+  padding: 20rpx 0;
+}
+
+.adopt-footer {
+  text-align: center;
+  font-size: 24rpx;
+  color: #B7AE9E;
+  margin-top: 40rpx;
+}

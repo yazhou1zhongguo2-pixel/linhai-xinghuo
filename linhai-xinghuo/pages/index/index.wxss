@@ -1,0 +1,214 @@
+/* 首页样式 —— 设计系统色值见 app.wxss */
+.home {
+  padding: 0 32rpx 60rpx;
+}
+
+/* ===== 区块一：林地影像 ===== */
+.hero {
+  position: relative;
+  border-radius: 24rpx;
+  overflow: hidden;
+  margin-top: 24rpx;
+}
+.hero-img {
+  width: 100%;
+  display: block;
+}
+/* 半透明遮罩：让底部文字在图上清晰可读 */
+.hero-mask {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 200rpx;
+  background: linear-gradient(transparent, rgba(20, 35, 25, 0.75));
+}
+.hero-text {
+  position: absolute;
+  left: 32rpx; right: 32rpx; bottom: 24rpx;
+  color: #FFFFFF;
+}
+.hero-slogan {
+  font-size: 34rpx;
+  font-weight: bold;
+  font-family: 'Songti SC', 'STSong', 'SimSun', serif;
+  margin-bottom: 8rpx;
+}
+.hero-plot {
+  font-size: 26rpx;
+  color: #E8E2D5;
+}
+.hero-date {
+  font-size: 22rpx;
+  color: #C9A96A;
+  margin-top: 4rpx;
+}
+
+/* ===== 区块二：生态数据看板 ===== */
+/* 折线图卡片 */
+.chart-card {
+  padding-bottom: 16rpx;
+}
+.chart-title {
+  font-size: 26rpx;
+  color: #5A544B;
+  margin-bottom: 12rpx;
+}
+/* ec-canvas 组件需要明确给宽高，图表才能撑开 */
+.chart-card ec-canvas {
+  width: 100%;
+  height: 420rpx;
+  display: block;
+}
+
+.plot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 20rpx;
+}
+.plot-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #24432F;
+}
+
+/* 指标行 */
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.metric-label {
+  font-size: 24rpx;
+  color: #8A847A;
+}
+.metric-value {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #2F2B26;
+}
+.metric-unit {
+  font-size: 20rpx;
+  font-weight: normal;
+  color: #8A847A;
+}
+
+/* 条形图（CSS 实现：占位轨道 + 绿色填充条） */
+.bar-track {
+  height: 14rpx;
+  background-color: #F0EBDF;
+  border-radius: 7rpx;
+  margin: 12rpx 0 8rpx;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #7E9C7F, #3A6B4E);
+  border-radius: 7rpx;
+}
+
+/* 变化提示：上升绿色 / 下降棕色 */
+.metric-delta {
+  font-size: 22rpx;
+  margin-bottom: 20rpx;
+}
+.delta-up { color: #3A6B4E; }
+.delta-down { color: #8B6A4F; }
+
+/* 双指标并排 */
+.metric-two-col {
+  display: flex;
+  border-top: 1rpx solid #F0EBDF;
+  padding-top: 20rpx;
+}
+.metric-col {
+  flex: 1;
+}
+.metric-col + .metric-col {
+  border-left: 1rpx solid #F0EBDF;
+  padding-left: 32rpx;
+}
+.metric-col .metric-value {
+  margin-top: 8rpx;
+}
+
+/* ===== 区块三：故事流 ===== */
+.story-top {
+  display: flex;
+}
+/* 配图占位（第二阶段换成真实照片） */
+.story-emoji {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 16rpx;
+  background-color: #F0EBDF;
+  display: block;
+  flex-shrink: 0;
+  margin-right: 24rpx;
+}
+.story-body {
+  flex: 1;
+  min-width: 0;
+}
+.story-head {
+  margin-bottom: 8rpx;
+}
+.story-type {
+  font-size: 20rpx;
+  color: #C9A96A;
+  border: 1rpx solid #C9A96A;
+  border-radius: 8rpx;
+  padding: 2rpx 12rpx;
+  margin-right: 12rpx;
+}
+.story-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #24432F;
+}
+.story-content {
+  font-size: 26rpx;
+  color: #5A544B;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;      /* 最多显示两行，超出省略 */
+  overflow: hidden;
+}
+.story-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16rpx;
+}
+.story-actions {
+  display: flex;
+}
+.action-btn {
+  font-size: 24rpx;
+  color: #8A847A;
+  padding: 6rpx 16rpx;
+  border: 1rpx solid #E8E2D5;
+  border-radius: 24rpx;
+  margin-left: 16rpx;
+  background-color: #FFFFFF;
+}
+/* 点赞点亮：红字红框（区分于收藏） */
+.action-like-active {
+  color: #C0392B;
+  border-color: #C0392B;
+  background-color: #FBF0EC;
+}
+/* 收藏点亮：金字金框 */
+.action-collect-active {
+  color: #C9A96A;
+  border-color: #C9A96A;
+  background-color: #FBF7EE;
+}
+
+/* 底部留白 */
+.home-footer {
+  text-align: center;
+  font-size: 24rpx;
+  color: #B7AE9E;
+  margin-top: 40rpx;
+}

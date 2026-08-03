@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "van-tabs": "/libs/vant-weapp/tabs/index",
+    "van-tab": "/libs/vant-weapp/tab/index",
+    "ec-canvas": "/libs/ec-canvas/ec-canvas"
+  },
+  "navigationBarTitleText": "溯源档案"
+}

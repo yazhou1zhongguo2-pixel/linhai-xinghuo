@@ -1,0 +1,29 @@
+<!-- 我的收藏页"家具摆放图" -->
+<view class="favorites">
+
+  <!-- 收藏列表 -->
+  <view class="card fav-card" wx:for="{{favorites}}" wx:key="_id">
+    <view class="fav-top">
+      <image class="fav-icon" src="{{item.icon || '/images/icon-seedling.png'}}" mode="aspectFit"></image>
+      <view class="fav-body">
+        <view class="fav-head">
+          <text class="fav-type">{{item.type || '林间记事'}}</text>
+          <text class="fav-title">{{item.title}}</text>
+        </view>
+        <view class="fav-content">{{item.content}}</view>
+        <view class="fav-footer">
+          <text class="text-secondary">{{item.time || ''}}</text>
+          <view class="fav-remove" catchtap="removeFavorite" data-id="{{item.storyId}}">取消收藏</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty" wx:if="{{!favorites.length}}">
+    <image class="empty-icon" src="/images/icon-fox.png" mode="aspectFit"></image>
+    <view class="empty-title">还没有收藏</view>
+    <view class="empty-desc">在首页故事流里点"收藏"，喜欢的故事会出现在这里</view>
+    <button class="empty-btn" bindtap="goHome">去首页看看</button>
+  </view>
+</view>

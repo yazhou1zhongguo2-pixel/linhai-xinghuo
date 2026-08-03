@@ -1,0 +1,89 @@
+<!-- 研学报名页"家具摆放图" -->
+<view class="book" wx:if="{{product}}">
+
+  <!-- 报名表单（成功前显示） -->
+  <block wx:if="{{!success}}">
+    <!-- 产品摘要 -->
+    <view class="book-product">
+      <text class="book-product-name">{{product.name}}</text>
+      <text class="book-product-price">¥{{product.price}}/人</text>
+    </view>
+
+    <!-- 1. 选择日期 -->
+    <view class="section-title">选择日期</view>
+    <view class="card">
+      <view class="date-chips">
+        <view wx:for="{{dates}}" wx:key="date"
+              class="date-chip {{item.full ? 'date-chip-full' : ''}} {{selectedDate === item.date ? 'date-chip-active' : ''}}"
+              bindtap="selectDate" data-date="{{item.date}}">
+          <view class="date-chip-day">{{item.date}}</view>
+          <view class="date-chip-remain">{{item.full ? '已满员' : '余' + item.remaining + '位'}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 2. 报名人数 -->
+    <view class="section-title">报名人数</view>
+    <view class="card count-row">
+      <text class="count-label">人数（本团上限 {{product.capacity}} 人）</text>
+      <van-stepper value="{{count}}" min="1" max="{{maxCount}}" bind:change="onCountChange" />
+    </view>
+
+    <!-- 3. 参与者信息 -->
+    <view class="section-title">参与者信息</view>
+    <view class="card form-card">
+      <van-field value="{{form.name}}" label="姓名" placeholder="参与者真实姓名"
+                 bind:change="onFieldChange" data-field="name" border="{{false}}" />
+      <van-field value="{{form.age}}" label="年龄" placeholder="如 10"
+                 bind:change="onFieldChange" data-field="age" border="{{false}}" />
+      <van-field value="{{form.phone}}" label="手机号" type="number" maxlength="11"
+                 placeholder="家长联系方式" bind:change="onFieldChange" data-field="phone" border="{{false}}" />
+    </view>
+
+    <!-- 费用合计 + 提交 -->
+    <view class="total-row">
+      <text class="text-secondary">{{count}} 人 × ¥{{product.price}}</text>
+      <text class="total-amount">合计 ¥{{total}}</text>
+    </view>
+    <button class="submit-btn" bindtap="submit">提交报名</button>
+    <view class="pay-note">支付为演示流程（"影子版"）· 正式上线后接入微信支付</view>
+  </block>
+
+  <!-- 报名成功（行前须知） -->
+  <view class="book-success" wx:if="{{success}}">
+    <view class="success-icon-wrap">
+      <view class="success-icon">✓</view>
+    </view>
+    <view class="success-title">报名成功！</view>
+    <view class="success-meta">
+      <view class="success-row"><text class="text-secondary">订单号</text><text>{{orderId}}</text></view>
+      <view class="success-row"><text class="text-secondary">实付金额</text><text class="success-amount">¥{{paidAmount}}</text></view>
+    </view>
+
+    <!-- 行前须知（设计书：报名成功后自动推送） -->
+    <view class="section-title">行前须知</view>
+    <view class="card">
+      <view class="notice-row"><text class="notice-label">集合时间</text><text>活动当天 08:30</text></view>
+      <view class="notice-row"><text class="notice-label">集合地点</text><text>林场接待中心（导航"林海星火林场"）</text></view>
+      <view class="notice-row"><text class="notice-label">携带物品</text><text>运动鞋、长裤、水杯、防晒帽</text></view>
+      <view class="notice-row"><text class="notice-label">安全提示</text><text>全程服从领队安排，不脱离队伍</text></view>
+      <view class="notice-row"><text class="notice-label">联系方式</text><text>行前 1 天短信通知带队老师电话</text></view>
+    </view>
+
+    <button class="submit-btn" bindtap="goHome">返回首页</button>
+  </view>
+
+  <!-- 影子支付确认弹窗（Vant 对话框）
+       用 use-cancel-button-slot / use-confirm-button-slot 接管底部按钮，
+       自绘两个等宽按钮（Vant 内置按钮会因文字长度不均分） -->
+  <van-dialog use-slot show="{{showPay}}" show-cancel-button
+              use-cancel-button-slot use-confirm-button-slot>
+    <view class="pay-dialog">
+      <view class="pay-dialog-title">确认支付报名费</view>
+      <view class="pay-dialog-amount">¥{{total}}</view>
+      <view class="pay-dialog-desc">演示版：点击"确认支付"即模拟支付成功，不产生真实扣款</view>
+    </view>
+    <view slot="cancel-button" class="pay-dialog-btn pay-dialog-cancel" bindtap="onPayCancel">再想想</view>
+    <view slot="confirm-button" class="pay-dialog-btn pay-dialog-confirm" bindtap="confirmPay">确认支付</view>
+  </van-dialog>
+</view>

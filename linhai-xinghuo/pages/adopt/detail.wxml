@@ -1,0 +1,53 @@
+<!-- 认养计划详情页"家具摆放图" -->
+<view class="detail" wx:if="{{plan}}">
+
+  <!-- 头部 -->
+  <view class="detail-head">
+    <view class="detail-name">{{plan.name}}</view>
+    <view class="detail-tagline">{{plan.tagline}}</view>
+    <view class="detail-price-row">
+      <text class="detail-price">¥{{plan.price}}<text class="detail-price-unit">/{{plan.unit === '元/年' ? '年' : '株'}}</text></text>
+      <view class="detail-limit" wx:if="{{plan.limitText}}">{{plan.limitText}}</view>
+    </view>
+    <view class="detail-years">{{plan.years}}年陪伴 · 每季度生长报告</view>
+  </view>
+
+  <!-- 一句话介绍 -->
+  <view class="detail-summary">{{plan.summary}}</view>
+
+  <!-- 认养权益 -->
+  <view class="section-title">认养权益</view>
+  <view class="card">
+    <view class="benefit-row" wx:for="{{plan.benefits}}" wx:key="index">
+      <view class="benefit-check">✓</view>
+      <text class="benefit-text">{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 季度报告预览（专属认养主页的雏形） -->
+  <view class="section-title">季度生长报告</view>
+  <view class="card" wx:for="{{plan.reports}}" wx:key="season">
+    <view class="report-head">
+      <text class="report-season">{{item.season}}</text>
+      <text class="text-secondary">{{item.date}}</text>
+    </view>
+    <view class="report-title">{{item.title}}</view>
+    <view class="report-content">{{item.content}}</view>
+  </view>
+
+  <!-- 碳汇趣味报告（红松专属） -->
+  <view class="section-title">碳汇趣味报告</view>
+  <view class="card carbon-card" wx:if="{{plan.carbonReport}}">
+    <view class="carbon-title">{{plan.carbonReport.title}}</view>
+    <view class="carbon-detail">{{plan.carbonReport.detail}}</view>
+  </view>
+
+  <!-- 底部认养栏 -->
+  <view class="adopt-bar">
+    <view class="adopt-bar-price">
+      <text class="adopt-bar-price-num">¥{{plan.price}}</text>
+      <text class="adopt-bar-price-unit">/{{plan.unit === '元/年' ? '年' : '株'}}</text>
+    </view>
+    <button class="adopt-bar-btn" bindtap="goContract">签署协议并认养</button>
+  </view>
+</view>

@@ -1,0 +1,70 @@
+/* 消息通知页样式 */
+.messages {
+  padding: 0 32rpx 60rpx;
+}
+
+.msg-card {
+  padding: 28rpx 32rpx;
+  margin-top: 24rpx;
+}
+.msg-top {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+.msg-kind {
+  font-size: 20rpx;
+  border-radius: 8rpx;
+  padding: 2rpx 12rpx;
+  margin-right: 12rpx;
+  flex-shrink: 0;
+}
+.kind-order {
+  color: #3A6B4E;
+  background-color: #F0F5EC;
+}
+.kind-adopt {
+  color: #8B6A4F;
+  background-color: #FBF7EE;
+}
+.kind-system {
+  color: #8A847A;
+  background-color: #F5F2EA;
+}
+.msg-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #24432F;
+}
+.msg-content {
+  font-size: 24rpx;
+  color: #5A544B;
+  line-height: 1.7;
+  margin-bottom: 12rpx;
+}
+.msg-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.msg-demo {
+  font-size: 20rpx;
+  color: #C9A96A;
+  border: 1rpx solid #C9A96A;
+  border-radius: 8rpx;
+  padding: 2rpx 10rpx;
+}
+
+.empty-tip {
+  text-align: center;
+  font-size: 24rpx;
+  color: #B7AE9E;
+  padding: 60rpx 0;
+}
+.msg-note {
+  text-align: center;
+  font-size: 22rpx;
+  color: #B7AE9E;
+  margin-top: 32rpx;
+  line-height: 1.6;
+}
