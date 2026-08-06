@@ -26,7 +26,9 @@
     "pages/admin/harvest",
     "pages/admin/imagery",
     "pages/admin/plots",
-    "pages/admin/batches"
+    "pages/admin/batches",
+    "pages/admin/feedback-admin",
+    "pages/admin/stats"
   ],
   "window": {
     "navigationBarTextStyle": "black",

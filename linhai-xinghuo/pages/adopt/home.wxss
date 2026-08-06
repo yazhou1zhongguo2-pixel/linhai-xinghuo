@@ -94,7 +94,7 @@
   font-weight: bold;
 }
 
-/* 续约按钮 */
+/* 续约按钮（常驻；临期红色高亮） */
 .renew-btn {
   margin-top: 20rpx;
   background-color: #C9A96A;
@@ -102,6 +102,9 @@
   font-size: 26rpx;
   font-weight: bold;
   border-radius: 12rpx;
+}
+.renew-btn-hot {
+  background-color: #C0392B;
 }
 .renew-btn::after {
   border: none;

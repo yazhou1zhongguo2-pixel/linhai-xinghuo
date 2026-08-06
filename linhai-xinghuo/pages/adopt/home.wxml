@@ -29,8 +29,9 @@
         {{item.expiring ? '距到期 ' + item.daysLeft + ' 天' : '剩余 ' + item.daysLeft + ' 天'}}
       </text>
     </view>
-    <!-- 临期 → 续约按钮（设计书：一键续约） -->
-    <button class="renew-btn" wx:if="{{item.expiring}}" catchtap="renew" data-id="{{item.id}}">一键续约</button>
+    <!-- 一键续约（Day3 修复：常驻显示，临期时红色高亮——之前只有临期才出现，找不到入口） -->
+    <button class="renew-btn {{item.expiring ? 'renew-btn-hot' : ''}}"
+            catchtap="renew" data-id="{{item.id}}">一键续约</button>
   </view>
 
   <!-- 生长报告（选中认养的季度报告） -->

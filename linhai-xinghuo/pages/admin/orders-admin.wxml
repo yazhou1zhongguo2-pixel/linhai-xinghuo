@@ -27,6 +27,7 @@
         <view class="order-actions">
           <view class="action-btn" catchtap="changeStatus" data-id="{{item.orderId}}" data-status="已完成">标记完成</view>
           <view class="action-btn action-btn-danger" catchtap="changeStatus" data-id="{{item.orderId}}" data-status="已取消">取消</view>
+          <view class="action-btn action-btn-danger" catchtap="removeOrder" data-id="{{item._id}}" data-tab="study">删除</view>
         </view>
       </view>
     </view>
@@ -47,6 +48,7 @@
         <text class="text-secondary">{{item.createdAt ? formatTime(item.createdAt) : ''}}</text>
         <view class="order-actions">
           <view class="action-btn" catchtap="changeStatus" data-id="{{item.adoptionId}}" data-status="已到期">标记到期</view>
+          <view class="action-btn action-btn-danger" catchtap="removeOrder" data-id="{{item._id}}" data-tab="adopt">删除</view>
         </view>
       </view>
     </view>

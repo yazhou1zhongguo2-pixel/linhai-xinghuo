@@ -134,15 +134,29 @@ Page({
     })
   },
 
+  // 展开 / 收起故事全文（Day3 新增交互）
+  toggleExpand(e) {
+    const id = e.currentTarget.dataset.id
+    const stories = this.data.stories.map(s => {
+      if (s.id === id) return { ...s, expanded: !s.expanded }
+      return s
+    })
+    this.setData({ stories })
+  },
+
   // 点赞 / 取消点赞（点击故事卡片上的"点赞"按钮触发）
   // e.currentTarget.dataset.id 是 wxml 里 data-id 传过来的故事编号
   toggleLike(e) {
     const id = e.currentTarget.dataset.id
     const story = this.data.stories.find(s => s.id === id)
-    // 调用 api 更新状态（影子版：仅界面反馈；正式版第四阶段写云数据库）
-    api.likeStory(story, !story.liked)
-    // setData：把新数据"喊"给界面，界面自动更新（镜子里的人，你笑他就笑）
-    this.setData({ stories: this.data.stories })
+    const isLike = !story.liked
+    // Day3：点赞真实写云（story_likes 集合），成功后更新界面
+    api.toggleLike(story, isLike).then(() => {
+      api.likeStory(story, isLike)
+      this.setData({ stories: this.data.stories })
+    }).catch(() => {
+      wx.showToast({ title: '点赞失败，请重试', icon: 'none' })
+    })
   },
 
   // 收藏 / 取消收藏 —— 第四阶段起真实写云数据库（user_favorites 集合）

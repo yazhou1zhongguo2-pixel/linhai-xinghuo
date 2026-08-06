@@ -64,5 +64,24 @@ Page({
   formatTime(t) {
     if (!t) return ''
     return new Date(t).toLocaleString()
+  },
+
+  // 删除订单（Day3 路线B：逐条管理；研学/认养对应不同集合）
+  removeOrder(e) {
+    const docId = e.currentTarget.dataset.id
+    const tab = e.currentTarget.dataset.tab
+    const collection = tab === 'study' ? 'study_bookings' : 'adoptions'
+    wx.showModal({
+      title: '删除订单',
+      content: '确定删除这条订单吗？（删除后"我的订单"同步移除）',
+      confirmColor: '#C0392B',
+      success: (res) => {
+        if (!res.confirm) return
+        api.deleteMyRecord(collection, docId).then(result => {
+          wx.showToast({ title: result.success ? '已删除' : (result.reason || '删除失败'), icon: 'none' })
+          if (result.success) this.load()
+        })
+      }
+    })
   }
 })

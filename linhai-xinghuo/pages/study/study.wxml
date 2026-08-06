@@ -4,7 +4,11 @@
   <!-- 顶部理念区 -->
   <view class="study-hero">
     <view class="study-hero-title">来林子里亲自看一看</view>
-    <view class="study-hero-desc">线上建立信任，线下走进真实\n研学不是课堂的延伸，是林子的邀请</view>
+    <!-- WXML 不识别 \n 转义（会原样显示），换行用两个块级 view 实现 -->
+    <view class="study-hero-desc">
+      <view>线上建立信任，线下走进真实</view>
+      <view>研学不是课堂的延伸，是林子的邀请</view>
+    </view>
   </view>
 
   <!-- 产品卡片列表 -->

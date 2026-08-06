@@ -1,0 +1,25 @@
+/* 互动统计页样式 */
+.form-page { padding: 0 32rpx 60rpx; }
+
+.stats-note {
+  font-size: 22rpx; color: #8A847A;
+  background-color: #FBF7EE; border: 1rpx solid #E8E2D5;
+  border-radius: 14rpx; padding: 16rpx 24rpx; margin-top: 24rpx; line-height: 1.6;
+}
+
+.stats-card { margin-top: 24rpx; padding: 28rpx 32rpx; }
+.stats-title { font-size: 28rpx; font-weight: bold; color: #24432F; margin-bottom: 8rpx; }
+.stats-meta { margin-bottom: 20rpx; }
+.stats-nums { display: flex; border-top: 1rpx solid #F0EBDF; padding-top: 20rpx; }
+.stats-num {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+}
+.stats-num + .stats-num { border-left: 1rpx solid #F0EBDF; }
+.stats-num-value { font-size: 44rpx; font-weight: bold; color: #3A6B4E; }
+.stats-num-label { font-size: 22rpx; color: #8A847A; margin-top: 6rpx; }
+
+.stats-sort {
+  margin-top: 24rpx; text-align: center; font-size: 26rpx;
+  color: #3A6B4E; background-color: #F0F5EC; border-radius: 14rpx; padding: 18rpx 0;
+}
+.empty-tip { text-align: center; font-size: 24rpx; color: #B7AE9E; padding: 60rpx 0; }

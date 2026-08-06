@@ -64,7 +64,12 @@
           <text class="story-type">{{item.type}}</text>
           <text class="story-title">{{item.title}}</text>
         </view>
-        <view class="story-content">{{item.content}}</view>
+        <!-- 内容区：点按展开/收起全文（Day3） -->
+        <view class="story-content {{item.expanded ? 'story-expanded' : ''}}"
+              bindtap="toggleExpand" data-id="{{item.id}}">{{item.content}}</view>
+        <view class="story-expand-hint" catchtap="toggleExpand" data-id="{{item.id}}">
+          {{item.expanded ? '收起' : '展开全文'}}
+        </view>
         <view class="story-footer">
           <text class="text-secondary">{{item.author}} · {{item.role}} · {{item.time}}</text>
           <view class="story-actions">

@@ -4,7 +4,11 @@
   <!-- 顶部理念区 -->
   <view class="trace-hero">
     <view class="trace-hero-title">每一件产品都有它的来处</view>
-    <view class="trace-hero-desc">从接种到采收，从土壤到餐桌\n每一步都被记录、可被验证</view>
+    <!-- WXML 不识别 \n 转义（会原样显示），换行用两个块级 view 实现 -->
+    <view class="trace-hero-desc">
+      <view>从接种到采收，从土壤到餐桌</view>
+      <view>每一步都被记录、可被验证</view>
+    </view>
   </view>
 
   <!-- 扫码溯源按钮（Vant 组件库的按钮） -->

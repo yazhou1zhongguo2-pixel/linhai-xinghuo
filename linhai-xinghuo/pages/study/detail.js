@@ -18,7 +18,24 @@ Page({
         full: d.booked >= product.capacity
       }))
       this.setData({ product: { ...product, dates } })
+      // Day3：合并云端真实评价（用户提交的课后评价显示在最前面，作者=提交时的昵称）
+      api.getReviews(product.id).then(cloudReviews => {
+        const merged = cloudReviews.map(r => ({
+          author: r.nickname || '用户评价',
+          date: this.formatDate(r.createdAt),
+          content: r.content,
+          cloud: true
+        })).concat(this.data.product.reviews || [])
+        this.setData({ 'product.reviews': merged })
+      })
     })
+  },
+
+  // 云端时间转日期字符串（yyyy-mm-dd）
+  formatDate(t) {
+    if (!t) return ''
+    const d = new Date(t)
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0')
   },
 
   // 底部"立即预约"按钮 → 报名页

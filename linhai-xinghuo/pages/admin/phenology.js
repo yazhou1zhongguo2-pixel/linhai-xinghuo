@@ -72,5 +72,22 @@ Page({
   formatTime(t) {
     if (!t) return ''
     return new Date(t).toLocaleString()
+  },
+
+  // 删除单条物候记录（Day3 路线B）
+  removeRecord(e) {
+    const docId = e.currentTarget.dataset.id
+    wx.showModal({
+      title: '删除记录',
+      content: '确定删除这条物候观测记录吗？',
+      confirmColor: '#C0392B',
+      success: (res) => {
+        if (!res.confirm) return
+        api.deleteMyRecord('phenology_records', docId).then(result => {
+          wx.showToast({ title: result.success ? '已删除' : (result.reason || '删除失败'), icon: 'none' })
+          if (result.success) this.loadRecords()
+        })
+      }
+    })
   }
 })

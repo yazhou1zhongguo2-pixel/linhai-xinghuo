@@ -1,7 +1,7 @@
 <!-- 批次管理页"家具摆放图" -->
 <view class="form-page">
 
-  <view class="section-title">新增批次</view>
+  <view class="section-title">{{editingId ? '编辑批次：' + form.batchNo : '新增批次'}}</view>
   <view class="card">
     <input class="text-input" placeholder="批次号（如：LH20260801-003）"
            value="{{form.batchNo}}" bindinput="onInput" data-field="batchNo" />
@@ -28,7 +28,10 @@
     <input class="text-input gap" placeholder="采收人（如：赵师傅）"
            value="{{form.worker}}" bindinput="onInput" data-field="worker" />
 
-    <button class="submit-btn" bindtap="submit" disabled="{{submitting}}">新增批次</button>
+    <button class="submit-btn" bindtap="submit" disabled="{{submitting}}">
+      {{editingId ? '保存修改' : '新增批次'}}
+    </button>
+    <button class="cancel-btn" wx:if="{{editingId}}" bindtap="cancelEdit">取消编辑</button>
     <view class="form-note">生长/环境数据由管护员端记录汇聚；检测报告可在新增后上传 PDF</view>
   </view>
 
@@ -39,7 +42,10 @@
   <view class="card batch-card" wx:for="{{batches}}" wx:key="_id">
     <view class="batch-head">
       <text class="batch-name">{{item.product}}</text>
-      <view class="batch-del" catchtap="remove" data-id="{{item._id}}" data-batch="{{item.batchNo}}">删除</view>
+      <view class="batch-ops">
+        <view class="batch-edit" catchtap="startEdit" data-id="{{item._id}}">编辑</view>
+        <view class="batch-del" catchtap="remove" data-id="{{item._id}}" data-batch="{{item.batchNo}}">删除</view>
+      </view>
     </view>
     <view class="batch-meta">
       <text class="text-secondary">批次 {{item.batchNo}}</text>

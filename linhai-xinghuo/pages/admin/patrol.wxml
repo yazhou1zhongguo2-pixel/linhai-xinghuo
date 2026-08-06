@@ -26,7 +26,7 @@
 
   <!-- 提交 -->
   <button class="submit-btn" bindtap="submit" disabled="{{submitting}}">上传巡护记录</button>
-  <view class="patrol-note">系统自动关联时间戳；GPS 定位正式版接入（设计书要求脱敏至林班层级）</view>
+  <view class="patrol-note">系统自动关联时间戳；GPS 定位暂为影子版（演示坐标，真实定位未启用，见状态说明）</view>
 
   <!-- 历史记录（样地日记时间轴） -->
   <view class="section-title">样地日记</view>
@@ -37,7 +37,12 @@
     </view>
     <image wx:if="{{item.photoFileID}}" class="record-photo" src="{{item.photoFileID}}" mode="aspectFill"></image>
     <view class="record-note" wx:if="{{item.note}}">{{item.note}}</view>
-    <view class="record-location">{{item.location}}</view>
+    <!-- Day3：真实 GPS 坐标（对象格式）展示；旧记录（字符串）兼容显示 -->
+    <view class="record-location" wx:if="{{item.location && item.location.latitude}}">
+      GPS：{{item.location.latitude}}, {{item.location.longitude}}{{item.location.fallback ? '（演示坐标）' : ''}}
+    </view>
+    <view class="record-location" wx:elif="{{item.location && !item.location.latitude}}">{{item.location}}</view>
+    <view class="record-del" catchtap="removeRecord" data-id="{{item._id}}">删除这条记录</view>
   </view>
   <view class="empty-tip" wx:if="{{!records.length}}">还没有巡护记录</view>
 </view>

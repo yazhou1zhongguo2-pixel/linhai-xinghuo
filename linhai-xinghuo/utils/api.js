@@ -52,7 +52,8 @@ const STORY_DEFAULTS = {
   time: '时间待补充',
   likes: 0,                          // 点赞数缺省（否则 +1 变 NaN）
   liked: false,
-  collected: false
+  collected: false,
+  expanded: false                    // 故事展开状态缺省（Day3：展开/收起交互）
 }
 
 // 云数据库句柄（懒初始化：第一次用到时才创建）
@@ -99,6 +100,21 @@ module.exports = {
           stories: stories
         }
       })
+      .then(home => {
+        // Day3：合并"我的点赞"状态（story_likes 集合）——点亮状态真实持久
+        return this.getMyLikes().then(likedIds => {
+          const stories = home.stories.map(s => {
+            const liked = likedIds.indexOf(s.id) >= 0
+            return {
+              ...s,
+              liked: liked,
+              // 显示数 = 基数 + 我的点赞贡献（多人聚合计数需云函数，v0.3 标注）
+              likes: s.likes + (liked ? 1 : 0)
+            }
+          })
+          return { ...home, stories }
+        })
+      })
       .catch(err => {
         console.warn('[数据源] 云数据库读取失败，回退 mock:', err)
         return homeData
@@ -106,8 +122,8 @@ module.exports = {
   },
 
   /**
-   * 点赞/取消点赞（影子版：只改本地界面状态）
-   * 点赞记录正式版应写入云数据库用户记录（第四阶段做），这里先做界面反馈
+   * 点赞/取消点赞（本地界面状态更新）
+   * Day3：点赞记录已真实写云（toggleLike），本函数只负责界面数字/亮起变化
    */
   likeStory(story, isLike) {
     if (isLike) {
@@ -118,6 +134,50 @@ module.exports = {
       story.likes -= 1
     }
     return story
+  },
+
+  /**
+   * 我的点赞记录（云数据库 story_likes，仅创建者可读写 → 只读自己的）
+   * @returns Promise<string[]> 已点赞的故事编号数组
+   */
+  getMyLikes() {
+    return getDb().collection('story_likes').get()
+      .then(res => {
+        console.log('[数据源] 云数据库(story_likes)')
+        return res.data.map(d => d.storyId)
+      })
+      .catch(err => {
+        console.warn('[数据源] 点赞记录读取失败:', err)
+        return []
+      })
+  },
+
+  /**
+   * 点赞/取消点赞（真实写云 story_likes 集合）
+   * 仿 toggleFavorite 模式：编号兼容 + undefined 拦截（防误删全量）
+   */
+  toggleLike(story, isLike) {
+    const col = getDb().collection('story_likes')
+    const storyKey = story.storyId !== undefined ? story.storyId : story.id
+    if (storyKey === undefined) {
+      return Promise.reject(new Error('无法确定故事编号，已阻止操作'))
+    }
+    if (isLike) {
+      return col.add({ data: { storyId: storyKey, createdAt: new Date() } })
+        .then(() => ({ success: true }))
+        .catch(err => {
+          console.error('[写云] 点赞失败:', err)
+          return Promise.reject(err)
+        })
+    }
+    return col.where({ storyId: storyKey }).get().then(res => {
+      const removes = res.data.map(doc => col.doc(doc._id).remove())
+      return Promise.all(removes)
+    }).then(() => ({ success: true }))
+      .catch(err => {
+        console.error('[写云] 取消点赞失败:', err)
+        return Promise.reject(err)
+      })
   },
 
   /**
@@ -291,23 +351,30 @@ module.exports = {
   /**
    * 获取"我的认养"列表（专属认养主页）
    * 云端优先（真实认养记录）；云端为空时回退演示数据（本地存储）
+   * Day3：daysLeft 由云端 expireAt 实时计算（到期提醒基于真实日期）
    */
   getMyAdoptions() {
     return getDb().collection('adoptions').get()
       .then(res => {
         if (!res.data.length) return readAdoptionsFromStorage()   // 空 → 演示数据
-        // 云记录转成主页需要的字段形态
-        return res.data.map(a => ({
-          id: a.adoptionId,
-          planId: a.planId,
-          planName: a.planName,
-          plot: '云端记录（待绑定地块）',
-          status: a.status || '认养中',
-          startDate: (a.createdAt || '').toString().slice(0, 10),
-          expireDate: (a.expireAt || '').toString().slice(0, 10),
-          daysLeft: 300,
-          icon: '/images/icon-sapling.png'
-        }))
+        return res.data.map(a => {
+          const expire = a.expireAt ? new Date(a.expireAt) : null
+          // 剩余天数 = 到期日 - 今天（不足 1 天按 1 天算，已过期为 0）
+          const daysLeft = expire
+            ? Math.max(0, Math.ceil((expire.getTime() - Date.now()) / 86400000))
+            : 300
+          return {
+            id: a.adoptionId,
+            planId: a.planId,
+            planName: a.planName,
+            plot: '云端记录（待绑定地块）',
+            status: a.status || '认养中',
+            startDate: (a.createdAt || '').toString().slice(0, 10),
+            expireDate: expire ? expire.toLocaleDateString() : '',
+            daysLeft: daysLeft,
+            icon: '/images/icon-sapling.png'
+          }
+        })
       })
       .catch(() => readAdoptionsFromStorage())
   },
@@ -389,25 +456,59 @@ module.exports = {
   },
 
   /**
-   * 一键续约（影子版：把续约状态写入本地存储，永久（本机）生效）
-   * 正式版：云数据库改该认养记录
+   * 一键续约（Day3：云端真实续约——adoptions 文档 expireAt 顺延 365 天）
+   * 云端无该记录（演示数据）时回退本地存储逻辑
    */
   renewAdoption(adoptionId) {
-    // 更新本地存储里的记录：天数重置为 365
-    const list = readAdoptionsFromStorage().map(a => {
-      if (a.id === adoptionId) return { ...a, daysLeft: 365 }
-      return a
-    })
-    wx.setStorageSync(ADOPTIONS_KEY, list)
-    return Promise.resolve({ success: true })
+    const newExpire = new Date(Date.now() + 365 * 24 * 3600 * 1000)
+    return getDb().collection('adoptions').where({ adoptionId }).get()
+      .then(res => {
+        if (!res.data.length) return null
+        return getDb().collection('adoptions').doc(res.data[0]._id)
+          .update({ data: { expireAt: newExpire } })
+          .then(() => ({ cloud: true }))
+      })
+      .then(result => {
+        if (result) return { success: true, cloud: true }
+        // 云端无记录（演示数据）→ 本地存储兜底
+        const list = readAdoptionsFromStorage().map(a => {
+          if (a.id === adoptionId) return { ...a, daysLeft: 365 }
+          return a
+        })
+        wx.setStorageSync(ADOPTIONS_KEY, list)
+        return { success: true, cloud: false }
+      })
+      .catch(err => {
+        console.error('[写云] 续约失败:', err)
+        return { success: false, reason: '续约失败，请重试' }
+      })
   },
 
   /* ==================== 我的（第四阶段） ==================== */
 
   /**
-   * 个人资料：读本地存储（无则给默认值）
+   * 个人资料（Day3：云端优先 users 集合，云端无记录/失败 → 本地存储回退）
+   * ⚠️ 返回 Promise（页面调用处已适配）
    */
   getProfile() {
+    return getDb().collection('users').get()
+      .then(res => {
+        const d = res.data[0]
+        if (d) {
+          console.log('[数据源] 云数据库(users)')
+          return {
+            nickname: d.nickname || '林间访客',
+            avatar: d.avatar || '/images/icon-person.png',
+            phone: d.phone || ''
+          }
+        }
+        return this.getProfileLocal()
+      })
+      .catch(() => this.getProfileLocal())
+  },
+
+  /** 本地资料（回退用） */
+  getProfileLocal() {
     const p = wx.getStorageSync(PROFILE_KEY)
     return {
       nickname: (p && p.nickname) || '林间访客',
@@ -417,10 +518,31 @@ module.exports = {
   },
 
   /**
-   * 保存个人资料到本地存储
+   * 保存个人资料（Day3：云端 upsert——有记录更新、无记录新建；本地同步缓存）
+   * ⚠️ 返回 Promise
    */
   saveProfile(profile) {
-    wx.setStorageSync(PROFILE_KEY, profile)
+    return getDb().collection('users').get()
+      .then(res => {
+        const data = {
+          nickname: profile.nickname,
+          avatar: profile.avatar || '/images/icon-person.png',
+          phone: profile.phone || ''
+        }
+        if (res.data.length) {
+          return getDb().collection('users').doc(res.data[0]._id).update({ data })
+        }
+        return getDb().collection('users').add({ data })
+      })
+      .then(() => {
+        wx.setStorageSync(PROFILE_KEY, profile)
+        return { success: true }
+      })
+      .catch(err => {
+        console.error('[写云] 资料保存失败（本地兜底）:', err)
+        wx.setStorageSync(PROFILE_KEY, profile)
+        return { success: false, reason: '云端保存失败，已存本地' }
+      })
   },
 
   /**
@@ -576,13 +698,13 @@ module.exports = {
         })
       : Promise.resolve({ fileID: '' })
     return upload.then(res => {
-      // 2. 记录写云（自动关联时间戳；GPS 正式版接入）
+      // 2. 记录写云（自动关联时间戳；Day3：真实 GPS 坐标，脱敏取整）
       return getDb().collection('patrol_records').add({
         data: {
           plot: record.plot,
           note: record.note || '',
           photoFileID: res.fileID || '',
-          location: 'GPS 已关联（演示版未取真坐标）',
+          location: record.location || null,   // {latitude, longitude, accuracy, fallback?}
           createdAt: new Date()
         }
       })
@@ -780,6 +902,157 @@ module.exports = {
         console.error('[写云] 导入演示批次失败:', err)
         return { success: false, reason: '导入失败，请重试' }
       })
+  },
+
+  /**
+   * 更新批次（管理员端，Day3）：own doc update（写后验证，仿 updatePlot）
+   */
+  updateBatch(docId, fields) {
+    return getDb().collection('trace_batches').doc(docId).update({ data: fields })
+      .then(() => ({ success: true }))
+      .catch(err => {
+        console.error('[写云] 批次更新失败:', err)
+        return { success: false, reason: '更新失败：该批次为无主数据，请删除后重建' }
+      })
+  },
+
+  /**
+   * 提交课后评价（Day3，真实写云 reviews 集合）
+   */
+  submitReview(review) {
+    return getDb().collection('reviews').add({
+      data: {
+        orderId: review.orderId,
+        productId: review.productId,
+        content: review.content,
+        nickname: review.nickname || '用户评价',   // Day3：作者用"我的"昵称
+        createdAt: new Date()
+      }
+    }).then(() => ({ success: true }))
+      .catch(err => {
+        console.error('[写云] 评价提交失败:', err)
+        return { success: false, reason: '提交失败，请重试' }
+      })
+  },
+
+  /**
+   * 某产品的往期评价（Day3：云 reviews + 客户端展示；mock 评价在产品详情页合并）
+   */
+  getReviews(productId) {
+    return getDb().collection('reviews').where({ productId }).orderBy('createdAt', 'desc').get()
+      .then(res => {
+        console.log('[数据源] 云数据库(reviews)')
+        return res.data
+      })
+      .catch(() => [])
+  },
+
+  /**
+   * 提交客服反馈（Day3，真实写云 feedback 集合；带昵称供后台展示）
+   */
+  submitFeedback(content, phone, nickname) {
+    return getDb().collection('feedback').add({
+      data: {
+        content: content,
+        phone: phone || '',
+        nickname: nickname || '匿名用户',
+        handled: false,          // 后台管理：是否已处理
+        createdAt: new Date()
+      }
+    }).then(() => ({ success: true }))
+      .catch(err => {
+        console.error('[写云] 反馈提交失败:', err)
+        return { success: false, reason: '提交失败，请重试' }
+      })
+  },
+
+  /**
+   * 全部客服反馈（后台-管理员端，Day3）
+   * 权限"所有用户可读"下可读全部；按时间倒序
+   */
+  getFeedbackList() {
+    return getDb().collection('feedback').orderBy('createdAt', 'desc').get()
+      .then(res => {
+        console.log('[数据源] 云数据库(feedback)')
+        return res.data
+      })
+      .catch(() => [])
+  },
+
+  /**
+   * 标记反馈已处理/未处理（后台-管理员端）
+   * 仅能更新自己提交的反馈（权限：仅创建者可读写）；他人的提示到控制台
+   */
+  markFeedbackHandled(docId, handled) {
+    return getDb().collection('feedback').doc(docId)
+      .update({ data: { handled: handled } })
+      .then(() => ({ success: true }))
+      .catch(err => {
+        console.error('[写云] 反馈状态更新失败:', err)
+        return { success: false, reason: '该反馈非本人提交，状态仅本地生效' }
+      })
+  },
+
+  /**
+   * 删除反馈（后台-管理员端）：仅自己的可删（权限：仅创建者可读写）
+   */
+  deleteFeedback(docId) {
+    return getDb().collection('feedback').doc(docId).remove()
+      .then(() => ({ success: true }))
+      .catch(err => {
+        console.error('[写云] 删除反馈失败:', err)
+        return { success: false, reason: '删除失败：该反馈非本人提交，请在云控制台处理' }
+      })
+  },
+
+  /**
+   * 删除我的单条记录（各板块逐条删除共用，Day3 路线B）
+   * 仅能删自己创建的（权限：仅创建者可读写）；删除订单/认养时同步清本地缓存防复活
+   */
+  deleteMyRecord(collectionName, docId) {
+    return getDb().collection(collectionName).doc(docId).remove()
+      .then(() => {
+        if (collectionName === 'study_bookings' || collectionName === 'adoptions') {
+          wx.removeStorageSync(ORDERS_CACHE_KEY)
+        }
+        if (collectionName === 'adoptions') {
+          wx.removeStorageSync(ADOPTIONS_KEY)
+        }
+        return { success: true }
+      })
+      .catch(err => {
+        console.error('[写云] 删除 ' + collectionName + ' 失败:', err)
+        return { success: false, reason: '删除失败：非本人创建或已不存在' }
+      })
+  },
+
+  /**
+   * 互动统计（后台-管理员端，Day3）
+   * 每故事的点赞/收藏总数 = 云数据库真实聚合（客户端 count）
+   * ⚠️ 需要 story_likes / user_favorites 权限为"所有用户可读"才能统计到所有人
+   */
+  getStoryStats() {
+    return this.getHomeData().then(home => {
+      const db = getDb()
+      const tasks = home.stories.map(s => {
+        return Promise.all([
+          db.collection('story_likes').where({ storyId: s.id }).count(),
+          db.collection('user_favorites').where({ storyId: s.id }).count()
+        ]).then(([likes, favs]) => ({
+          id: s.id,
+          title: s.title,
+          type: s.type,
+          time: s.time,
+          // 点赞总数 = 故事自带基数（种子历史点赞）+ 云记录真实点赞
+          likeCount: (s.likes || 0) + likes.total,
+          favCount: favs.total
+        })).catch(() => ({
+          id: s.id, title: s.title, type: s.type, time: s.time,
+          likeCount: s.likes || 0, favCount: 0
+        }))
+      })
+      return Promise.all(tasks)
+    })
   },
 
   /**

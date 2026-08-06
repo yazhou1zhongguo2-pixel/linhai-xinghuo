@@ -17,17 +17,24 @@ Page({
       wx.showToast({ title: '请先填写反馈内容', icon: 'none' })
       return
     }
-    // 影子版：连同联系方式一起存本地；正式版写云
-    const profile = api.getProfile()
-    const list = wx.getStorageSync('feedback_list') || []
-    list.unshift({
-      content: this.data.feedback,
-      phone: profile.phone || '未留联系方式',
-      time: new Date().toLocaleString()
+    // Day3：真实写云 feedback 集合（联系方式+昵称从个人资料取，云端优先）
+    api.getProfile().then(profile => {
+      return api.submitFeedback(this.data.feedback.trim(), profile.phone || '', profile.nickname)
+    }).then(res => {
+      if (res.success) {
+        // 本地兜底缓存（同步保留）
+        const list = wx.getStorageSync('feedback_list') || []
+        list.unshift({
+          content: this.data.feedback,
+          time: new Date().toLocaleString()
+        })
+        wx.setStorageSync('feedback_list', list)
+        this.setData({ feedback: '' })
+        wx.showToast({ title: '反馈已提交，感谢！', icon: 'success' })
+      } else {
+        wx.showToast({ title: res.reason || '提交失败', icon: 'none' })
+      }
     })
-    wx.setStorageSync('feedback_list', list)
-    this.setData({ feedback: '' })
-    wx.showToast({ title: '反馈已提交，感谢！', icon: 'success' })
   },
 
   // 拨打电话（模拟器不可用，真机可拨）

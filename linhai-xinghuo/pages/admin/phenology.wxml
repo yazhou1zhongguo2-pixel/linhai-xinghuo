@@ -36,6 +36,7 @@
     <view class="record-plot">{{item.plot}}</view>
     <image wx:if="{{item.photoFileID}}" class="record-photo" src="{{item.photoFileID}}" mode="aspectFill"></image>
     <view class="record-note" wx:if="{{item.note}}">{{item.note}}</view>
+    <view class="record-del" catchtap="removeRecord" data-id="{{item._id}}">删除这条记录</view>
   </view>
   <view class="empty-tip" wx:if="{{!records.length}}">还没有物候记录</view>
 </view>

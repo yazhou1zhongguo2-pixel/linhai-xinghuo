@@ -42,4 +42,5 @@
 .record-plot { font-size: 22rpx; color: #8A847A; margin-bottom: 12rpx; }
 .record-photo { width: 100%; height: 240rpx; border-radius: 14rpx; background-color: #F0EBDF; margin-bottom: 12rpx; }
 .record-note { font-size: 24rpx; color: #5A544B; line-height: 1.7; }
+.record-del { margin-top: 14rpx; text-align: right; font-size: 22rpx; color: #C0392B; }
 .empty-tip { text-align: center; font-size: 24rpx; color: #B7AE9E; padding: 40rpx 0; }

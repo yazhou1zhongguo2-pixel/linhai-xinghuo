@@ -87,4 +87,24 @@
     </view>
     <text class="admin-entry-arrow">›</text>
   </view>
+
+  <!-- Day3 新增：数据闭环（不再只躺控制台） -->
+  <view class="card admin-entry" bindtap="go" data-page="/pages/admin/feedback-admin">
+    <image class="admin-entry-icon" src="/images/icon-headset.png" mode="aspectFit"></image>
+    <view class="admin-entry-info">
+      <view class="admin-entry-name">客服反馈管理</view>
+      <view class="admin-entry-desc">用户反馈列表、标记已处理、删除</view>
+    </view>
+    <text class="admin-entry-arrow">›</text>
+  </view>
+
+  <view class="card admin-entry" bindtap="go" data-page="/pages/admin/stats">
+    <image class="admin-entry-icon" src="/images/icon-chart.png" mode="aspectFit"></image>
+    <view class="admin-entry-info">
+      <view class="admin-entry-name">互动统计</view>
+      <view class="admin-entry-desc">故事点赞/收藏真实聚合</view>
+    </view>
+    <text class="admin-entry-arrow">›</text>
+  </view>
+
 </view>

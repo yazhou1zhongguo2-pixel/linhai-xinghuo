@@ -44,7 +44,28 @@ Page({
     this.setData({ note: e.detail.value })
   },
 
-  // 提交巡护记录
+  // 获取位置（Day3：真实 GPS，脱敏取整保留 2 位小数；授权失败回退演示坐标）
+  getLocation() {
+    return new Promise(resolve => {
+      wx.getLocation({
+        type: 'gcj02',
+        success: (res) => {
+          resolve({
+            latitude: Number(res.latitude.toFixed(2)),    // 脱敏：保留 2 位小数（约 1km 精度）
+            longitude: Number(res.longitude.toFixed(2)),
+            accuracy: Math.round(res.accuracy || 0),
+            fallback: false
+          })
+        },
+        fail: (err) => {
+          console.warn('[定位] 获取失败，回退演示坐标:', err)
+          resolve({ latitude: 43.75, longitude: 128.20, accuracy: 0, fallback: true })
+        }
+      })
+    })
+  },
+
+  // 提交巡护记录（Day3：先定位，再上传照片+写云）
   submit() {
     if (this.data.submitting) return
     if (!this.data.note.trim() && !this.data.photoPath) {
@@ -52,11 +73,14 @@ Page({
       return
     }
     this.setData({ submitting: true })
-    wx.showLoading({ title: '上传中…' })
-    api.submitPatrolRecord({
-      plot: this.data.selectedPlot,
-      note: this.data.note.trim(),
-      photoPath: this.data.photoPath
+    wx.showLoading({ title: '定位并上传…' })
+    this.getLocation().then(location => {
+      return api.submitPatrolRecord({
+        plot: this.data.selectedPlot,
+        note: this.data.note.trim(),
+        photoPath: this.data.photoPath,
+        location: location
+      })
     }).then(res => {
       wx.hideLoading()
       this.setData({ submitting: false })
@@ -75,5 +99,22 @@ Page({
     if (!t) return ''
     const d = new Date(t)
     return d.toLocaleString()
+  },
+
+  // 删除单条巡护记录（Day3 路线B：逐条管理）
+  removeRecord(e) {
+    const docId = e.currentTarget.dataset.id
+    wx.showModal({
+      title: '删除记录',
+      content: '确定删除这条巡护记录吗？',
+      confirmColor: '#C0392B',
+      success: (res) => {
+        if (!res.confirm) return
+        api.deleteMyRecord('patrol_records', docId).then(result => {
+          wx.showToast({ title: result.success ? '已删除' : (result.reason || '删除失败'), icon: 'none' })
+          if (result.success) this.loadRecords()
+        })
+      }
+    })
   }
 })

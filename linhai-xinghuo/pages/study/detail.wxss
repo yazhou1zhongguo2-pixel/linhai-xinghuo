@@ -149,6 +149,24 @@
   font-weight: bold;
   color: #24432F;
 }
+.review-right {
+  display: flex;
+  align-items: center;
+}
+.review-cloud-tag {
+  font-size: 20rpx;
+  color: #C0392B;
+  border: 1rpx solid #C0392B;
+  border-radius: 8rpx;
+  padding: 2rpx 10rpx;
+  margin-right: 12rpx;
+}
+.empty-tip {
+  text-align: center;
+  font-size: 24rpx;
+  color: #B7AE9E;
+  padding: 30rpx 0;
+}
 .review-content {
   font-size: 24rpx;
   color: #5A544B;

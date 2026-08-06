@@ -1,0 +1,33 @@
+/* 反馈管理页样式 */
+.form-page { padding: 0 32rpx 60rpx; }
+
+.fb-note {
+  font-size: 22rpx; color: #8A847A;
+  background-color: #FBF7EE; border: 1rpx solid #E8E2D5;
+  border-radius: 14rpx; padding: 16rpx 24rpx; margin-top: 24rpx; line-height: 1.6;
+}
+
+.fb-card { margin-top: 24rpx; padding: 28rpx 32rpx; }
+.fb-handled { opacity: 0.6; }
+.fb-head {
+  display: flex; justify-content: space-between; align-items: center; margin-bottom: 12rpx;
+}
+.fb-user { display: flex; align-items: center; }
+.fb-nickname { font-size: 26rpx; font-weight: bold; color: #24432F; margin-right: 12rpx; }
+.fb-status {
+  font-size: 20rpx; color: #C0392B; border: 1rpx solid #C0392B;
+  border-radius: 8rpx; padding: 2rpx 10rpx;
+}
+.fb-status-done { color: #3A6B4E; border-color: #3A6B4E; }
+.fb-time { font-size: 22rpx; color: #B7AE9E; }
+.fb-content {
+  font-size: 26rpx; color: #2F2B26; line-height: 1.7; margin-bottom: 10rpx;
+}
+.fb-phone { font-size: 22rpx; color: #8A847A; margin-bottom: 16rpx; }
+.fb-actions { display: flex; justify-content: flex-end; }
+.fb-btn {
+  font-size: 22rpx; color: #3A6B4E; border: 1rpx solid #3A6B4E;
+  border-radius: 20rpx; padding: 6rpx 20rpx; margin-left: 12rpx;
+}
+.fb-btn-danger { color: #C0392B; border-color: #C0392B; }
+.empty-tip { text-align: center; font-size: 24rpx; color: #B7AE9E; padding: 60rpx 0; }

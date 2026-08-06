@@ -119,6 +119,12 @@
   color: #B7AE9E;
   margin-top: 8rpx;
 }
+.record-del {
+  margin-top: 16rpx;
+  text-align: right;
+  font-size: 22rpx;
+  color: #C0392B;
+}
 .empty-tip {
   text-align: center;
   font-size: 24rpx;

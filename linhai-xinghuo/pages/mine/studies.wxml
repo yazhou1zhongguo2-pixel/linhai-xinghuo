@@ -17,7 +17,7 @@
     <!-- 行程提醒（设计书：行程安排） -->
     <view class="study-remind">行前提醒：开营当天 08:30 林场接待中心集合，携带运动鞋、长裤、水杯</view>
     <view class="study-actions">
-      <view class="study-btn" catchtap="review" data-id="{{item.orderId}}">课后评价</view>
+      <view class="study-btn" catchtap="review" data-id="{{item.orderId}}" data-product="{{item.productId}}">课后评价</view>
     </view>
   </view>
 

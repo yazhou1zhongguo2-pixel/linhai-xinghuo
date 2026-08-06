@@ -22,8 +22,10 @@ Page({
   },
 
   onShow() {
-    // 每次回到本页刷新个人资料（编辑后、以及从其他页返回）
-    this.setData({ profile: api.getProfile() })
+    // 每次回到本页刷新个人资料（Day3：云端优先，返回 Promise）
+    api.getProfile().then(profile => {
+      this.setData({ profile })
+    })
   },
 
   // 进入/退出编辑模式
@@ -41,7 +43,7 @@ Page({
     this.setData({ [field]: e.detail.value })
   },
 
-  // 保存个人资料（本地存储）
+  // 保存个人资料（Day3：真实写云 users 集合，本地同步缓存；返回 Promise）
   saveProfile() {
     if (!this.data.editName.trim()) {
       wx.showToast({ title: '昵称不能为空', icon: 'none' })
@@ -51,12 +53,12 @@ Page({
       nickname: this.data.editName.trim(),
       phone: this.data.editPhone.trim(),
       avatar: this.data.profile.avatar
+    }).then(() => {
+      this.setData({ showEdit: false })
+      // 重新读取（云端优先）
+      api.getProfile().then(profile => this.setData({ profile }))
+      wx.showToast({ title: '已保存', icon: 'success' })
     })
-    this.setData({
-      profile: api.getProfile(),
-      showEdit: false
-    })
-    wx.showToast({ title: '已保存', icon: 'success' })
   },
 
   // 点菜单项：有页面的跳转，没页面的提示"建设中"

@@ -18,9 +18,10 @@ Page({
     })
   },
 
-  // 课后评价（影子版：wx.showModal 可输入弹窗，存本地）
+  // 课后评价（Day3：真实写云 reviews 集合 → 产品详情页"往期评价"展示）
   review(e) {
     const orderId = e.currentTarget.dataset.id
+    const productId = e.currentTarget.dataset.product
     wx.showModal({
       title: '课程评价',
       editable: true,
@@ -31,10 +32,21 @@ Page({
           if (res.confirm) wx.showToast({ title: '评价不能为空', icon: 'none' })
           return
         }
-        const list = wx.getStorageSync('my_reviews') || []
-        list.unshift({ orderId, content: res.content.trim(), time: new Date().toLocaleString() })
-        wx.setStorageSync('my_reviews', list)
-        wx.showToast({ title: '评价已提交，感谢！', icon: 'success' })
+        // 带上个人资料昵称作为评价作者（Day3 修复：作者随"我的"昵称变化）
+        api.getProfile().then(profile => {
+          return api.submitReview({
+            orderId: orderId,
+            productId: productId,
+            content: res.content.trim(),
+            nickname: profile.nickname || '用户评价'
+          })
+        }).then(result => {
+          if (result.success) {
+            wx.showToast({ title: '评价已提交', icon: 'success' })
+          } else {
+            wx.showToast({ title: result.reason || '提交失败', icon: 'none' })
+          }
+        })
       }
     })
   },

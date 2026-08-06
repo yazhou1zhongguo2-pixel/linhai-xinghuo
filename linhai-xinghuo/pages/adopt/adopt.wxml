@@ -4,7 +4,11 @@
   <!-- 顶部理念区 -->
   <view class="adopt-hero">
     <view class="adopt-hero-title">成为这片林子的一部分</view>
-    <view class="adopt-hero-desc">从"消费者"到"守护者"的跃迁\n你认养的不仅是一年的产出，更是整年的陪伴与参与</view>
+    <!-- WXML 不识别 \n 转义（会原样显示），换行用两个块级 view 实现 -->
+    <view class="adopt-hero-desc">
+      <view>从"消费者"到"守护者"的跃迁</view>
+      <view>你认养的不仅是一年的产出，更是整年的陪伴与参与</view>
+    </view>
   </view>
 
   <!-- 认养计划卡片 -->

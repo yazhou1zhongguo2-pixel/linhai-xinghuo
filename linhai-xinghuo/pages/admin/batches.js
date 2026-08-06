@@ -12,7 +12,22 @@ Page({
       plotId: '', gps: '', fallowYears: '', ecoZone: '',
       harvestDate: '', worker: ''
     },
-    submitting: false
+    submitting: false,
+    editingId: '',       // 编辑模式：正在编辑的批次 _id（空 = 新增模式）
+    editingDoc: null     // 编辑模式：原批次文档（合并保留未编辑字段）
+  },
+
+  // 清空表单（新增/取消编辑共用）
+  resetForm() {
+    this.setData({
+      editingId: '',
+      editingDoc: null,
+      form: {
+        batchNo: '', product: '', archiveId: '',
+        plotId: '', gps: '', fallowYears: '', ecoZone: '',
+        harvestDate: '', worker: ''
+      }
+    })
   },
 
   onShow() {
@@ -33,10 +48,43 @@ Page({
     if (!f.batchNo.trim() || !f.product.trim()) {
       wx.showToast({ title: '请填写批次号和产品名', icon: 'none' }); return
     }
-    if (this.data.batches.some(b => b.batchNo === f.batchNo.trim())) {
+    // 查重只在新增模式执行（编辑模式改自己的批次号不算重复）
+    if (!this.data.editingId && this.data.batches.some(b => b.batchNo === f.batchNo.trim())) {
       wx.showToast({ title: '批次号已存在', icon: 'none' }); return
     }
     this.setData({ submitting: true })
+
+    // 编辑模式：只更新基础/产地/采收字段，合并保留原文档其余字段
+    if (this.data.editingId) {
+      const doc = this.data.editingDoc
+      api.updateBatch(this.data.editingId, {
+        batchNo: f.batchNo.trim(),
+        product: f.product.trim(),
+        archiveId: f.archiveId.trim() || doc.archiveId,
+        origin: Object.assign({}, doc.origin, {
+          plotId: f.plotId.trim() || '待完善',
+          gps: f.gps.trim() || '待完善',
+          fallowYears: f.fallowYears.trim() || '待完善',
+          ecoZone: f.ecoZone.trim() || '待完善'
+        }),
+        harvest: Object.assign({}, doc.harvest, {
+          date: f.harvestDate.trim() || '待完善',
+          worker: f.worker.trim() || '待完善'
+        })
+      }).then(res => {
+        this.setData({ submitting: false })
+        if (res.success) {
+          wx.showToast({ title: '批次已更新', icon: 'success' })
+          this.resetForm()
+          this.loadBatches()
+        } else {
+          wx.showToast({ title: res.reason || '更新失败', icon: 'none' })
+        }
+      })
+      return
+    }
+
+    // 新增模式
     api.addBatch({
       batchNo: f.batchNo.trim(),
       product: f.product.trim(),
@@ -65,18 +113,40 @@ Page({
       this.setData({ submitting: false })
       if (res.success) {
         wx.showToast({ title: '批次已新增', icon: 'success' })
-        this.setData({
-          form: {
-            batchNo: '', product: '', archiveId: '',
-            plotId: '', gps: '', fallowYears: '', ecoZone: '',
-            harvestDate: '', worker: ''
-          }
-        })
+        this.resetForm()
         this.loadBatches()
       } else {
         wx.showToast({ title: res.reason || '新增失败', icon: 'none' })
       }
     })
+  },
+
+  // 进入编辑模式：回填表单
+  startEdit(e) {
+    const docId = e.currentTarget.dataset.id
+    const doc = this.data.batches.find(b => b._id === docId)
+    if (!doc) return
+    this.setData({
+      editingId: docId,
+      editingDoc: doc,
+      form: {
+        batchNo: doc.batchNo || '',
+        product: doc.product || '',
+        archiveId: doc.archiveId || '',
+        plotId: (doc.origin && doc.origin.plotId !== '待完善') ? doc.origin.plotId : '',
+        gps: (doc.origin && doc.origin.gps !== '待完善') ? doc.origin.gps : '',
+        fallowYears: (doc.origin && doc.origin.fallowYears !== '待完善') ? doc.origin.fallowYears : '',
+        ecoZone: (doc.origin && doc.origin.ecoZone !== '待完善') ? doc.origin.ecoZone : '',
+        harvestDate: (doc.harvest && doc.harvest.date !== '待完善') ? doc.harvest.date : '',
+        worker: (doc.harvest && doc.harvest.worker !== '待完善') ? doc.harvest.worker : ''
+      }
+    })
+    wx.pageScrollTo({ scrollTop: 0 })
+  },
+
+  // 取消编辑
+  cancelEdit() {
+    this.resetForm()
   },
 
   remove(e) {

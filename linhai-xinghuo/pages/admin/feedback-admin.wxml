@@ -1,0 +1,27 @@
+<!-- 客服反馈管理页"家具摆放图" -->
+<view class="form-page">
+
+  <view class="fb-note">用户在小程序内提交的反馈（真实读云 feedback 集合）· 共 {{feedbackList.length}} 条</view>
+
+  <!-- 反馈列表 -->
+  <view class="card fb-card {{item.handled ? 'fb-handled' : ''}}" wx:for="{{feedbackList}}" wx:key="_id">
+    <view class="fb-head">
+      <view class="fb-user">
+        <text class="fb-nickname">{{item.nickname || '匿名用户'}}</text>
+        <text class="fb-status {{item.handled ? 'fb-status-done' : ''}}">{{item.handled ? '已处理' : '待处理'}}</text>
+      </view>
+      <view class="fb-time">{{item.createdAt ? formatTime(item.createdAt) : ''}}</view>
+    </view>
+    <view class="fb-content">{{item.content}}</view>
+    <view class="fb-phone" wx:if="{{item.phone}}">联系方式：{{item.phone}}</view>
+    <view class="fb-actions">
+      <view class="fb-btn" catchtap="toggleHandled" data-id="{{item._id}}" data-handled="{{item.handled}}">
+        {{item.handled ? '标记未处理' : '标记已处理'}}
+      </view>
+      <view class="fb-btn fb-btn-danger" catchtap="remove" data-id="{{item._id}}">删除</view>
+    </view>
+  </view>
+
+  <view class="empty-tip" wx:if="{{!feedbackList.length}}">暂无反馈</view>
+  <view class="fb-note">提示：标记/删除仅对本人提交的反馈生效（权限：仅创建者可读写），他人的请在云控制台处理</view>
+</view>

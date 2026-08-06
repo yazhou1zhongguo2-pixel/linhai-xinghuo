@@ -48,15 +48,19 @@
     <view class="teacher-intro">{{item.intro}}</view>
   </view>
 
-  <!-- 往期评价 -->
+  <!-- 往期评价（Day3：云端用户评价 + 往期评价合并展示） -->
   <view class="section-title">往期评价</view>
   <view class="card" wx:for="{{product.reviews}}" wx:key="index">
     <view class="review-head">
       <text class="review-author">{{item.author}}</text>
-      <text class="text-secondary">{{item.date}}</text>
+      <view class="review-right">
+        <text class="review-cloud-tag" wx:if="{{item.cloud}}">新</text>
+        <text class="text-secondary">{{item.date}}</text>
+      </view>
     </view>
     <view class="review-content">{{item.content}}</view>
   </view>
+  <view class="empty-tip" wx:if="{{!product.reviews.length}}">暂无评价</view>
 
   <!-- 适龄建议 -->
   <view class="section-title">适龄建议</view>

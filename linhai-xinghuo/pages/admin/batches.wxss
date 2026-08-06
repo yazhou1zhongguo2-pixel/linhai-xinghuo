@@ -27,10 +27,20 @@
 .batch-card { margin-top: 24rpx; padding: 28rpx 32rpx; }
 .batch-head { display: flex; justify-content: space-between; margin-bottom: 10rpx; }
 .batch-name { font-size: 28rpx; font-weight: bold; color: #24432F; flex: 1; }
+.batch-ops { display: flex; align-items: center; }
+.batch-edit {
+  font-size: 22rpx; color: #3A6B4E; border: 1rpx solid #3A6B4E;
+  border-radius: 20rpx; padding: 6rpx 20rpx; margin-left: 12rpx;
+}
 .batch-del {
   font-size: 22rpx; color: #C0392B; border: 1rpx solid #C0392B;
-  border-radius: 20rpx; padding: 6rpx 20rpx; margin-left: 16rpx;
+  border-radius: 20rpx; padding: 6rpx 20rpx; margin-left: 12rpx;
 }
+.cancel-btn {
+  margin-top: 16rpx; background-color: #F5F2EA; color: #8A847A;
+  font-size: 26rpx; border-radius: 14rpx;
+}
+.cancel-btn::after { border: none; }
 .batch-meta { display: flex; justify-content: space-between; }
 .batch-actions { margin-top: 16rpx; }
 .batch-pdf {
