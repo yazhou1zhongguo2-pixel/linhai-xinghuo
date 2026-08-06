@@ -107,6 +107,13 @@ Page({
     }).then(res => {
       if (res.success) {
         this.setData({ success: true, orderId: res.orderId, paidAmount: res.amount })
+        // v0.4：订阅消息推送（模板字段：thing1=活动名称 thing4=温馨提示，≤20 字）
+        const d = selectedDate.split('-')
+        const dateShort = Number(d[1]) + '月' + Number(d[2]) + '日'
+        api.sendSubscribe('study', 'pages/mine/studies', {
+          thing1: '研学报名成功：' + product.name,
+          thing4: '开营日 ' + dateShort + ' 08:30 集合'
+        })
       } else {
         wx.showToast({ title: res.reason, icon: 'none' })
       }

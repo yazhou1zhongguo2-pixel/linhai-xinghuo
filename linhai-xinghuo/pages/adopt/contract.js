@@ -43,6 +43,11 @@ Page({
     api.submitAdoption(this.data.plan.id).then(res => {
       if (res.success) {
         this.setData({ success: true, adoptionId: res.adoptionId, paidAmount: res.amount })
+        // v0.4：订阅消息推送（模板字段：thing1=活动名称 thing4=温馨提示，≤20 字）
+        api.sendSubscribe('adopt', 'pages/adopt/home', {
+          thing1: '认养成功：' + this.data.plan.name,
+          thing4: '专属认养主页已开通'
+        })
       } else {
         wx.showToast({ title: res.reason, icon: 'none' })
       }

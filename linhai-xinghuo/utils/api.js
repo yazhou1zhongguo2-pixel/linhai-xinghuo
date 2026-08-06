@@ -24,6 +24,30 @@ const PROFILE_KEY = 'my_profile'          // 个人资料（头像/昵称/联系
 const TRACE_HISTORY_KEY = 'trace_history' // 溯源扫码记录
 const ORDERS_CACHE_KEY = 'orders_cache'   // 订单本地兜底缓存（云写入失败时保证不丢单）
 
+/**
+ * 订阅消息模板 ID（v0.4 云函数体系）
+ * 模板：报名成功通知（thing1=活动名称 / thing4=温馨提示，thing 字段 ≤20 字）
+ * 未配置时推送功能自动跳过（不影响报名/认养流程）
+ */
+const SUBSCRIBE_TMPL_IDS = {
+  study: 'b8_bk2NIPVo1Pj3O8c4I-qRAgWNJP6jwrAk4BE8PbXg',
+  adopt: 'b8_bk2NIPVo1Pj3O8c4I-qRAgWNJP6jwrAk4BE8PbXg'
+}
+
+/**
+ * 订阅消息推送状态：正式版=formal，开发/体验版=developer
+ * 根据当前运行环境自动判断（发布后无需改代码）
+ */
+function getMiniprogramState() {
+  try {
+    const info = wx.getAccountInfoSync()
+    const env = info.miniProgram && info.miniProgram.envVersion
+    return env === 'release' ? 'formal' : 'developer'
+  } catch (e) {
+    return 'developer'
+  }
+}
+
 /** 读订单本地缓存 */
 function readOrdersCache() {
   return wx.getStorageSync(ORDERS_CACHE_KEY) || []
@@ -249,12 +273,13 @@ module.exports = {
   },
 
   /**
-   * 提交研学报名（影子支付 + 真实写云数据库 study_bookings 集合）
-   * 名额校验仍为本地模拟；正式版改为云函数原子校验 + 真实微信支付
+   * 提交研学报名（v0.4：云函数 bookStudy 事务原子校验名额，防超卖）
+   * 本地校验保留为"前置提示"（体验流畅），真实判定以云函数为准
    */
   submitBooking(booking) {
     const product = studyData.products.find(p => p.id === booking.productId)
     if (!product) return Promise.resolve({ success: false, reason: '产品不存在' })
+    // 前置提示（基于 mock 数据）；云函数内的校验才是最终判定
     const remaining = this.getRemaining(product, booking.date)
     if (remaining <= 0) {
       return Promise.resolve({ success: false, reason: '该日期名额已满' })
@@ -262,37 +287,56 @@ module.exports = {
     if (booking.count > remaining) {
       return Promise.resolve({ success: false, reason: '剩余名额不足' })
     }
-    const orderId = 'ST' + Date.now() + Math.floor(Math.random() * 1000)
-    const amount = product.price * booking.count
-    // 订单先写本地缓存兜底（云写入失败也不丢单，"我的订单"仍能看到）
-    writeOrdersCache([{
-      orderId: orderId,
-      type: '研学',
-      name: product.name,
-      detail: booking.date + ' · ' + booking.count + '人',
-      amount: amount,
-      status: '已报名',
-      time: new Date()
-    }].concat(readOrdersCache()))
-    // 真实写云；失败必须"看得见"：红色报错 + 弹窗提示（不再静默放过）
-    return getDb().collection('study_bookings').add({
+    // 真实判定：云函数事务校验 + 下单（booked 原子递增）
+    return wx.cloud.callFunction({
+      name: 'bookStudy',
       data: {
-        orderId: orderId,
-        type: 'study',                       // 订单类型：研学
-        productId: product.id,
-        productName: product.name,
+        productId: booking.productId,
         date: booking.date,
         count: booking.count,
-        participants: booking.participants,
-        amount: amount,
-        status: '已报名',                    // 管理员可改为 已取消/已完成
-        createdAt: new Date()
+        participants: booking.participants
       }
-    }).then(() => ({ success: true, orderId, amount }))
+    }).then(res => {
+      const r = res.result || {}
+      if (!r.success) {
+        return { success: false, reason: r.reason || '报名失败' }
+      }
+      // 云函数成功：写本地订单缓存（兜底展示）
+      writeOrdersCache([{
+        orderId: r.orderId,
+        type: '研学',
+        name: product.name,
+        detail: booking.date + ' · ' + booking.count + '人',
+        amount: r.amount,
+        status: '已报名',
+        time: new Date()
+      }].concat(readOrdersCache()))
+      return { success: true, orderId: r.orderId, amount: r.amount }
+    }).catch(err => {
+      console.error('[云函数] bookStudy 调用失败:', err)
+      return { success: false, reason: '报名失败（云端繁忙，请稍后重试）' }
+    })
+  },
+
+  /**
+   * 订阅消息：请求授权 + 云函数推送（v0.4）
+   * 模板未配置/用户拒绝 → 静默返回（不影响主流程）
+   * @param tmplKey 'study' | 'adopt'
+   * @param page 通知点击跳转页
+   * @param data 模板字段映射（以申请到的模板字段名为准）
+   */
+  sendSubscribe(tmplKey, page, data) {
+    const templateId = SUBSCRIBE_TMPL_IDS[tmplKey]
+    if (!templateId) return Promise.resolve({ success: false, reason: '模板未配置' })
+    return wx.requestSubscribeMessage({ tmplIds: [templateId] })
+      .then(() => wx.cloud.callFunction({
+        name: 'sendNotify',
+        data: { templateId, page, data, miniprogramState: getMiniprogramState() }
+      }))
+      .then(res => (res && res.result) || { success: false })
       .catch(err => {
-        console.error('[写云] study_bookings 写入失败（订单已存本地兜底）:', err)
-        wx.showToast({ title: '云端写入失败，订单已存本地', icon: 'none' })
-        return { success: true, orderId, amount }
+        console.warn('[订阅] 未授权或推送失败（不影响主流程）:', err)
+        return { success: false }
       })
   },
 
@@ -743,7 +787,14 @@ module.exports = {
         photoFileID: record.photoFileID || '',
         createdAt: new Date()
       }
-    }).then(() => ({ success: true }))
+    }).then(res => {
+      // v0.4：触发云函数把物候事件自动汇聚到对应批次档案（失败不影响主流程）
+      wx.cloud.callFunction({
+        name: 'aggregateToArchive',
+        data: { type: 'phenology', recordId: res._id }
+      }).catch(e => console.warn('[汇聚] 物候汇聚触发失败:', e))
+      return { success: true }
+    })
       .catch(err => {
         console.error('[写云] 物候记录失败:', err)
         return { success: false, reason: '提交失败，请重试' }
@@ -769,7 +820,14 @@ module.exports = {
         photoFileID: record.photoFileID || '',
         createdAt: new Date()
       }
-    }).then(() => ({ success: true }))
+    }).then(res => {
+      // v0.4：触发云函数把采收建档自动汇聚到批次档案（五维更新，失败不影响主流程）
+      wx.cloud.callFunction({
+        name: 'aggregateToArchive',
+        data: { type: 'harvest', recordId: res._id }
+      }).catch(e => console.warn('[汇聚] 采收汇聚触发失败:', e))
+      return { success: true }
+    })
       .catch(err => {
         console.error('[写云] 采收建档失败:', err)
         return { success: false, reason: '提交失败，请重试' }

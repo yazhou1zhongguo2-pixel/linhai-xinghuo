@@ -1,0 +1,9 @@
+{
+  "name": "aggregateToArchive",
+  "version": "1.0.0",
+  "description": "后台数据自动汇聚到溯源档案",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}
