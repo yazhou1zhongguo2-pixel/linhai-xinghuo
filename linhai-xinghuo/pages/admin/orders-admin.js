@@ -63,7 +63,7 @@ Page({
 
   formatTime(t) {
     if (!t) return ''
-    return new Date(t).toLocaleString()
+    return api.formatDateTime(t)
   },
 
   // 删除订单（Day3 路线B：逐条管理；研学/认养对应不同集合）
@@ -77,7 +77,11 @@ Page({
       confirmColor: '#C0392B',
       success: (res) => {
         if (!res.confirm) return
-        api.deleteMyRecord(collection, docId).then(result => {
+        // 研学订单删除走云函数（释放名额）；认养走普通删除
+        const action = collection === 'study_bookings'
+          ? api.releaseBooking(docId)
+          : api.deleteMyRecord(collection, docId)
+        action.then(result => {
           wx.showToast({ title: result.success ? '已删除' : (result.reason || '删除失败'), icon: 'none' })
           if (result.success) this.load()
         })

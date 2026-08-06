@@ -26,7 +26,7 @@ Page({
         const list = wx.getStorageSync('feedback_list') || []
         list.unshift({
           content: this.data.feedback,
-          time: new Date().toLocaleString()
+          time: api.formatDateTime(new Date())
         })
         wx.setStorageSync('feedback_list', list)
         this.setData({ feedback: '' })

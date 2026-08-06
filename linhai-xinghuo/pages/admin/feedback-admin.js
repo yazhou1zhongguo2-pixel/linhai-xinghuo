@@ -51,6 +51,6 @@ Page({
 
   formatTime(t) {
     if (!t) return ''
-    return new Date(t).toLocaleString()
+    return api.formatDateTime(t)
   }
 })

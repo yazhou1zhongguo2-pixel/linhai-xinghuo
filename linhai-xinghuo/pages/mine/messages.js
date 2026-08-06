@@ -80,9 +80,12 @@ Page({
       confirmColor: '#C0392B',
       success: (res) => {
         if (!res.confirm) return
+        // 研学订单删除走云函数（释放名额）；认养走普通删除；缓存条目走缓存移除
         const action = fromCache
           ? api.removeCachedOrder(orderId)
-          : api.deleteMyRecord(collection, docId)
+          : (collection === 'study_bookings'
+              ? api.releaseBooking(docId)
+              : api.deleteMyRecord(collection, docId))
         action.then(result => {
           wx.showToast({ title: result.success ? '已删除' : (result.reason || '删除失败'), icon: 'none' })
           if (result.success) this.loadMessages()

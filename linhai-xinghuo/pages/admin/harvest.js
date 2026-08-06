@@ -75,7 +75,7 @@ Page({
 
   formatTime(t) {
     if (!t) return ''
-    return new Date(t).toLocaleString()
+    return api.formatDateTime(t)
   },
 
   // 删除单条采收建档记录（Day3 路线B）

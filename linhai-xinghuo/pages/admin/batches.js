@@ -89,7 +89,7 @@ Page({
       batchNo: f.batchNo.trim(),
       product: f.product.trim(),
       archiveId: f.archiveId.trim() || ('LH-ARC-' + Date.now()),
-      timestamp: new Date().toLocaleString(),
+      timestamp: api.formatDateTime(new Date()),
       // 产地信息（管理员填写；GPS 按设计书脱敏至林班层级）
       origin: {
         plotId: f.plotId.trim() || '待完善',

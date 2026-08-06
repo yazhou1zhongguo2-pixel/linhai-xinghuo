@@ -92,7 +92,35 @@ function fetchAll(collectionName) {
   return getDb().collection(collectionName).get().then(res => res.data)
 }
 
+/**
+ * 统一时间格式化（中文数字风格）
+ * ⚠️ toLocaleString() 在部分安卓真机上输出英文月份/星期（如 "Fri Aug 07..."），
+ *    必须手动格式化保证全端一致
+ * @returns '2026-08-07 19:32'（日期时间）或 ''（空值/非法）
+ */
+function formatDateTime(t) {
+  if (!t) return ''
+  const d = new Date(t)
+  if (isNaN(d.getTime())) return ''
+  const p = n => String(n).padStart(2, '0')
+  return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) +
+    ' ' + p(d.getHours()) + ':' + p(d.getMinutes())
+}
+
+/** 仅日期：'2026-08-07' */
+function formatDate(t) {
+  if (!t) return ''
+  const d = new Date(t)
+  if (isNaN(d.getTime())) return ''
+  const p = n => String(n).padStart(2, '0')
+  return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate())
+}
+
 module.exports = {
+  // 统一时间格式化（页面共用，避免真机英文日期）
+  formatDateTime: formatDateTime,
+  formatDate: formatDate,
+
   /**
    * 获取首页数据（影像 + 生态看板 + 故事流）
    * 云数据库：plots 集合（3 条样地记录）+ stories 集合（故事流）
@@ -457,8 +485,8 @@ module.exports = {
             planName: a.planName,
             plot: '云端记录（待绑定地块）',
             status: a.status || '认养中',
-            startDate: (a.createdAt || '').toString().slice(0, 10),
-            expireDate: expire ? expire.toLocaleDateString() : '',
+            startDate: formatDate(a.createdAt),
+            expireDate: expire ? formatDate(expire) : '',
             daysLeft: daysLeft,
             icon: '/images/icon-sapling.png'
           }
@@ -487,7 +515,7 @@ module.exports = {
           amount: b.amount,
           status: b.status || '已报名',
           // ⚠️ 云端 createdAt 是 Date 对象，模板直接渲染会显示 [object Object]，必须转字符串
-          time: b.createdAt ? new Date(b.createdAt).toLocaleString() : ''
+          time: formatDateTime(b.createdAt)
         })
       })
       adoptions.data.forEach(a => {
@@ -499,7 +527,7 @@ module.exports = {
           detail: '认养 ' + (a.price || 0) + ' 元',
           amount: a.price,
           status: a.status || '认养中',
-          time: a.createdAt ? new Date(a.createdAt).toLocaleString() : ''
+          time: formatDateTime(a.createdAt)
         })
       })
       // 本地缓存兜底：云里没有的订单补进来（比如云写入失败时的记录）
@@ -706,7 +734,7 @@ module.exports = {
    */
   addTraceHistory(batchNo, productName) {
     const list = wx.getStorageSync(TRACE_HISTORY_KEY) || []
-    list.unshift({ batchNo, productName, time: new Date().toLocaleString() })
+    list.unshift({ batchNo, productName, time: formatDateTime(new Date()) })
     wx.setStorageSync(TRACE_HISTORY_KEY, list.slice(0, 20))  // 最多留 20 条
   },
 
@@ -1159,6 +1187,29 @@ module.exports = {
     const list = readOrdersCache().filter(o => o.orderId !== orderId)
     writeOrdersCache(list)
     return Promise.resolve({ success: true })
+  },
+
+  /**
+   * 删除研学订单并释放名额（v0.4：走云函数 releaseSeats）
+   * 与 bookStudy 对称：报名扣名额、删单还名额（数据闭环，名额不会只减不增）
+   */
+  releaseBooking(docId) {
+    if (!docId) return Promise.resolve({ success: false, reason: '无效的记录标识' })
+    return wx.cloud.callFunction({
+      name: 'releaseSeats',
+      data: { docId }
+    }).then(res => {
+      const r = res.result || {}
+      if (r.success) {
+        // 同步清本地订单缓存
+        wx.removeStorageSync(ORDERS_CACHE_KEY)
+        return { success: true, released: r.released }
+      }
+      return { success: false, reason: r.reason || '删除失败' }
+    }).catch(err => {
+      console.error('[云函数] releaseSeats 调用失败:', err)
+      return { success: false, reason: '删除失败（云端繁忙）' }
+    })
   },
 
   /**

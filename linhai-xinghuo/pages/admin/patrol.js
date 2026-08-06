@@ -104,7 +104,7 @@ Page({
   formatTime(t) {
     if (!t) return ''
     const d = new Date(t)
-    return d.toLocaleString()
+    return api.formatDateTime(d)
   },
 
   // 删除单条巡护记录（Day3 路线B：逐条管理）

@@ -19,11 +19,21 @@ exports.main = async (event) => {
   if (!event.templateId) return { success: false, reason: '模板未配置' }
 
   try {
+    // ⚠️ 微信要求模板字段必须是 { value: '内容' } 格式——
+    //    传纯字符串会报 "data.thing1.value is empty"（errCode 47003）
+    //    这里统一转换，客户端可保持简单字符串
+    const data = {}
+    const raw = event.data || {}
+    for (const key in raw) {
+      const v = raw[key]
+      data[key] = (typeof v === 'object' && v !== null) ? v : { value: String(v) }
+    }
+
     await cloud.openapi.subscribeMessage.send({
       touser: OPENID,
       templateId: event.templateId,
       page: event.page || 'pages/index/index',
-      data: event.data || {},
+      data: data,
       // 开发/体验版用 developer/trial 可收；正式发布后改为 formal
       miniprogramState: event.miniprogramState || 'developer'
     })
