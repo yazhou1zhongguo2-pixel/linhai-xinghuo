@@ -249,17 +249,34 @@ module.exports = {
 
   /**
    * 获取研学产品列表（3 类课程）
-   * 当前读 mock；第四阶段迁到云数据库 study_products 集合
+   * v0.4：云端优先（study_products 集合——名额真实数据源），云端为空时回退 mock
+   * ⚠️ 名额显示必须读云端，否则报名后数字不变（云函数扣的是云端数据）
    */
   getStudyProducts() {
-    return Promise.resolve(studyData.products)
+    return getDb().collection('study_products').get()
+      .then(res => {
+        if (res.data.length) {
+          console.log('[数据源] 云数据库(study_products)')
+          return res.data
+        }
+        return studyData.products
+      })
+      .catch(() => studyData.products)
   },
 
   /**
-   * 获取单个研学产品详情
+   * 获取单个研学产品详情（云端优先，mock 回退）
    */
   getStudyDetail(id) {
-    return Promise.resolve(studyData.products.find(p => p.id === id))
+    return getDb().collection('study_products').doc(id).get()
+      .then(res => {
+        if (res.data) {
+          console.log('[数据源] 云数据库(study_products)')
+          return res.data
+        }
+        return studyData.products.find(p => p.id === id)
+      })
+      .catch(() => studyData.products.find(p => p.id === id))
   },
 
   /**
@@ -319,40 +336,67 @@ module.exports = {
   },
 
   /**
-   * 订阅消息：请求授权 + 云函数推送（v0.4）
-   * 模板未配置/用户拒绝 → 静默返回（不影响主流程）
-   * @param tmplKey 'study' | 'adopt'
-   * @param page 通知点击跳转页
-   * @param data 模板字段映射（以申请到的模板字段名为准）
+   * 请求订阅授权（v0.4）
+   * ⚠️ 微信硬性限制：必须在用户点击手势内【同步】调用——
+   *    异步（await 之后）调用会报 "can only be invoked by user TAP gesture"，弹窗不会出现
+   * 所以拆成两步：本函数在 tap 处理器开头调用；授权结果出来后用 sendNotifyNow 推送
    */
-  sendSubscribe(tmplKey, page, data) {
+  requestSubscribe(tmplKey) {
     const templateId = SUBSCRIBE_TMPL_IDS[tmplKey]
-    if (!templateId) return Promise.resolve({ success: false, reason: '模板未配置' })
+    if (!templateId) return Promise.resolve({ subscribed: false })
     return wx.requestSubscribeMessage({ tmplIds: [templateId] })
-      .then(() => wx.cloud.callFunction({
-        name: 'sendNotify',
-        data: { templateId, page, data, miniprogramState: getMiniprogramState() }
-      }))
-      .then(res => (res && res.result) || { success: false })
+      .then(() => ({ subscribed: true }))
       .catch(err => {
-        console.warn('[订阅] 未授权或推送失败（不影响主流程）:', err)
+        console.warn('[订阅] 用户未授权（不影响主流程）:', err)
+        return { subscribed: false }
+      })
+  },
+
+  /**
+   * 发送订阅消息（授权已获取后调用，走云函数 sendNotify）
+   */
+  sendNotifyNow(tmplKey, page, data) {
+    const templateId = SUBSCRIBE_TMPL_IDS[tmplKey]
+    if (!templateId) return Promise.resolve({ success: false })
+    return wx.cloud.callFunction({
+      name: 'sendNotify',
+      data: { templateId, page, data, miniprogramState: getMiniprogramState() }
+    }).then(res => (res && res.result) || { success: false })
+      .catch(err => {
+        console.warn('[推送] 失败（不影响主流程）:', err)
         return { success: false }
       })
   },
 
   /**
    * 获取云认养计划列表（3 档）
-   * 当前读 mock；第四阶段迁到云数据库 adopt_plans 集合
+   * v0.4 数据源审计：云端优先（adopt_plans 集合），云端为空时回退 mock
    */
   getAdoptPlans() {
-    return Promise.resolve(adoptData.plans)
+    return getDb().collection('adopt_plans').get()
+      .then(res => {
+        if (res.data.length) {
+          console.log('[数据源] 云数据库(adopt_plans)')
+          return res.data
+        }
+        return adoptData.plans
+      })
+      .catch(() => adoptData.plans)
   },
 
   /**
-   * 获取单个认养计划详情
+   * 获取单个认养计划详情（云端优先，mock 回退）
    */
   getAdoptDetail(id) {
-    return Promise.resolve(adoptData.plans.find(p => p.id === id))
+    return getDb().collection('adopt_plans').doc(id).get()
+      .then(res => {
+        if (res.data) {
+          console.log('[数据源] 云数据库(adopt_plans)')
+          return res.data
+        }
+        return adoptData.plans.find(p => p.id === id)
+      })
+      .catch(() => adoptData.plans.find(p => p.id === id))
   },
 
   /**
@@ -435,30 +479,36 @@ module.exports = {
       const list = []
       bookings.data.forEach(b => {
         list.push({
+          _id: b._id,               // 供消息通知删除用
           orderId: b.orderId,
           type: '研学',
           name: b.productName,
           detail: (b.date || '') + ' · ' + (b.count || 1) + '人',
           amount: b.amount,
           status: b.status || '已报名',
-          time: b.createdAt
+          // ⚠️ 云端 createdAt 是 Date 对象，模板直接渲染会显示 [object Object]，必须转字符串
+          time: b.createdAt ? new Date(b.createdAt).toLocaleString() : ''
         })
       })
       adoptions.data.forEach(a => {
         list.push({
+          _id: a._id,               // 供消息通知删除用
           orderId: a.adoptionId,
           type: '认养',
           name: a.planName,
           detail: '认养 ' + (a.price || 0) + ' 元',
           amount: a.price,
           status: a.status || '认养中',
-          time: a.createdAt
+          time: a.createdAt ? new Date(a.createdAt).toLocaleString() : ''
         })
       })
       // 本地缓存兜底：云里没有的订单补进来（比如云写入失败时的记录）
+      // 标记 fromCache：消息通知删除时走本地缓存移除（缓存条目无云端 _id）
       const cloudIds = list.map(o => o.orderId)
       readOrdersCache().forEach(c => {
-        if (cloudIds.indexOf(c.orderId) < 0) list.push(c)
+        if (cloudIds.indexOf(c.orderId) < 0) {
+          list.push(Object.assign({}, c, { fromCache: true }))
+        }
       })
       // 按时间倒序（没有时间的排最后）
       list.sort((x, y) => ((x.time || 0) < (y.time || 0) ? 1 : -1))
@@ -492,11 +542,21 @@ module.exports = {
   },
 
   /**
-   * 获取某计划的最新季度报告
+   * 获取某计划的最新季度报告（云端优先，mock 回退）
    */
   getAdoptReports(planId) {
-    const plan = adoptData.plans.find(p => p.id === planId)
-    return Promise.resolve(plan ? plan.reports : [])
+    return getDb().collection('adopt_plans').doc(planId).get()
+      .then(res => {
+        if (res.data && res.data.reports) {
+          return res.data.reports
+        }
+        const plan = adoptData.plans.find(p => p.id === planId)
+        return plan ? plan.reports : []
+      })
+      .catch(() => {
+        const plan = adoptData.plans.find(p => p.id === planId)
+        return plan ? plan.reports : []
+      })
   },
 
   /**
@@ -1068,20 +1128,37 @@ module.exports = {
    * 仅能删自己创建的（权限：仅创建者可读写）；删除订单/认养时同步清本地缓存防复活
    */
   deleteMyRecord(collectionName, docId) {
-    return getDb().collection(collectionName).doc(docId).remove()
-      .then(() => {
-        if (collectionName === 'study_bookings' || collectionName === 'adoptions') {
-          wx.removeStorageSync(ORDERS_CACHE_KEY)
-        }
-        if (collectionName === 'adoptions') {
-          wx.removeStorageSync(ADOPTIONS_KEY)
-        }
-        return { success: true }
-      })
-      .catch(err => {
-        console.error('[写云] 删除 ' + collectionName + ' 失败:', err)
-        return { success: false, reason: '删除失败：非本人创建或已不存在' }
-      })
+    if (!docId) {
+      return Promise.resolve({ success: false, reason: '无效的记录标识' })
+    }
+    try {
+      return getDb().collection(collectionName).doc(docId).remove()
+        .then(() => {
+          if (collectionName === 'study_bookings' || collectionName === 'adoptions') {
+            wx.removeStorageSync(ORDERS_CACHE_KEY)
+          }
+          if (collectionName === 'adoptions') {
+            wx.removeStorageSync(ADOPTIONS_KEY)
+          }
+          return { success: true }
+        })
+        .catch(err => {
+          console.error('[写云] 删除 ' + collectionName + ' 失败:', err)
+          return { success: false, reason: '删除失败：非本人创建或已不存在' }
+        })
+    } catch (e) {
+      // docId 非法时 SDK 可能同步抛错，必须兜住（否则点击删除毫无反应）
+      return Promise.resolve({ success: false, reason: '无效的记录标识' })
+    }
+  },
+
+  /**
+   * 移除本地缓存订单（消息通知删除缓存条目用）
+   */
+  removeCachedOrder(orderId) {
+    const list = readOrdersCache().filter(o => o.orderId !== orderId)
+    writeOrdersCache(list)
+    return Promise.resolve({ success: true })
   },
 
   /**

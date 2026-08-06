@@ -20,6 +20,9 @@ Page({
         const isStudy = o.type === '研学'
         return {
           id: o.orderId,
+          // ⚠️ 必须透传删除所需字段：云端 _id / 缓存标记（否则删除按钮拿到空 ID）
+          _id: o._id,
+          fromCache: o.fromCache,
           kind: isStudy ? '订单' : '认养',
           title: isStudy ? '研学报名成功' : '认养成功',
           content: '「' + o.name + '」' + (isStudy ? '已报名' : '已生效') + '，可在"我的订单"查看详情。',
@@ -61,5 +64,30 @@ Page({
     } else if (kind === '认养' || kind === '生长报告') {
       wx.navigateTo({ url: '/pages/adopt/home' })
     }
+  },
+
+  // 删除消息：云端订单 → 删云端；本地缓存条目 → 移除缓存（演示消息不可删）
+  removeMessage(e) {
+    const docId = e.currentTarget.dataset.id
+    const orderId = e.currentTarget.dataset.orderid
+    const kind = e.currentTarget.dataset.kind
+    const fromCache = e.currentTarget.dataset.fromcache === 'true'
+    const collection = kind === '订单' ? 'study_bookings' : 'adoptions'
+    const hint = fromCache ? '这条是本地缓存订单，删除后缓存同步移除，确定？' : '删除后对应的订单记录也会同步删除，确定？'
+    wx.showModal({
+      title: '删除消息',
+      content: hint,
+      confirmColor: '#C0392B',
+      success: (res) => {
+        if (!res.confirm) return
+        const action = fromCache
+          ? api.removeCachedOrder(orderId)
+          : api.deleteMyRecord(collection, docId)
+        action.then(result => {
+          wx.showToast({ title: result.success ? '已删除' : (result.reason || '删除失败'), icon: 'none' })
+          if (result.success) this.loadMessages()
+        })
+      }
+    })
   }
 })

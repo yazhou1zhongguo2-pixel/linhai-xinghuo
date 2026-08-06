@@ -19,9 +19,17 @@
 - utils/api.js：submitBooking 改走云函数（本地校验为前置提示）；物候/采收提交后自动触发汇聚；sendSubscribe 封装（模板未配置自动跳过）
 - book.js / contract.js：支付成功后触发订阅授权+推送
 
-### 待验证（隐私指引审核后）
-- 真机订阅推送链路（授权弹窗→服务通知到达）
-- 汇聚全链路（采收/物候→档案页）
+### 联调修复（2026-08-04 晚）
+- 名额显示读云（study_products），报名后详情/列表页 onShow 刷新 → 名额真实减少可见
+- 认养计划迁云（adopt_plans 集合，含季度报告/碳汇报告）——数据源审计：业务数据全部云端化
+- 订阅授权拆两步（requestSubscribe 在点击手势内同步发起 / sendNotifyNow 推送）——修复 "can only be invoked by user TAP gesture"（微信硬性限制）
+- 云函数写订单显式带 _openid（云函数 add 不会自动带，否则订单无主删不掉）
+- 消息删除透传 _id/fromCache + deleteMyRecord 空 ID 兜底
+- 消息时间 [object Object] 修复（云端 Date 对象转字符串）
+- 位置权限三层声明齐备：隐私指引 + requiredPrivateInfos + permission.scope.userLocation
+
+### 待验证（真机）
+- 订阅授权弹窗 → 服务通知到达（修复 tap 手势问题后）
 - 全流程回归
 
 ### 已知限制（更新）

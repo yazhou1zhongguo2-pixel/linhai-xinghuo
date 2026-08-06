@@ -52,10 +52,14 @@ exports.main = async (event) => {
     })
 
     // 事务提交成功后写订单（订单写入失败不阻塞名额已扣，属可接受窗口）
+    // ⚠️ 云函数 add 不会自动带 _openid（客户端才会）——必须显式写入归属，
+    //    否则订单"无主"，用户在客户端删不掉（仅创建者可读写权限）
+    const { OPENID } = cloud.getWXContext()
     const orderId = 'ST' + Date.now() + Math.floor(Math.random() * 1000)
     const amount = meta.price * count
     await db.collection('study_bookings').add({
       data: {
+        _openid: OPENID,
         orderId,
         type: 'study',
         productId,

@@ -13,7 +13,12 @@
     <view class="msg-content">{{item.content}}</view>
     <view class="msg-foot">
       <text class="text-secondary">{{item.time}}</text>
-      <text class="msg-demo" wx:if="{{item.demo}}">演示消息</text>
+      <view class="msg-right">
+        <text class="msg-demo" wx:if="{{item.demo}}">演示消息</text>
+        <view class="msg-del" wx:if="{{!item.demo}}" catchtap="removeMessage"
+              data-id="{{item._id}}" data-orderid="{{item.orderId}}"
+              data-kind="{{item.kind}}" data-fromcache="{{item.fromCache}}">删除</view>
+      </view>
     </view>
   </view>
 

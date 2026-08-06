@@ -8,9 +8,19 @@ Page({
     product: null      // 当前产品详情
   },
 
+  // 每次露脸都刷新：报名成功后返回本页，名额应立即显示真实减少
+  onShow() {
+    if (this.data.product) this.loadDetail()
+  },
+
   onLoad(options) {
     // options.id 是列表页跳转时 ?id= 传过来的产品编号
-    api.getStudyDetail(options.id).then(product => {
+    this._id = options.id
+    this.loadDetail()
+  },
+
+  loadDetail() {
+    api.getStudyDetail(this._id).then(product => {
       // 预处理：每个日期算出剩余名额，供界面展示（满员显示"已满"）
       const dates = (product.dates || []).map(d => ({
         ...d,
@@ -30,6 +40,7 @@ Page({
       })
     })
   },
+
 
   // 云端时间转日期字符串（yyyy-mm-dd）
   formatDate(t) {

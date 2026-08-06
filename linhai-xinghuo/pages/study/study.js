@@ -8,7 +8,16 @@ Page({
     products: []     // 产品列表（含预处理后的名额信息）
   },
 
+  // 每次露脸都刷新：报名后名额真实减少要能立即看到（onLoad 只跑一次的教训）
+  onShow() {
+    this.loadProducts()
+  },
+
   onLoad() {
+    this.loadProducts()
+  },
+
+  loadProducts() {
     api.getStudyProducts().then(products => {
       // 预处理：每个产品算出"最近可约日期 + 剩余名额"（满员的显示"本档期已满"）
       const list = products.map(p => {
@@ -24,6 +33,7 @@ Page({
       this.setData({ products: list })
     })
   },
+
 
   // 点产品卡片 → 详情页
   goDetail(e) {

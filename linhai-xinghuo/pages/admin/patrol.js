@@ -59,6 +59,12 @@ Page({
         },
         fail: (err) => {
           console.warn('[定位] 获取失败，回退演示坐标:', err)
+          // 真机无控制台：把失败原因弹出来，便于定位问题
+          const reason = (err && err.errMsg) || '未知原因'
+          wx.showToast({
+            title: '定位未成功（' + reason.slice(0, 20) + '…），已用演示坐标',
+            icon: 'none'
+          })
           resolve({ latitude: 43.75, longitude: 128.20, accuracy: 0, fallback: true })
         }
       })

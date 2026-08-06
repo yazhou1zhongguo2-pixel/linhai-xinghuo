@@ -47,12 +47,24 @@
   justify-content: space-between;
   align-items: center;
 }
+.msg-right {
+  display: flex;
+  align-items: center;
+}
 .msg-demo {
   font-size: 20rpx;
   color: #C9A96A;
   border: 1rpx solid #C9A96A;
   border-radius: 8rpx;
   padding: 2rpx 10rpx;
+  margin-right: 12rpx;
+}
+.msg-del {
+  font-size: 22rpx;
+  color: #C0392B;
+  border: 1rpx solid #C0392B;
+  border-radius: 20rpx;
+  padding: 4rpx 18rpx;
 }
 
 .empty-tip {
