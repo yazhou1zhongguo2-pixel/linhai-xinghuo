@@ -5,12 +5,13 @@
 
 ---
 
-## v0.4.0 — 2026-08-04（云函数体系 · 答辩核心，待全流程验证）
+## v0.4.0 — 2026-08-04（云函数体系 · 答辩核心，全链路真机验证通过）
 
-### 云函数体系（cloudfunctions/ 建立，3 个函数）
-- **bookStudy**：研学报名**事务原子名额校验**（防超卖）——db.runTransaction 快照隔离，booked 原子递增，满员/名额不足自动拒绝；订单由云函数写入
-- **sendNotify**：**订阅消息推送**——报名/认养成功后微信服务通知到达（模板：报名成功通知 thing1/thing4，20 字限制适配；miniprogramState 按运行环境自动切换 developer/formal）
+### 云函数体系（cloudfunctions/ 建立，4 个函数）
+- **bookStudy**：研学报名**事务原子名额校验**（防超卖）——db.runTransaction 快照隔离，booked 原子递增，满员/名额不足自动拒绝；订单由云函数写入（显式带 _openid）
+- **sendNotify**：**订阅消息推送**——报名/认养成功后微信服务通知到达（模板：报名成功通知 thing1/thing4，20 字限制适配；字段统一转 {value} 格式；miniprogramState 按运行环境自动切换 developer/formal）
 - **aggregateToArchive**：**后台数据自动汇聚**——采收建档→批次档案 harvest+growth 更新；物候观测→按地块匹配批次 growth 追加；云函数权限红利：可更新无主种子批次
+- **releaseSeats**：**删单释放名额**——删除研学订单→booked 回退（下限 0）→删订单；与 bookStudy 形成"报名扣名额、删单还名额"闭环
 
 ### 数据迁移
 - study_products 集合（15 集合）：产品+名额数据从 mock 迁云（db_seed/study_products.json），名额校验的真实数据源
@@ -28,9 +29,11 @@
 - 消息时间 [object Object] 修复（云端 Date 对象转字符串）
 - 位置权限三层声明齐备：隐私指引 + requiredPrivateInfos + permission.scope.userLocation
 
-### 待验证（真机）
-- 订阅授权弹窗 → 服务通知到达（修复 tap 手势问题后）
-- 全流程回归
+### 真机验证结果（2026-08-06）
+- ✅ 订阅推送（研学/认养两板块通知均到达，47003 {value} 空值错误已修复）
+- ✅ 名额：报名递减 / 删单释放 / 满员拒绝
+- ✅ 汇聚、认养计划云端、消息删除、日期格式统一（formatDateTime 中文数字，修复真机英文日期）
+- ✅ 模拟器红色报错确认为无害提示（本地图片缓存抖动）
 
 ### 已知限制（更新）
 - 删除订单暂不释放名额（booked 只增不减）——答辩口径：防超卖保证不超卖，释放名额为后续优化

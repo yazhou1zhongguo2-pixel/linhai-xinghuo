@@ -32,23 +32,35 @@
 2. 记下你的**环境 ID**（形如 `cloud1-xxxxxx`）
 3. 打开 `app.js`，把 `wx.cloud.init` 里的 `env` 改成你的环境 ID
 
-### 第 4 步：建集合 + 配权限（10 个）
+### 第 4 步：建集合 + 配权限（16 个）
 云开发控制台 → 数据库 → 新建集合并设置权限：
 
 | 集合 | 权限 |
 |---|---|
-| stories / plots / trace_batches / study_bookings / adoptions / patrol_records / phenology_records / harvest_records / imagery | 所有用户可读，仅创建者可读写 |
-| user_favorites | 仅创建者可读写 |
+| stories / plots / trace_batches / study_bookings / adoptions / patrol_records / phenology_records / harvest_records / imagery / study_products / adopt_plans / reviews | 所有用户可读，仅创建者可读写 |
+| user_favorites / story_likes / feedback / users | 仅创建者可读写 |
 
 ### 第 5 步：导入种子数据
-项目内 `db_seed/` 目录有三个 JSON（NDJSON 格式，每行一条）：
-- `stories.json` → stories 集合
+项目内 `db_seed/` 目录的 JSON（NDJSON 格式，每行一条）：
+- `stories.json` + `stories-extra.json` → stories 集合
 - `plots.json` → plots 集合
-- `trace_batches.json` → trace_batches 集合
+- `trace_batches.json` + `trace_batches-extra.json` → trace_batches 集合
+- `study_products.json` → study_products 集合
+- `adopt_plans.json` → adopt_plans 集合
 
 控制台 → 对应集合 → 导入 → 选择文件。
 
-**完成！** 编译运行：首页故事流、生态看板、溯源档案应正常显示（[数据源] 云数据库 日志）。
+### 第 6 步：部署云函数（4 个）
+开发者工具 → `cloudfunctions/` 下每个文件夹 → **右键 → 上传并部署：云端安装依赖**：
+- `bookStudy`（名额事务校验+下单）
+- `sendNotify`（订阅消息推送）
+- `aggregateToArchive`（采收/物候→批次档案汇聚）
+- `releaseSeats`（删单释放名额）
+
+### 第 7 步（可选）：订阅消息推送
+mp 后台 → 功能 → 订阅消息 → 选用"报名成功通知"模板 → 把模板 ID 填入 `utils/api.js` 的 `SUBSCRIBE_TMPL_IDS`（thing1=活动名称 / thing4=温馨提示）。
+
+**完成！** 编译运行：首页故事流、生态看板、溯源档案、研学报名（名额真实减少）、认养、订阅推送应正常（[数据源] 云数据库 日志）。
 
 ---
 
@@ -77,7 +89,7 @@
 2. **支付为影子版**：个人主体无法开通微信支付；取得企业/个体户主体后替换 `wx.requestPayment` 预留位
 3. **云存储免费套餐**：文件"仅创建者可读写"且不可改——照片/PDF 必须从小程序内上传（归属上传者本人可读）
 4. **正式运营**：云开发环境到期转付费（基础套餐 19.9 元/月）
-5. **云函数尚未建设**：名额真实校验、订阅消息、小程序码等依赖 cloudfunctions/（见功能实现状态说明.md 第二节）
+5. **云函数已建设**（4 个）：名额校验/订阅推送/数据汇聚/名额释放均已实现；小程序码、管理员白名单、用户列表仍待 v0.5（见功能实现状态说明.md 第二节）
 
 ---
 
