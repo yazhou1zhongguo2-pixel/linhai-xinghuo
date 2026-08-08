@@ -29,7 +29,7 @@
       </view>
       <view class="agree-clause">
         <view class="agree-title">五、说明</view>
-        <view class="agree-text">本协议为演示用协议文本（影子版），正式上线前由项目团队与法律顾问完善。</view>
+        <view class="agree-text">本协议为演示用协议文本（影子版），不具法律效力，仅用于功能展示。</view>
       </view>
     </view>
 
@@ -42,7 +42,7 @@
     </view>
 
     <button class="pay-btn" bindtap="submit">同意并支付 ¥{{plan.price}}</button>
-    <view class="pay-note">支付为演示流程（"影子版"）· 正式上线后接入微信支付</view>
+    <view class="pay-note">本支付为演示流程（影子版），仅用于功能展示，不产生任何真实扣款，不接入真实支付渠道</view>
   </block>
 
   <!-- 认养成功 -->
