@@ -12,7 +12,7 @@
   </view>
 
   <!-- 演示声明横幅（价格均为演示数据，不产生真实交易） -->
-  <view class="demo-banner">本小程序为大学生科创竞赛演示项目，页面内所有价格均为演示数据，不产生真实交易与扣款。</view>
+  <view class="demo-banner">本小程序为大学生科创竞赛演示项目，页面内所有价格完全为演示数据，不产生任何真实交易、提现与扣款行为。</view>
 
   <!-- 产品卡片列表 -->
   <view class="card product-card" wx:for="{{products}}" wx:key="id"
@@ -26,13 +26,13 @@
     </view>
     <view class="product-meta">
       <text class="product-price">¥{{item.price}}<text class="product-price-unit">/人</text></text>
-      <text class="demo-tag">演示价</text>
       <view class="product-tags">
         <text class="product-tag">{{item.duration}}</text>
         <text class="product-tag">{{item.ageRange}}</text>
       </view>
     </view>
     <!-- 名额提示：有档期显示日期+余位，满员显示警示 -->
+    <view class="demo-tag">价格仅做项目演示，不涉及提现、支付等交易行为</view>
     <view class="quota-hint {{item.remaining > 0 ? 'quota-ok' : 'quota-full'}}">
       {{item.remaining > 0 ? '近期可约 ' + item.nextDate + ' · 余 ' + item.remaining + ' 位' : '近期档期已满 · 可关注后续更新'}}
     </view>

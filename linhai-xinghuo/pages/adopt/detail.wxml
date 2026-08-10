@@ -7,9 +7,9 @@
     <view class="detail-tagline">{{plan.tagline}}</view>
     <view class="detail-price-row">
       <text class="detail-price">¥{{plan.price}}<text class="detail-price-unit">/{{plan.unit === '元/年' ? '年' : '株'}}</text></text>
-      <text class="demo-tag">演示价</text>
       <view class="detail-limit" wx:if="{{plan.limitText}}">{{plan.limitText}}</view>
     </view>
+    <view class="demo-tag">价格仅做项目演示，不涉及提现、支付等交易行为</view>
     <view class="detail-years">{{plan.years}}年陪伴 · 每季度生长报告</view>
   </view>
 
@@ -48,7 +48,6 @@
     <view class="adopt-bar-price">
       <text class="adopt-bar-price-num">¥{{plan.price}}</text>
       <text class="adopt-bar-price-unit">/{{plan.unit === '元/年' ? '年' : '株'}}</text>
-      <text class="demo-tag">演示价</text>
     </view>
     <button class="adopt-bar-btn" bindtap="goContract">签署协议并认养</button>
   </view>

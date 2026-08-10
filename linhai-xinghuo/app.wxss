@@ -60,17 +60,19 @@ page {
 
 /* ========== 演示声明（审核合规：价格均为演示数据） ========== */
 .demo-banner {
-  font-size: 22rpx;
-  color: #8B6A4F;
-  background-color: #FBF7EE;
-  border: 1rpx solid #C9A96A;
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #FFFFFF;
+  background-color: #3A6B4E;
   border-radius: 12rpx;
-  padding: 12rpx 20rpx;
+  padding: 16rpx 20rpx;
   margin-top: 20rpx;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 .demo-tag {
-  font-size: 20rpx;
-  color: #B7AE9E;
-  margin-left: 10rpx;
+  display: block;
+  font-size: 22rpx;
+  color: #8B6A4F;
+  margin-top: 6rpx;
+  line-height: 1.5;
 }

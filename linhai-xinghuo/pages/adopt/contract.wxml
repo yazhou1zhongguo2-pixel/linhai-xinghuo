@@ -5,12 +5,10 @@
     <!-- 计划摘要 -->
     <view class="contract-plan">
       <text class="contract-plan-name">{{plan.name}}</text>
-      <view>
-        <text class="contract-plan-price">¥{{plan.price}}/{{plan.unit === '元/年' ? '年' : '株'}}</text>
-        <text class="demo-tag">演示价</text>
-      </view>
+      <text class="contract-plan-price">¥{{plan.price}}/{{plan.unit === '元/年' ? '年' : '株'}}</text>
     </view>
 
+    <view class="demo-tag">价格仅做项目演示，不涉及提现、支付等交易行为</view>
     <!-- 协议正文（滚动阅读） -->
     <view class="section-title">电子认养协议</view>
     <view class="card agreement">
@@ -67,7 +65,7 @@
               use-cancel-button-slot use-confirm-button-slot>
     <view class="pay-dialog">
       <view class="pay-dialog-title">确认登记认养信息</view>
-      <view class="pay-dialog-amount">¥{{plan.price}}<text class="demo-tag">演示价</text></view>
+      <view class="pay-dialog-amount">¥{{plan.price}}</view>
       <view class="pay-dialog-desc">演示版：点击"确认登记"即模拟完成流程，不产生真实扣款</view>
     </view>
     <view slot="cancel-button" class="pay-dialog-btn pay-dialog-cancel" bindtap="onPayCancel">再想想</view>
