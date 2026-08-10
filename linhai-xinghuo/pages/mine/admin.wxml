@@ -3,7 +3,7 @@
 
   <view class="admin-head">
     <view class="admin-title">林海星火 · 后台管理</view>
-    <view class="admin-desc">学生团队专用 · 正式上线前将接入身份校验</view>
+    <view class="admin-desc">学生团队专用</view>
   </view>
 
   <!-- 后台入口（每个板块配专属图标，贴合语义） -->
