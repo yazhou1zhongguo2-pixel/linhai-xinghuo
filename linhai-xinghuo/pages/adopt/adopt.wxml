@@ -12,7 +12,7 @@
   </view>
 
   <!-- 演示声明横幅（价格均为演示数据，不产生真实交易） -->
-  <view class="demo-banner">本小程序为大学生科创竞赛演示项目，页面内所有价格完全为演示数据，不产生任何真实交易、提现与扣款行为。</view>
+  <view class="demo-banner">本小程序为大学生三下乡比赛演示项目，页面内所有价格完全为演示数据，不产生任何真实交易、提现与扣款行为。</view>
 
   <!-- 认养计划卡片 -->
   <view class="card plan-card" wx:for="{{plans}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
