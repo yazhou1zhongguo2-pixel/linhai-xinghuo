@@ -55,6 +55,8 @@
 
   <!-- 区块三："正在发生"故事流 -->
   <view class="section-title">正在发生</view>
+  <!-- 故事流声明横幅（正面回应"社交-笔记"类目判定） -->
+  <view class="demo-banner">本故事流为大学生三下乡比赛项目功能展示：所有内容由项目团队统一编辑、审核后发布，不开放用户自由发布、评论与分享，不构成社交互动平台，不属于"社交-笔记"类目。</view>
   <view class="card story-card" wx:for="{{stories}}" wx:key="id">
     <view class="story-top">
       <!-- 图标用 PNG 图片（emoji 在安卓真机可能显示空白，不能用） -->
