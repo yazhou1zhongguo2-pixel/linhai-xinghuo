@@ -15,7 +15,7 @@
     </view>
     <view class="order-bottom">
       <text class="text-secondary">订单号 {{item.orderId}}</text>
-      <text class="order-amount">¥{{item.amount}}</text>
+      <text class="order-amount">¥{{item.amount}}<text class="demo-tag">演示</text></text>
     </view>
   </view>
 

@@ -11,6 +11,9 @@
     </view>
   </view>
 
+  <!-- 演示声明横幅（价格均为演示数据，不产生真实交易） -->
+  <view class="demo-banner">本小程序为大学生科创竞赛演示项目，页面内所有价格均为演示数据，不产生真实交易与扣款。</view>
+
   <!-- 产品卡片列表 -->
   <view class="card product-card" wx:for="{{products}}" wx:key="id"
         bindtap="goDetail" data-id="{{item.id}}">
@@ -23,6 +26,7 @@
     </view>
     <view class="product-meta">
       <text class="product-price">¥{{item.price}}<text class="product-price-unit">/人</text></text>
+      <text class="demo-tag">演示价</text>
       <view class="product-tags">
         <text class="product-tag">{{item.duration}}</text>
         <text class="product-tag">{{item.ageRange}}</text>

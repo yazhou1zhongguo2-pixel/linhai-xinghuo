@@ -11,6 +11,9 @@
     </view>
   </view>
 
+  <!-- 演示声明横幅（价格均为演示数据，不产生真实交易） -->
+  <view class="demo-banner">本小程序为大学生科创竞赛演示项目，页面内所有价格均为演示数据，不产生真实交易与扣款。</view>
+
   <!-- 认养计划卡片 -->
   <view class="card plan-card" wx:for="{{plans}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
     <view class="plan-top">
@@ -23,6 +26,7 @@
 
     <view class="plan-price-row">
       <text class="plan-price">¥{{item.price}}<text class="plan-price-unit">/{{item.unit === '元/年' ? '年' : '株'}}</text></text>
+      <text class="demo-tag">演示价</text>
       <!-- 限量角标（林下参专属） -->
       <view class="plan-limit" wx:if="{{item.limitText}}">{{item.limitText}}</view>
     </view>

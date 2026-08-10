@@ -5,7 +5,10 @@
     <!-- 计划摘要 -->
     <view class="contract-plan">
       <text class="contract-plan-name">{{plan.name}}</text>
-      <text class="contract-plan-price">¥{{plan.price}}/{{plan.unit === '元/年' ? '年' : '株'}}</text>
+      <view>
+        <text class="contract-plan-price">¥{{plan.price}}/{{plan.unit === '元/年' ? '年' : '株'}}</text>
+        <text class="demo-tag">演示价</text>
+      </view>
     </view>
 
     <!-- 协议正文（滚动阅读） -->
@@ -16,8 +19,8 @@
         <view class="agree-text">认养人按所选计划享有对应权益（见计划详情页），权益内容以认养年度为准。</view>
       </view>
       <view class="agree-clause">
-        <view class="agree-title">二、支付与凭证</view>
-        <view class="agree-text">认养费用一次性支付，支付完成后生成电子认养证书与认养编号，作为权益凭证。</view>
+        <view class="agree-title">二、费用与凭证</view>
+        <view class="agree-text">认养费用为演示数据（不产生真实扣款），登记完成后生成电子认养证书与认养编号，作为权益凭证（演示）。</view>
       </view>
       <view class="agree-clause">
         <view class="agree-title">三、报告与推送</view>
@@ -41,8 +44,8 @@
       <text class="agree-check-text">我已阅读并同意《电子认养协议》</text>
     </view>
 
-    <button class="pay-btn" bindtap="submit">同意并支付 ¥{{plan.price}}</button>
-    <view class="pay-note">本支付为演示流程（影子版），仅用于功能展示，不产生任何真实扣款，不接入真实支付渠道</view>
+    <button class="pay-btn" bindtap="submit">同意并登记 ¥{{plan.price}}（演示价）</button>
+    <view class="pay-note">本流程为演示（影子版），仅用于功能展示，不产生任何真实扣款与资金往来</view>
   </block>
 
   <!-- 认养成功 -->
@@ -52,7 +55,7 @@
     <view class="success-meta">
       <view class="success-row"><text class="text-secondary">认养编号</text><text>{{adoptionId}}</text></view>
       <view class="success-row"><text class="text-secondary">认养计划</text><text>{{plan.name}}</text></view>
-      <view class="success-row"><text class="text-secondary">实付金额</text><text class="success-amount">¥{{paidAmount}}</text></view>
+      <view class="success-row"><text class="text-secondary">费用（演示）</text><text class="success-amount">¥{{paidAmount}}</text></view>
     </view>
     <view class="success-tip">你的专属认养主页已开通，季度生长报告将在这里推送</view>
     <button class="pay-btn" bindtap="goAdoptHome">查看我的专属认养主页</button>
@@ -63,11 +66,11 @@
   <van-dialog use-slot show="{{showPay}}" show-cancel-button
               use-cancel-button-slot use-confirm-button-slot>
     <view class="pay-dialog">
-      <view class="pay-dialog-title">确认支付认养费</view>
-      <view class="pay-dialog-amount">¥{{plan.price}}</view>
-      <view class="pay-dialog-desc">演示版：点击"确认支付"即模拟支付成功，不产生真实扣款</view>
+      <view class="pay-dialog-title">确认登记认养信息</view>
+      <view class="pay-dialog-amount">¥{{plan.price}}<text class="demo-tag">演示价</text></view>
+      <view class="pay-dialog-desc">演示版：点击"确认登记"即模拟完成流程，不产生真实扣款</view>
     </view>
     <view slot="cancel-button" class="pay-dialog-btn pay-dialog-cancel" bindtap="onPayCancel">再想想</view>
-    <view slot="confirm-button" class="pay-dialog-btn pay-dialog-confirm" bindtap="confirmPay">确认支付</view>
+    <view slot="confirm-button" class="pay-dialog-btn pay-dialog-confirm" bindtap="confirmPay">确认登记</view>
   </van-dialog>
 </view>

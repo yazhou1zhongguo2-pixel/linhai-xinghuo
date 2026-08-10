@@ -5,7 +5,7 @@
   <view class="detail-head">
     <view class="detail-name">{{product.name}}</view>
     <view class="detail-tagline">{{product.tagline}}</view>
-    <view class="detail-price">¥{{product.price}}<text class="detail-price-unit">/人</text></view>
+    <view class="detail-price">¥{{product.price}}<text class="detail-price-unit">/人</text><text class="demo-tag">演示价</text></view>
     <view class="detail-tags">
       <text class="detail-tag">{{product.duration}}</text>
       <text class="detail-tag">{{product.ageRange}}</text>
@@ -89,6 +89,7 @@
     <view class="book-bar-price">
       <text class="book-bar-price-num">¥{{product.price}}</text>
       <text class="book-bar-price-unit">/人</text>
+      <text class="demo-tag">演示价</text>
     </view>
     <button class="book-bar-btn" bindtap="goBook">立即预约</button>
   </view>

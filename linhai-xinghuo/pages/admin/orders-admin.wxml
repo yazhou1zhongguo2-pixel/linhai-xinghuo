@@ -17,7 +17,7 @@
         <text class="order-status">{{item.status}}</text>
       </view>
       <view class="order-info">
-        <text class="text-secondary">{{item.date}} · {{item.count}}人 · ¥{{item.amount}}</text>
+        <text class="text-secondary">{{item.date}} · {{item.count}}人 · ¥{{item.amount}}（演示）</text>
       </view>
       <view class="order-participants" wx:if="{{item.participants}}">
         {{item.participants.name}}（{{item.participants.age}}岁）· {{item.participants.phone}}
@@ -42,7 +42,7 @@
         <text class="order-status">{{item.status}}</text>
       </view>
       <view class="order-info">
-        <text class="text-secondary">¥{{item.price}} · 认养期至 {{item.expireAt ? formatTime(item.expireAt) : ''}}</text>
+        <text class="text-secondary">¥{{item.price}}（演示） · 认养期至 {{item.expireAt ? formatTime(item.expireAt) : ''}}</text>
       </view>
       <view class="order-foot">
         <text class="text-secondary">{{item.createdAt ? formatTime(item.createdAt) : ''}}</text>

@@ -6,7 +6,10 @@
     <!-- 产品摘要 -->
     <view class="book-product">
       <text class="book-product-name">{{product.name}}</text>
-      <text class="book-product-price">¥{{product.price}}/人</text>
+      <view>
+        <text class="book-product-price">¥{{product.price}}/人</text>
+        <text class="demo-tag">演示价</text>
+      </view>
     </view>
 
     <!-- 1. 选择日期 -->
@@ -42,11 +45,11 @@
 
     <!-- 费用合计 + 提交 -->
     <view class="total-row">
-      <text class="text-secondary">{{count}} 人 × ¥{{product.price}}</text>
-      <text class="total-amount">合计 ¥{{total}}</text>
+      <text class="text-secondary">{{count}} 人 × ¥{{product.price}}（演示价）</text>
+      <text class="total-amount">合计 ¥{{total}}<text class="demo-tag">演示</text></text>
     </view>
     <button class="submit-btn" bindtap="submit">提交报名</button>
-    <view class="pay-note">本支付为演示流程（影子版），仅用于功能展示，不产生任何真实扣款，不接入真实支付渠道</view>
+    <view class="pay-note">本流程为演示（影子版），仅用于功能展示，不产生任何真实扣款与资金往来</view>
   </block>
 
   <!-- 报名成功（行前须知） -->
@@ -57,7 +60,7 @@
     <view class="success-title">报名成功！</view>
     <view class="success-meta">
       <view class="success-row"><text class="text-secondary">订单号</text><text>{{orderId}}</text></view>
-      <view class="success-row"><text class="text-secondary">实付金额</text><text class="success-amount">¥{{paidAmount}}</text></view>
+      <view class="success-row"><text class="text-secondary">费用（演示）</text><text class="success-amount">¥{{paidAmount}}</text></view>
     </view>
 
     <!-- 行前须知（设计书：报名成功后自动推送） -->
@@ -79,11 +82,11 @@
   <van-dialog use-slot show="{{showPay}}" show-cancel-button
               use-cancel-button-slot use-confirm-button-slot>
     <view class="pay-dialog">
-      <view class="pay-dialog-title">确认支付报名费</view>
-      <view class="pay-dialog-amount">¥{{total}}</view>
-      <view class="pay-dialog-desc">演示版：点击"确认支付"即模拟支付成功，不产生真实扣款</view>
+      <view class="pay-dialog-title">确认登记报名信息</view>
+      <view class="pay-dialog-amount">¥{{total}}<text class="demo-tag">演示价</text></view>
+      <view class="pay-dialog-desc">演示版：点击"确认登记"即模拟完成流程，不产生真实扣款</view>
     </view>
     <view slot="cancel-button" class="pay-dialog-btn pay-dialog-cancel" bindtap="onPayCancel">再想想</view>
-    <view slot="confirm-button" class="pay-dialog-btn pay-dialog-confirm" bindtap="confirmPay">确认支付</view>
+    <view slot="confirm-button" class="pay-dialog-btn pay-dialog-confirm" bindtap="confirmPay">确认登记</view>
   </van-dialog>
 </view>
