@@ -397,6 +397,25 @@ module.exports = {
   },
 
   /**
+   * 获取当前用户 openid（账号隔离用，v0.4.2）
+   * 调云函数 getOpenid 获取真实 openid，缓存至 globalData（不依赖 {openid} 占位符）
+   */
+  getMyOpenid() {
+    const cached = getApp().globalData.openid
+    if (cached) return Promise.resolve(cached)
+    return wx.cloud.callFunction({ name: 'getOpenid' })
+      .then(res => {
+        const openid = (res.result && res.result.openid) || ''
+        if (openid) getApp().globalData.openid = openid
+        return openid
+      })
+      .catch(err => {
+        console.warn('[openid] 获取失败（数据将显示为空）:', err)
+        return ''
+      })
+  },
+
+  /**
    * 获取云认养计划列表（3 档）
    * v0.4 数据源审计：云端优先（adopt_plans 集合），云端为空时回退 mock
    */
@@ -470,29 +489,35 @@ module.exports = {
    * Day3：daysLeft 由云端 expireAt 实时计算（到期提醒基于真实日期）
    */
   getMyAdoptions() {
-    return getDb().collection('adoptions').get()
-      .then(res => {
-        if (!res.data.length) return readAdoptionsFromStorage()   // 空 → 演示数据
-        return res.data.map(a => {
-          const expire = a.expireAt ? new Date(a.expireAt) : null
-          // 剩余天数 = 到期日 - 今天（不足 1 天按 1 天算，已过期为 0）
-          const daysLeft = expire
-            ? Math.max(0, Math.ceil((expire.getTime() - Date.now()) / 86400000))
-            : 300
-          return {
-            id: a.adoptionId,
-            planId: a.planId,
-            planName: a.planName,
-            plot: '云端记录（待绑定地块）',
-            status: a.status || '认养中',
-            startDate: formatDate(a.createdAt),
-            expireDate: expire ? formatDate(expire) : '',
-            daysLeft: daysLeft,
-            icon: '/images/icon-sapling.png'
-          }
+    return this.getMyOpenid().then(openid => {
+      if (!openid) return []
+      return getDb().collection('adoptions').where({ _openid: openid }).get()
+        .then(res => {
+          // 云端空 → 空数组（不再回退本地演示数据，避免"默认认养"与跨账号残留）
+          return res.data.map(a => {
+            const expire = a.expireAt ? new Date(a.expireAt) : null
+            // 剩余天数 = 到期日 - 今天（不足 1 天按 1 天算，已过期为 0）
+            const daysLeft = expire
+              ? Math.max(0, Math.ceil((expire.getTime() - Date.now()) / 86400000))
+              : 300
+            return {
+              id: a.adoptionId,
+              planId: a.planId,
+              planName: a.planName,
+              plot: '云端记录（待绑定地块）',
+              status: a.status || '认养中',
+              startDate: formatDate(a.createdAt),
+              expireDate: expire ? formatDate(expire) : '',
+              daysLeft: daysLeft,
+              icon: '/images/icon-sapling.png'
+            }
+          })
         })
-      })
-      .catch(() => readAdoptionsFromStorage())
+        .catch(err => {
+          console.warn('[数据源] 我的认养读取失败:', err)
+          return []
+        })
+    })
   },
 
   /**
@@ -500,10 +525,13 @@ module.exports = {
    * 数据源：云数据库 study_bookings + adoptions（权限"所有用户可读"才能读到自己的）
    */
   getMyOrders() {
-    return Promise.all([
-      getDb().collection('study_bookings').get().catch(() => ({ data: [] })),
-      getDb().collection('adoptions').get().catch(() => ({ data: [] }))
-    ]).then(([bookings, adoptions]) => {
+    // ⚠️ 账号隔离：用真实 openid 过滤（集合为"所有用户可读"，不过滤会看到所有人的订单）
+    return this.getMyOpenid().then(openid => {
+      if (!openid) return []
+      return Promise.all([
+        getDb().collection('study_bookings').where({ _openid: openid }).get().catch(() => ({ data: [] })),
+        getDb().collection('adoptions').where({ _openid: openid }).get().catch(() => ({ data: [] }))
+      ]).then(([bookings, adoptions]) => {
       const list = []
       bookings.data.forEach(b => {
         list.push({
@@ -541,6 +569,7 @@ module.exports = {
       // 按时间倒序（没有时间的排最后）
       list.sort((x, y) => ((x.time || 0) < (y.time || 0) ? 1 : -1))
       return list
+      })
     })
   },
 
@@ -548,7 +577,10 @@ module.exports = {
    * 我的研学：已报名的研学课程（云数据库 study_bookings）
    */
   getMyStudies() {
-    return getDb().collection('study_bookings').get()
+    // ⚠️ 账号隔离：真实 openid 过滤（同 getMyOrders）
+    return this.getMyOpenid().then(openid => {
+      if (!openid) return []
+      return getDb().collection('study_bookings').where({ _openid: openid }).get()
       .then(res => {
         const list = res.data.map(b => ({
           orderId: b.orderId,
@@ -567,6 +599,7 @@ module.exports = {
         console.warn('[数据源] 我的研学读取失败:', err)
         return []
       })
+    })
   },
 
   /**
@@ -592,28 +625,22 @@ module.exports = {
    * 云端无该记录（演示数据）时回退本地存储逻辑
    */
   renewAdoption(adoptionId) {
+    // v0.4.2：续约仅对本人云端记录生效（双条件过滤 + 去除本地演示兜底）
     const newExpire = new Date(Date.now() + 365 * 24 * 3600 * 1000)
-    return getDb().collection('adoptions').where({ adoptionId }).get()
-      .then(res => {
-        if (!res.data.length) return null
-        return getDb().collection('adoptions').doc(res.data[0]._id)
-          .update({ data: { expireAt: newExpire } })
-          .then(() => ({ cloud: true }))
-      })
-      .then(result => {
-        if (result) return { success: true, cloud: true }
-        // 云端无记录（演示数据）→ 本地存储兜底
-        const list = readAdoptionsFromStorage().map(a => {
-          if (a.id === adoptionId) return { ...a, daysLeft: 365 }
-          return a
+    return this.getMyOpenid().then(openid => {
+      if (!openid) return { success: false, reason: '无法获取用户身份' }
+      return getDb().collection('adoptions')
+        .where({ adoptionId, _openid: openid }).get()
+        .then(res => {
+          if (!res.data.length) return { success: false, reason: '认养记录不存在' }
+          return getDb().collection('adoptions').doc(res.data[0]._id)
+            .update({ data: { expireAt: newExpire } })
+            .then(() => ({ success: true, cloud: true }))
         })
-        wx.setStorageSync(ADOPTIONS_KEY, list)
-        return { success: true, cloud: false }
-      })
-      .catch(err => {
-        console.error('[写云] 续约失败:', err)
-        return { success: false, reason: '续约失败，请重试' }
-      })
+    }).catch(err => {
+      console.error('[写云] 续约失败:', err)
+      return { success: false, reason: '续约失败，请重试' }
+    })
   },
 
   /* ==================== 我的（第四阶段） ==================== */

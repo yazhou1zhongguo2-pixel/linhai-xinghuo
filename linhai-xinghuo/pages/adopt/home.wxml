@@ -13,6 +13,14 @@
   </view>
 
   <!-- 我的认养列表 -->
+  <!-- v0.4.2：云端为空时显示空态（不再有演示默认认养） -->
+  <view class="empty-adoptions" wx:if="{{!adoptions.length}}">
+    <image class="empty-icon" src="/images/icon-sapling.png" mode="aspectFit"></image>
+    <view class="empty-title">还没有认养</view>
+    <view class="empty-desc">认养一棵树或一片菌架，这里会出现你的专属主页</view>
+    <button class="empty-btn" bindtap="goAdoptTab">去认养</button>
+  </view>
+
   <view class="adoption-card {{selectedId === item.id ? 'adoption-selected' : ''}}"
         wx:for="{{adoptions}}" wx:key="id" bindtap="selectAdoption" data-id="{{item.id}}">
     <view class="adoption-top">

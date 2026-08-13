@@ -39,11 +39,14 @@ Page({
     })
   },
 
-  // 一键续约（影子版：仅界面反馈；正式版写云+真实支付）
+  // 一键续约（v0.4.2：云端真实续约，仅本人记录）
   renew(e) {
     const id = e.currentTarget.dataset.id
     api.renewAdoption(id).then(res => {
-      if (!res.success) return
+      if (!res.success) {
+        wx.showToast({ title: res.reason || '续约失败', icon: 'none' })
+        return
+      }
       wx.showToast({ title: '续约成功（演示）', icon: 'success' })
       // 更新该条状态：不再临期，天数重置为 365
       const adoptions = this.data.adoptions.map(a => {
