@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+<rect width="1200" height="1500" fill="#F7F4EC"/>
+<rect x="30" y="690" width="330" height="120" rx="16" fill="#24432F"/>
+<text x="195.0" y="736.0" font-size="30" fill="#FFFFFF" text-anchor="middle" font-weight="bold">林海星火</text>
+<text x="195.0" y="778.0" font-size="30" fill="#FFFFFF" text-anchor="middle" font-weight="bold">森林生态产品信任连接平台</text>
+<path d="M 360 750.0 C 395.0 750.0, 395.0 150.0, 430 150.0" fill="none" stroke="#24432F" stroke-width="3" opacity="0.8"/>
+<rect x="430" y="127.0" width="240" height="46" rx="10" fill="#3A6B4E"/>
+<text x="550.0" y="155.0" font-size="24" fill="#FFFFFF" text-anchor="middle" font-weight="bold">核心理念</text>
+<path d="M 670 150.0 C 715.0 150.0, 715.0 90.0, 760 90.0" fill="none" stroke="#3A6B4E" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="59.0" width="410" height="62" rx="8" fill="#FFFFFF" stroke="#3A6B4E" stroke-width="2"/>
+<text x="965.0" y="90.0" font-size="19" fill="#2F2B26" text-anchor="middle">先感受这片林子的真实，</text>
+<text x="965.0" y="115.65" font-size="19" fill="#2F2B26" text-anchor="middle">再决定要不要带走它的一部分</text>
+<path d="M 670 150.0 C 715.0 150.0, 715.0 158.0, 760 158.0" fill="none" stroke="#3A6B4E" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="135.0" width="410" height="46" rx="8" fill="#FFFFFF" stroke="#3A6B4E" stroke-width="2"/>
+<text x="965.0" y="163.0" font-size="19" fill="#2F2B26" text-anchor="middle">信任不靠广告，靠透明</text>
+<path d="M 670 150.0 C 715.0 150.0, 715.0 218.0, 760 218.0" fill="none" stroke="#3A6B4E" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="195.0" width="410" height="46" rx="8" fill="#FFFFFF" stroke="#3A6B4E" stroke-width="2"/>
+<text x="965.0" y="223.0" font-size="19" fill="#2F2B26" text-anchor="middle">首页不设购买入口</text>
+<path d="M 360 750.0 C 395.0 750.0, 395.0 450.0, 430 450.0" fill="none" stroke="#24432F" stroke-width="3" opacity="0.8"/>
+<rect x="430" y="427.0" width="240" height="46" rx="10" fill="#C9A96A"/>
+<text x="550.0" y="455.0" font-size="24" fill="#FFFFFF" text-anchor="middle" font-weight="bold">用户旅程</text>
+<path d="M 670 450.0 C 715.0 450.0, 715.0 360.0, 760 360.0" fill="none" stroke="#C9A96A" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="337.0" width="410" height="46" rx="8" fill="#FFFFFF" stroke="#C9A96A" stroke-width="2"/>
+<text x="965.0" y="365.0" font-size="19" fill="#2F2B26" text-anchor="middle">看见：林地影像 · 生态数据 · 护林故事</text>
+<path d="M 670 450.0 C 715.0 450.0, 715.0 420.0, 760 420.0" fill="none" stroke="#C9A96A" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="397.0" width="410" height="46" rx="8" fill="#FFFFFF" stroke="#C9A96A" stroke-width="2"/>
+<text x="965.0" y="425.0" font-size="19" fill="#2F2B26" text-anchor="middle">溯源：五维档案 · 防篡改标识</text>
+<path d="M 670 450.0 C 715.0 450.0, 715.0 480.0, 760 480.0" fill="none" stroke="#C9A96A" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="457.0" width="410" height="46" rx="8" fill="#FFFFFF" stroke="#C9A96A" stroke-width="2"/>
+<text x="965.0" y="485.0" font-size="19" fill="#2F2B26" text-anchor="middle">研学：三档课程 · 名额管控</text>
+<path d="M 670 450.0 C 715.0 450.0, 715.0 540.0, 760 540.0" fill="none" stroke="#C9A96A" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="517.0" width="410" height="46" rx="8" fill="#FFFFFF" stroke="#C9A96A" stroke-width="2"/>
+<text x="965.0" y="545.0" font-size="19" fill="#2F2B26" text-anchor="middle">认养：三档计划 · 专属认养主页</text>
+<path d="M 360 750.0 C 395.0 750.0, 395.0 750.0, 430 750.0" fill="none" stroke="#24432F" stroke-width="3" opacity="0.8"/>
+<rect x="430" y="727.0" width="240" height="46" rx="10" fill="#8B6A4F"/>
+<text x="550.0" y="755.0" font-size="24" fill="#FFFFFF" text-anchor="middle" font-weight="bold">技术底座</text>
+<path d="M 670 750.0 C 715.0 750.0, 715.0 690.0, 760 690.0" fill="none" stroke="#8B6A4F" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="667.0" width="410" height="46" rx="8" fill="#FFFFFF" stroke="#8B6A4F" stroke-width="2"/>
+<text x="965.0" y="695.0" font-size="19" fill="#2F2B26" text-anchor="middle">微信小程序原生框架 + 云开发</text>
+<path d="M 670 750.0 C 715.0 750.0, 715.0 750.0, 760 750.0" fill="none" stroke="#8B6A4F" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="727.0" width="410" height="46" rx="8" fill="#FFFFFF" stroke="#8B6A4F" stroke-width="2"/>
+<text x="965.0" y="755.0" font-size="19" fill="#2F2B26" text-anchor="middle">16 云集合 · 5 云函数 · 云存储</text>
+<path d="M 670 750.0 C 715.0 750.0, 715.0 810.0, 760 810.0" fill="none" stroke="#8B6A4F" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="787.0" width="410" height="46" rx="8" fill="#FFFFFF" stroke="#8B6A4F" stroke-width="2"/>
+<text x="965.0" y="815.0" font-size="19" fill="#2F2B26" text-anchor="middle">零服务器 · 学生团队自主维护</text>
+<path d="M 360 750.0 C 395.0 750.0, 395.0 1050.0, 430 1050.0" fill="none" stroke="#24432F" stroke-width="3" opacity="0.8"/>
+<rect x="430" y="1027.0" width="240" height="46" rx="10" fill="#7E9C7F"/>
+<text x="550.0" y="1055.0" font-size="24" fill="#FFFFFF" text-anchor="middle" font-weight="bold">核心能力</text>
+<path d="M 670 1050.0 C 715.0 1050.0, 715.0 960.0, 760 960.0" fill="none" stroke="#7E9C7F" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="937.0" width="410" height="46" rx="8" fill="#FFFFFF" stroke="#7E9C7F" stroke-width="2"/>
+<text x="965.0" y="965.0" font-size="19" fill="#2F2B26" text-anchor="middle">数据库事务防超卖</text>
+<path d="M 670 1050.0 C 715.0 1050.0, 715.0 1020.0, 760 1020.0" fill="none" stroke="#7E9C7F" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="997.0" width="410" height="46" rx="8" fill="#FFFFFF" stroke="#7E9C7F" stroke-width="2"/>
+<text x="965.0" y="1025.0" font-size="19" fill="#2F2B26" text-anchor="middle">订阅消息推送</text>
+<path d="M 670 1050.0 C 715.0 1050.0, 715.0 1080.0, 760 1080.0" fill="none" stroke="#7E9C7F" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="1057.0" width="410" height="46" rx="8" fill="#FFFFFF" stroke="#7E9C7F" stroke-width="2"/>
+<text x="965.0" y="1085.0" font-size="19" fill="#2F2B26" text-anchor="middle">后台数据自动汇聚</text>
+<path d="M 670 1050.0 C 715.0 1050.0, 715.0 1140.0, 760 1140.0" fill="none" stroke="#7E9C7F" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="1117.0" width="410" height="46" rx="8" fill="#FFFFFF" stroke="#7E9C7F" stroke-width="2"/>
+<text x="965.0" y="1145.0" font-size="19" fill="#2F2B26" text-anchor="middle">真实 GPS 脱敏采集</text>
+<path d="M 360 750.0 C 395.0 750.0, 395.0 1350.0, 430 1350.0" fill="none" stroke="#24432F" stroke-width="3" opacity="0.8"/>
+<rect x="430" y="1327.0" width="240" height="46" rx="10" fill="#C9A96A"/>
+<text x="550.0" y="1355.0" font-size="24" fill="#FFFFFF" text-anchor="middle" font-weight="bold">成果与开源</text>
+<path d="M 670 1350.0 C 715.0 1350.0, 715.0 1290.0, 760 1290.0" fill="none" stroke="#C9A96A" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="1267.0" width="410" height="46" rx="8" fill="#FFFFFF" stroke="#C9A96A" stroke-width="2"/>
+<text x="965.0" y="1295.0" font-size="19" fill="#2F2B26" text-anchor="middle">29 个页面</text>
+<path d="M 670 1350.0 C 715.0 1350.0, 715.0 1350.0, 760 1350.0" fill="none" stroke="#C9A96A" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="1327.0" width="410" height="46" rx="8" fill="#FFFFFF" stroke="#C9A96A" stroke-width="2"/>
+<text x="965.0" y="1355.0" font-size="19" fill="#2F2B26" text-anchor="middle">全部业务数据真实上云</text>
+<path d="M 670 1350.0 C 715.0 1350.0, 715.0 1410.0, 760 1410.0" fill="none" stroke="#C9A96A" stroke-width="2" opacity="0.8"/>
+<rect x="760" y="1387.0" width="410" height="46" rx="8" fill="#FFFFFF" stroke="#C9A96A" stroke-width="2"/>
+<text x="965.0" y="1415.0" font-size="19" fill="#2F2B26" text-anchor="middle">GitHub 开源（MIT 许可）</text>
+<text x="1170" y="40" font-size="20" fill="#8A847A" text-anchor="end">设计理念 · 林海星火</text>
+<text x="1170" y="66" font-size="15" fill="#8A847A" text-anchor="end">基于产品设计书与开发实践</text>
+</svg>
